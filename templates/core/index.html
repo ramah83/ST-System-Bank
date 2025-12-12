@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+
+{% block head_title %}النظام المصرفي{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto px-6 py-12">
+        {% if user.is_authenticated %}
+            {% if user_account %}
+                
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl font-bold text-primary mb-4">
+                        مرحباً بك، {{ user.first_name|default:user.email }}
+                    </h1>
+                    <p class="text-xl text-muted">إدارة حسابك المصرفي بسهولة وأمان</p>
+                </div>
+
+                
+                <div class="max-w-4xl mx-auto mb-8">
+                    <div class="card rounded-2xl p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-3xl font-bold text-primary">معلومات حسابك</h2>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center p-6 bg-light rounded-xl border">
+                                <p class="text-sm text-muted mb-1">رقم الحساب</p>
+                                <p class="text-xl font-bold text-primary">{{ user_account.account_no }}</p>
+                            </div>
+                            <div class="text-center p-6 bg-beige rounded-xl border">
+                                <p class="text-sm text-muted mb-1">نوع الحساب</p>
+                                <p class="text-xl font-bold text-primary">{{ user_account.account_type.name }}</p>
+                            </div>
+                            <div class="text-center p-6 bg-light rounded-xl border">
+                                <p class="text-sm text-muted mb-1">الرصيد الحالي</p>
+                                <p class="text-2xl font-bold text-primary">${{ user_account.balance }}</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <a href="{% url 'transactions:deposit_money' %}" class="btn-primary text-center py-4 px-6 rounded-xl font-medium transition-all duration-300">
+                                إيداع أموال
+                            </a>
+                            <a href="{% url 'transactions:withdraw_money' %}" class="btn-secondary text-center py-4 px-6 rounded-xl font-medium transition-all duration-300">
+                                سحب أموال
+                            </a>
+                            <a href="{% url 'transactions:transaction_report' %}" class="btn-primary text-center py-4 px-6 rounded-xl font-medium transition-all duration-300">
+                                كشف الحساب
+                            </a>
+                            {% if user.is_staff %}
+                                <a href="/admin/" class="btn-secondary text-center py-4 px-6 rounded-xl font-medium transition-all duration-300">
+                                    لوحة الإدارة
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center max-w-2xl mx-auto">
+                    <h1 class="text-4xl font-bold text-primary mb-4">مرحباً {{ user.email }}</h1>
+                    <div class="card rounded-2xl p-8">
+                        <p class="text-xl text-red-600 mb-6">
+                            يجب إنشاء حساب بنكي للوصول إلى الخدمات المصرفية
+                        </p>
+                        <a href="{% url 'accounts:user_logout' %}" class="btn-secondary py-3 px-8 rounded-xl font-medium">
+                            تسجيل الخروج
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="mb-12">
+                    <h1 class="text-6xl font-bold text-primary mb-6">
+                        النظام المصرفي الإلكتروني
+                    </h1>
+                    <p class="text-2xl text-muted mb-8">
+                        نظام بنكي إلكتروني متكامل يوفر جميع الخدمات المصرفية الأساسية بطريقة آمنة وسهلة الاستخدام
+                    </p>
+                </div>
+
+                <div class="card rounded-2xl p-12 mb-12">
+                    <div class="grid md:grid-cols-3 gap-8 mb-12">
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold mb-2 text-primary">آمان عالي</h3>
+                            <p class="text-muted">حماية متقدمة لبياناتك المالية</p>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold mb-2 text-primary">سرعة في التنفيذ</h3>
+                            <p class="text-muted">معاملات فورية على مدار الساعة</p>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold mb-2 text-primary">سهولة الاستخدام</h3>
+                            <p class="text-muted">واجهة بسيطة ومتجاوبة</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="{% url 'accounts:user_registration' %}" class="btn-primary py-4 px-8 rounded-xl text-lg font-medium">
+                            إنشاء حساب جديد
+                        </a>
+                        <a href="{% url 'accounts:user_login' %}" class="btn-secondary py-4 px-8 rounded-xl text-lg font-medium">
+                            تسجيل الدخول
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

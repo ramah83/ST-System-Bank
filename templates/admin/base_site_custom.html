@@ -1,0 +1,136 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | لوحة إدارة النظام المصرفي{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        لوحة إدارة النظام المصرفي
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    
+    :root {
+        --primary-color: #2D3748;
+        --secondary-color: #4A5568;
+        --accent-color: #E6E6E6;
+        --light-bg: #F4EFE9;
+        --warning-color: #856404;
+        --info-color: #0c5460;
+        --success-color: #155724;
+        --danger-color: #721c24;
+    }
+    
+    
+    .warning-message {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: var(--warning-color);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    .info-message {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: var(--info-color);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    
+    .results table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .results th, .results td {
+        text-align: right;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .results th {
+        background-color: var(--light-bg);
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    
+    .btn-custom {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        margin: 2px;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-custom:hover {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+    
+    
+    .form-row {
+        margin-bottom: 15px;
+    }
+    
+    .form-row label {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    
+    .readonly-field {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: #6c757d;
+    }
+    
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        border: 1px solid var(--accent-color);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 0;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+</style>
+{% endblock %}

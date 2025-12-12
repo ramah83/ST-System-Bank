@@ -1,0 +1,198 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <!-- Breadcrumbs -->
+    <nav style="background-color: var(--white); border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+        <a href="{% url 'admin:index' %}" style="color: var(--primary-dark); text-decoration: none;">الرئيسية</a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <a href="{% url 'admin:app_list' app_label=opts.app_label %}" style="color: var(--primary-dark); text-decoration: none;">
+            {% if opts.app_label == "auth" %}
+                المصادقة والتفويض
+            {% elif opts.app_label == "django_celery_beat" %}
+                المهام الدورية
+            {% elif opts.app_label == "accounts" %}
+                إدارة الحسابات
+            {% elif opts.app_label == "transactions" %}
+                المعاملات المالية
+            {% elif opts.app_label == "core" %}
+                النظام الأساسي
+            {% else %}
+                {{ opts.app_label|capfirst }}
+            {% endif %}
+        </a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <a href="{% url opts|admin_urlname:'changelist' %}" style="color: var(--primary-dark); text-decoration: none;">{{ opts.verbose_name_plural|capfirst }}</a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <span style="color: var(--medium-gray);">
+            {% if add %}إضافة {{ opts.verbose_name }}{% else %}تعديل {{ opts.verbose_name }}{% endif %}
+        </span>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 0.5rem 0;">
+            {% if add %}
+                إضافة {{ opts.verbose_name }}
+            {% else %}
+                تعديل {{ opts.verbose_name }}
+            {% endif %}
+        </h1>
+        <p style="color: var(--medium-gray); margin: 0;">
+            {% if add %}
+                أدخل البيانات المطلوبة لإضافة {{ opts.verbose_name }} جديد
+            {% else %}
+                قم بتعديل البيانات حسب الحاجة
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Form -->
+    <div class="card" style="padding: 2rem;">
+        {% if errors %}
+            <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem;">
+                <h3 style="color: #991b1b; font-weight: 600; margin: 0 0 0.5rem 0;">يرجى تصحيح الأخطاء التالية:</h3>
+                {{ errors }}
+            </div>
+        {% endif %}
+
+        <form method="post" id="{{ opts.model_name }}_form" novalidate>
+            {% csrf_token %}
+            
+            {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
+            {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
+            
+            <div style="display: grid; gap: 1.5rem;">
+                {% for fieldset in adminform %}
+                    <fieldset style="border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1.5rem; background-color: var(--light-beige);">
+                        {% if fieldset.name %}
+                            <legend style="font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); padding: 0 1rem; margin-bottom: 1rem;">
+                                {{ fieldset.name }}
+                            </legend>
+                        {% endif %}
+                        
+                        <div style="display: grid; gap: 1rem;">
+                            {% for line in fieldset %}
+                                <div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}">
+                                    {% for field in line %}
+                                        <div style="margin-bottom: 1rem;">
+                                            {% if field.field.label %}
+                                                <label for="{{ field.field.html_name }}" style="display: block; font-weight: 600; color: var(--primary-dark); margin-bottom: 0.5rem;">
+                                                    {{ field.field.label }}
+                                                    {% if field.field.required %}
+                                                        <span style="color: #dc2626;">*</span>
+                                                    {% endif %}
+                                                </label>
+                                            {% endif %}
+                                            
+                                            <div style="position: relative;">
+                                                {% if field.is_checkbox %}
+                                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                        {{ field.field }}
+                                                        {% if field.field.label %}
+                                                            <label for="{{ field.field.html_name }}" style="color: var(--primary-dark); margin: 0;">
+                                                                {{ field.field.label }}
+                                                            </label>
+                                                        {% endif %}
+                                                    </div>
+                                                {% else %}
+                                                    {{ field.field }}
+                                                {% endif %}
+                                            </div>
+                                            
+                                            {% if field.field.help_text %}
+                                                <p style="font-size: 0.875rem; color: var(--medium-gray); margin: 0.25rem 0 0 0;">
+                                                    {{ field.field.help_text|safe }}
+                                                </p>
+                                            {% endif %}
+                                            
+                                            {% if field.field.errors %}
+                                                <div style="margin-top: 0.25rem;">
+                                                    {% for error in field.field.errors %}
+                                                        <p style="color: #dc2626; font-size: 0.875rem; margin: 0;">{{ error }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                {% endfor %}
+            </div>
+
+            <!-- Form Actions -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--accent-gray); display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="submit" name="_save" class="btn-primary" style="padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600;">
+                    {% if add %}إضافة{% else %}حفظ التغييرات{% endif %}
+                </button>
+                
+                {% if not add %}
+                    <button type="submit" name="_continue" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;">
+                        حفظ والمتابعة
+                    </button>
+                {% endif %}
+                
+                <button type="submit" name="_addanother" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;">
+                    {% if add %}حفظ وإضافة آخر{% else %}حفظ وإضافة آخر{% endif %}
+                </button>
+                
+                <a href="{% url opts|admin_urlname:'changelist' %}" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; text-decoration: none;">
+                    إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    
+    input[type="text"], 
+    input[type="email"], 
+    input[type="number"], 
+    input[type="date"], 
+    input[type="password"],
+    textarea, 
+    select {
+        width: 100% !important;
+        padding: 0.75rem !important;
+        border: 2px solid var(--accent-gray) !important;
+        border-radius: 0.5rem !important;
+        background-color: var(--white) !important;
+        color: var(--primary-dark) !important;
+        font-family: 'Cairo', sans-serif !important;
+        transition: border-color 0.3s ease !important;
+    }
+    
+    input[type="text"]:focus, 
+    input[type="email"]:focus, 
+    input[type="number"]:focus, 
+    input[type="date"]:focus, 
+    input[type="password"]:focus,
+    textarea:focus, 
+    select:focus {
+        border-color: var(--primary-dark) !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1) !important;
+    }
+    
+    input[type="checkbox"] {
+        width: auto !important;
+        margin-left: 0.5rem !important;
+    }
+    
+    .errorlist {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0.25rem 0 0 0 !important;
+    }
+    
+    .errorlist li {
+        color: #dc2626 !important;
+        font-size: 0.875rem !important;
+        margin: 0 !important;
+    }
+</style>
+{% endblock %}

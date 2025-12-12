@@ -1,0 +1,170 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; font-weight: bold; color: var(--black); margin-bottom: 1rem; animation: fadeInUp 0.8s ease-out;">
+        عرض المعاملة المالية
+    </h1>
+    <p style="font-size: 1.25rem; color: var(--medium-gray); animation: fadeInUp 0.8s ease-out 0.2s both;">
+        تفاصيل المعاملة المالية رقم {{ original.id }}
+    </p>
+</div>
+
+<div style="max-width: 800px; margin: 0 auto;">
+    <div class="card" style="padding: 1.5rem; margin-bottom: 2rem; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #f59e0b; animation: slideInUp 0.6s ease-out 0.2s both;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem;">⚠️</div>
+            <div>
+                <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-weight: 600;">تنبيه مهم</h3>
+                <p style="color: #92400e; margin: 0; font-size: 0.95rem;">المعاملات المالية للعرض فقط ولا يمكن تعديلها من لوحة الإدارة. جميع المعاملات يجب أن تتم من خلال النظام الرئيسي للحفاظ على سلامة البيانات.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem; animation: slideInUp 0.6s ease-out 0.3s both;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+            <h2 style="font-size: 2rem; font-weight: bold; color: var(--black); margin: 0;">
+                تفاصيل المعاملة
+            </h2>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                {% if original.transaction_type == 1 %}
+                    <span style="background: linear-gradient(45deg, #10b981, #059669); color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 25px; font-size: 0.9rem; font-weight: 500; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2); display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.2rem;">⬇️</span> إيداع
+                    </span>
+                {% else %}
+                    <span style="background: linear-gradient(45deg, #CC0000, #FF0000); color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 25px; font-size: 0.9rem; font-weight: 500; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.2); display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.2rem;">⬆️</span> سحب
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="card" style="padding: 1.5rem; background: linear-gradient(135deg, var(--light-beige), var(--beige)); border: 1px solid var(--accent-gray);">
+                <h3 style="color: var(--black); margin: 0 0 1rem 0; font-weight: 600; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">🏦</span> معلومات الحساب
+                </h3>
+                <div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">رقم الحساب</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-family: monospace; font-weight: 600; color: var(--black); border: 1px solid var(--accent-gray);">
+                            {{ original.account.account_no }}
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">صاحب الحساب</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 500; color: var(--black); border: 1px solid var(--accent-gray);">
+                            {{ original.account.user.email }}
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">نوع الحساب</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 500; color: var(--black); border: 1px solid var(--accent-gray);">
+                            {{ original.account.account_type.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 1.5rem; background: linear-gradient(135deg, var(--light-beige), var(--beige)); border: 1px solid var(--accent-gray);">
+                <h3 style="color: var(--black); margin: 0 0 1rem 0; font-weight: 600; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">💰</span> تفاصيل المعاملة
+                </h3>
+                <div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">المبلغ</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 600; font-size: 1.1rem; border: 1px solid var(--accent-gray);">
+                            {% if original.transaction_type == 1 %}
+                                <span style="color: #10b981;">{{ original.amount }} ريال</span>
+                            {% else %}
+                                <span style="color: #CC0000;">{{ original.amount }} ريال</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">الرصيد بعد المعاملة</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 600; color: var(--black); border: 1px solid var(--accent-gray);">
+                            {{ original.balance_after_transaction }} ريال
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">التاريخ والوقت</label>
+                        <div style="background: white; padding: 0.75rem; border-radius: 8px; font-family: monospace; font-weight: 500; color: var(--black); border: 1px solid var(--accent-gray);">
+                            {{ original.timestamp|date:"Y-m-d H:i:s" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if original.transaction_type == 1 %}
+        <div class="card" style="padding: 1.5rem; margin-top: 2rem; background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #10b981;">
+            <h3 style="color: #065f46; margin: 0 0 1rem 0; font-weight: 600; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.3rem;">✅</span> تفاصيل الإيداع
+            </h3>
+            <p style="color: #065f46; margin: 0; font-size: 0.95rem;">
+                تم إيداع مبلغ {{ original.amount }} ريال بنجاح في الحساب رقم {{ original.account.account_no }}. 
+                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }} ريال.
+            </p>
+        </div>
+        {% else %}
+        <div class="card" style="padding: 1.5rem; margin-top: 2rem; background: linear-gradient(135deg, #fef2f2, #fecaca); border: 1px solid #CC0000;">
+            <h3 style="color: #991b1b; margin: 0 0 1rem 0; font-weight: 600; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.3rem;">📤</span> تفاصيل السحب
+            </h3>
+            <p style="color: #991b1b; margin: 0; font-size: 0.95rem;">
+                تم سحب مبلغ {{ original.amount }} ريال من الحساب رقم {{ original.account.account_no }}. 
+                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }} ريال.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card" style="padding: 1.5rem; text-align: center; animation: slideInUp 0.6s ease-out 0.5s both;">
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'admin:transactions_transaction_changelist' %}" 
+               class="btn-primary" style="padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.1rem;">📋</span> العودة إلى قائمة المعاملات
+            </a>
+            <a href="{% url 'admin:accounts_userbankaccount_change' original.account.pk %}" 
+               class="btn-secondary" style="padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.1rem;">🏦</span> عرض الحساب البنكي
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %}

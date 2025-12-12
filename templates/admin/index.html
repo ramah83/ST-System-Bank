@@ -1,0 +1,274 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; font-weight: bold; color: var(--primary-dark); margin-bottom: 1rem;">
+        {% trans "إدارة النظام البنكي" %}
+    </h1>
+    <p style="font-size: 1.25rem; color: var(--medium-gray);">
+        {% trans "إدارة شاملة لجميع جوانب النظام البنكي" %}
+    </p>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto 2rem auto;">
+    <div class="card" style="padding: 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 2rem; font-weight: bold; color: var(--primary-dark); margin: 0;">
+                {% trans "إحصائيات النظام" %}
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div style="text-align: center; padding: 1.5rem; background-color: var(--light-beige); border-radius: 0.75rem; border: 1px solid var(--accent-gray);">
+                <p style="font-size: 0.875rem; color: var(--medium-gray); margin-bottom: 0.25rem;">
+                    {% trans "إجمالي المستخدمين" %}
+                </p>
+                <p style="font-size: 2rem; font-weight: bold; color: var(--primary-dark); margin: 0;">
+                    {{ total_users }}
+                </p>
+            </div>
+            <div style="text-align: center; padding: 1.5rem; background-color: var(--beige); border-radius: 0.75rem; border: 1px solid var(--accent-gray);">
+                <p style="font-size: 0.875rem; color: var(--medium-gray); margin-bottom: 0.25rem;">
+                    {% trans "إجمالي الحسابات" %}
+                </p>
+                <p style="font-size: 2rem; font-weight: bold; color: var(--primary-dark); margin: 0;">
+                    {{ total_accounts }}
+                </p>
+            </div>
+            <div style="text-align: center; padding: 1.5rem; background-color: var(--light-beige); border-radius: 0.75rem; border: 1px solid var(--accent-gray);">
+                <p style="font-size: 0.875rem; color: var(--medium-gray); margin-bottom: 0.25rem;">
+                    {% trans "إجمالي المعاملات" %}
+                </p>
+                <p style="font-size: 2rem; font-weight: bold; color: var(--primary-dark); margin: 0;">
+                    {{ total_transactions }}
+                </p>
+            </div>
+            <div style="text-align: center; padding: 1.5rem; background-color: var(--beige); border-radius: 0.75rem; border: 1px solid var(--accent-gray);">
+                <p style="font-size: 0.875rem; color: var(--medium-gray); margin-bottom: 0.25rem;">
+                    {% trans "إجمالي الرصيد" %}
+                </p>
+                <p style="font-size: 2rem; font-weight: bold; color: var(--primary-dark); margin: 0;">
+                    ${{ total_balance }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="max-width: 800px; margin: 0 auto 2rem auto;">
+    <div class="card" style="padding: 2rem;">
+        <h2 style="font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); margin-bottom: 1.5rem;">
+            {% trans "إجراءات سريعة" %}
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <a href="{% url 'admin:accounts_user_changelist' %}" class="btn-primary" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 500;">
+                {% trans "إدارة المستخدمين" %}
+            </a>
+            <a href="{% url 'admin:accounts_userbankaccount_changelist' %}" class="btn-secondary" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 500;">
+                {% trans "إدارة الحسابات" %}
+            </a>
+            <a href="{% url 'admin:transactions_transaction_changelist' %}" class="btn-primary" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 500;">
+                {% trans "إدارة المعاملات" %}
+            </a>
+            <a href="{% url 'admin:accounts_bankaccounttype_changelist' %}" class="btn-secondary" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 500;">
+                {% trans "أنواع الحسابات" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto 2rem auto;">
+    <div class="card" style="overflow: hidden;">
+        <div style="background-color: var(--primary-dark); color: white; padding: 1.5rem;">
+            <h3 style="font-size: 1.5rem; font-weight: bold; margin: 0;">
+                {% trans "أحدث المعاملات" %}
+            </h3>
+        </div>
+
+        {% if recent_transactions %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead style="background-color: var(--light-beige);">
+                    <tr>
+                        <th style="padding: 1rem 1.5rem; text-align: right; font-weight: 500; color: var(--primary-dark);">
+                            {% trans "رقم الحساب" %}
+                        </th>
+                        <th style="padding: 1rem 1.5rem; text-align: right; font-weight: 500; color: var(--primary-dark);">
+                            {% trans "نوع المعاملة" %}
+                        </th>
+                        <th style="padding: 1rem 1.5rem; text-align: right; font-weight: 500; color: var(--primary-dark);">
+                            {% trans "المبلغ" %}
+                        </th>
+                        <th style="padding: 1rem 1.5rem; text-align: right; font-weight: 500; color: var(--primary-dark);">
+                            {% trans "التاريخ" %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in recent_transactions %}
+                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                        <td style="padding: 1rem 1.5rem; font-weight: 500; color: var(--primary-dark);">
+                            {{ transaction.account.account_no }}
+                        </td>
+                        <td style="padding: 1rem 1.5rem;">
+                            {% if transaction.transaction_type == 1 %}
+                                <span style="display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; background-color: #dcfce7; color: #166534;">
+                                    {% trans "إيداع" %}
+                                </span>
+                            {% elif transaction.transaction_type == 2 %}
+                                <span style="display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; background-color: #fef2f2; color: #991b1b;">
+                                    {% trans "سحب" %}
+                                </span>
+                            {% else %}
+                                <span style="display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; background-color: #dbeafe; color: #1e40af;">
+                                    {% trans "فائدة" %}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 1rem 1.5rem; font-weight: bold; color: var(--primary-dark);">
+                            ${{ transaction.amount }}
+                        </td>
+                        <td style="padding: 1rem 1.5rem; color: var(--medium-gray);">
+                            {{ transaction.timestamp|date:"Y/m/d H:i" }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="padding: 3rem; text-align: center;">
+            <h3 style="font-size: 1.25rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 0.5rem;">
+                {% trans "لا توجد معاملات حديثة" %}
+            </h3>
+            <p style="color: var(--medium-gray); margin: 0;">
+                {% trans "لم يتم تسجيل أي معاملات مؤخراً" %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if app_list %}
+<div style="max-width: 1200px; margin: 0 auto;">
+    {% for app in app_list %}
+    <div class="card" style="overflow: hidden; margin-bottom: 1.5rem;">
+        <div style="background-color: var(--primary-dark); color: white; padding: 1.5rem;">
+            <h3 style="font-size: 1.25rem; font-weight: bold; margin: 0;">
+                {% if app.name == "Authentication and Authorization" %}
+                    المصادقة والتفويض
+                {% elif app.name == "Periodic Tasks" %}
+                    المهام الدورية
+                {% elif app.name == "Django Celery Beat" %}
+                    مجدول المهام
+                {% else %}
+                    {{ app.name }}
+                {% endif %}
+            </h3>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <div style="display: grid; gap: 1rem;">
+                {% for model in app.models %}
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background-color: var(--light-beige); border-radius: 0.5rem; border: 1px solid var(--accent-gray);">
+                    <div style="flex: 1;">
+                        {% if model.admin_url %}
+                            <a href="{{ model.admin_url }}" style="font-size: 1.125rem; font-weight: 500; color: var(--primary-dark); text-decoration: none;">
+                                {% if model.name == "Groups" %}
+                                    المجموعات
+                                {% elif model.name == "Users" %}
+                                    المستخدمين
+                                {% elif model.name == "Clocked" %}
+                                    المجدولة
+                                {% elif model.name == "Crontabs" %}
+                                    جداول التوقيت
+                                {% elif model.name == "Intervals" %}
+                                    الفترات الزمنية
+                                {% elif model.name == "Periodic tasks" %}
+                                    المهام الدورية
+                                {% elif model.name == "Solar events" %}
+                                    الأحداث الشمسية
+                                {% else %}
+                                    {{ model.name }}
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            <span style="font-size: 1.125rem; font-weight: 500; color: var(--primary-dark);">
+                                {% if model.name == "Groups" %}
+                                    المجموعات
+                                {% elif model.name == "Users" %}
+                                    المستخدمين
+                                {% elif model.name == "Clocked" %}
+                                    المجدولة
+                                {% elif model.name == "Crontabs" %}
+                                    جداول التوقيت
+                                {% elif model.name == "Intervals" %}
+                                    الفترات الزمنية
+                                {% elif model.name == "Periodic tasks" %}
+                                    المهام الدورية
+                                {% elif model.name == "Solar events" %}
+                                    الأحداث الشمسية
+                                {% else %}
+                                    {{ model.name }}
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        {% if model.add_url %}
+                            <a href="{{ model.add_url }}" class="btn-primary" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500;">
+                                إضافة
+                            </a>
+                        {% endif %}
+
+                        {% if model.admin_url %}
+                            {% if model.view_only %}
+                                <a href="{{ model.admin_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500;">
+                                    عرض
+                                </a>
+                            {% else %}
+                                <a href="{{ model.admin_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500;">
+                                    إدارة
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card" style="padding: 2rem; text-align: center;">
+        <h3 style="font-size: 1.25rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 0.5rem;">
+            {% trans "تحذير" %}
+        </h3>
+        <p style="color: var(--medium-gray); margin: 0;">
+            {% trans "ليس لديك صلاحية لعرض أو تعديل أي شيء" %}
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<div style="max-width: 600px; margin: 2rem auto 0 auto;">
+    <div class="card" style="padding: 1.5rem;">
+        <h3 style="font-size: 1.125rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 1rem;">
+            {% trans "تنقل سريع" %}
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <a href="{% url 'home' %}" class="btn-primary" style="text-align: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 500;">
+                {% trans "العودة إلى الصفحة الرئيسية" %}
+            </a>
+            <a href="{% url 'accounts:user_logout' %}" class="btn-secondary" style="text-align: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 500;">
+                {% trans "تسجيل الخروج" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

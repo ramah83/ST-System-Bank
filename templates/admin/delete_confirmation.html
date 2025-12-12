@@ -1,0 +1,123 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <!-- Breadcrumbs -->
+    <nav style="background-color: var(--white); border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+        <a href="{% url 'admin:index' %}" style="color: var(--primary-dark); text-decoration: none;">الرئيسية</a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <a href="{% url 'admin:app_list' app_label=opts.app_label %}" style="color: var(--primary-dark); text-decoration: none;">
+            {% if opts.app_label == "auth" %}
+                المصادقة والتفويض
+            {% elif opts.app_label == "django_celery_beat" %}
+                المهام الدورية
+            {% elif opts.app_label == "accounts" %}
+                إدارة الحسابات
+            {% elif opts.app_label == "transactions" %}
+                المعاملات المالية
+            {% elif opts.app_label == "core" %}
+                النظام الأساسي
+            {% else %}
+                {{ opts.app_label|capfirst }}
+            {% endif %}
+        </a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <a href="{% url opts|admin_urlname:'changelist' %}" style="color: var(--primary-dark); text-decoration: none;">{{ opts.verbose_name_plural|capfirst }}</a>
+        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
+        <span style="color: var(--medium-gray);">حذف</span>
+    </nav>
+
+    <!-- Warning Card -->
+    <div style="background-color: #fef2f2; border: 2px solid #fecaca; border-radius: 1rem; padding: 2rem; margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <div style="font-size: 2rem;">⚠️</div>
+            <h1 style="font-size: 2rem; font-weight: bold; color: #991b1b; margin: 0;">
+                تأكيد الحذف
+            </h1>
+        </div>
+        
+        <p style="color: #991b1b; font-size: 1.125rem; margin: 0;">
+            هل أنت متأكد من رغبتك في حذف {{ object_name }} "{{ object }}"؟
+        </p>
+    </div>
+
+    <!-- Object Details -->
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
+        <h2 style="font-size: 1.5rem; font-weight: bold; color: var(--primary-dark); margin-bottom: 1rem;">
+            تفاصيل العنصر المراد حذفه
+        </h2>
+        
+        <div style="background-color: var(--light-beige); border-radius: 0.5rem; padding: 1.5rem;">
+            <p style="font-size: 1.125rem; font-weight: 600; color: var(--primary-dark); margin: 0;">
+                {{ object }}
+            </p>
+            <p style="color: var(--medium-gray); margin: 0.5rem 0 0 0;">
+                النوع: {{ opts.verbose_name }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Related Objects Warning -->
+    {% if deleted_objects %}
+    <div style="background-color: #fffbeb; border: 2px solid #fbbf24; border-radius: 1rem; padding: 2rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.25rem; font-weight: bold; color: #92400e; margin-bottom: 1rem;">
+            تحذير: العناصر المرتبطة
+        </h3>
+        
+        <p style="color: #92400e; margin-bottom: 1rem;">
+            حذف هذا العنصر سيؤثر على العناصر التالية:
+        </p>
+        
+        <div style="background-color: white; border-radius: 0.5rem; padding: 1rem; max-height: 200px; overflow-y: auto;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                {% for deleted_object in deleted_objects %}
+                <li style="padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6; color: var(--primary-dark);">
+                    {{ deleted_object }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="card" style="padding: 2rem;">
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="post" value="yes">
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="submit" style="background-color: #dc2626; color: white; border: none; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; font-family: 'Cairo', sans-serif; cursor: pointer; transition: all 0.3s ease;">
+                    نعم، احذف نهائياً
+                </button>
+                
+                <a href="{% url opts|admin_urlname:'changelist' %}" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none;">
+                    إلغاء
+                </a>
+                
+                <a href="{% url opts|admin_urlname:'change' object.pk %}" class="btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; text-decoration: none;">
+                    العودة للتعديل
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Safety Notice -->
+    <div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 0.75rem; padding: 1.5rem; margin-top: 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="font-size: 1.25rem;">ℹ️</div>
+            <p style="color: #0c4a6e; margin: 0; font-size: 0.875rem;">
+                <strong>ملاحظة:</strong> عملية الحذف نهائية ولا يمكن التراجع عنها. تأكد من صحة قرارك قبل المتابعة.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    button[type="submit"]:hover {
+        background-color: #b91c1c !important;
+        transform: translateY(-1px);
+    }
+</style>
+{% endblock %}

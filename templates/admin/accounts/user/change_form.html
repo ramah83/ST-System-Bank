@@ -1,0 +1,298 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block content_title %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    {% if original %}
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: #000000; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+            <span style="font-size: 3rem;">👤</span> المستخدم
+        </h1>
+        <p style="font-size: 1.1rem; color: #666666; margin-bottom: 1rem;">
+            {{ original.email }}
+        </p>
+        <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+            {% if original.is_active %}
+                <span style="background: #10b981; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
+                    ✅ نشط
+                </span>
+            {% else %}
+                <span style="background: #CC0000; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
+                    ❌ غير نشط
+                </span>
+            {% endif %}
+            {% if original.is_staff %}
+                <span style="background: #666666; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
+                    👨‍💼 موظف
+                </span>
+            {% endif %}
+            {% if original.is_superuser %}
+                <span style="background: #7C3AED; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
+                    👑 مدير عام
+                </span>
+            {% endif %}
+        </div>
+    {% else %}
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: #000000; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+            <span style="font-size: 3rem;">➕</span> إضافة مستخدم جديد
+        </h1>
+        <p style="font-size: 1.1rem; color: #666666; margin-bottom: 2rem;">
+            إنشاء حساب مستخدم جديد في النظام المصرفي
+        </p>
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 12px; padding: 1.5rem; margin: 0 auto 2rem auto; max-width: 600px;">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                <div style="font-size: 1.5rem;">💡</div>
+                <div>
+                    <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-weight: 600;">نصائح مهمة</h3>
+                    <ul style="color: #92400e; margin: 0; padding-right: 1rem; font-size: 0.9rem;">
+                        <li>تأكد من صحة البريد الإلكتروني</li>
+                        <li>استخدم كلمة مرور قوية</li>
+                        <li>حدد الصلاحيات المناسبة للمستخدم</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% if original %}
+<div style="background: #dcfce7; border: 1px solid #10b981; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div style="font-size: 1.5rem;">📊</div>
+        <h3 style="color: #065f46; margin: 0; font-weight: 600;">إحصائيات المستخدم</h3>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+        <div style="background: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 8px; text-align: center;">
+            <div style="font-size: 1.3rem; color: #065f46; font-weight: 700;">{{ original.date_joined|date:"Y/m/d" }}</div>
+            <div style="color: #065f46; font-weight: 500; font-size: 0.85rem;">تاريخ الانضمام</div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 8px; text-align: center;">
+            <div style="font-size: 1.3rem; color: #065f46; font-weight: 700;">
+                {% if original.last_login %}{{ original.last_login|date:"Y/m/d" }}{% else %}-{% endif %}
+            </div>
+            <div style="color: #065f46; font-weight: 500; font-size: 0.85rem;">آخر تسجيل دخول</div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 8px; text-align: center;">
+            <div style="font-size: 1.3rem; color: #065f46; font-weight: 700;">{{ original.account.count }}</div>
+            <div style="color: #065f46; font-weight: 500; font-size: 0.85rem;">الحسابات البنكية</div>
+        </div>
+    </div>
+</div>
+
+{% if original.account.exists %}
+<div style="background: #e0f2fe; border: 1px solid #0288d1; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <h3 style="color: #01579b; margin: 0; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.3rem;">🏦</span> الحسابات البنكية
+        </h3>
+        <a href="{% url 'admin:accounts_userbankaccount_changelist' %}?user__id__exact={{ original.id }}" 
+           style="background: #0288d1; color: white; padding: 0.4rem 0.8rem; border-radius: 15px; text-decoration: none; font-size: 0.8rem; font-weight: 500;">
+            👁️ عرض الكل
+        </a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        {% for account in original.account.all|slice:":3" %}
+        <div style="background: rgba(255, 255, 255, 0.6); padding: 1rem; border-radius: 8px;">
+            <div style="font-family: monospace; font-weight: 600; color: #01579b; margin-bottom: 0.3rem; font-size: 0.9rem;">{{ account.account_no }}</div>
+            <div style="color: #0277bd; font-size: 0.8rem; margin-bottom: 0.3rem;">{{ account.account_type.name }}</div>
+            <div style="font-weight: 600; font-size: 0.9rem;">
+                {% if account.balance > 0 %}
+                    <span style="color: #10b981;">{{ account.balance }} ريال</span>
+                {% else %}
+                    <span style="color: #CC0000;">{{ account.balance }} ريال</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+<style>
+/* تحسين تصميم النموذج */
+.form-row {
+    background: #F4EFE9;
+    border: 1px solid #E6E6E6;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-color: #000000;
+}
+
+.form-row label {
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 1rem;
+}
+
+.form-row input, .form-row select, .form-row textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #E6E6E6;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    font-family: inherit;
+}
+
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.form-row input[type="checkbox"] {
+    width: auto;
+    margin-left: 0.5rem;
+    transform: scale(1.2);
+}
+
+/* تحسين fieldsets */
+fieldset {
+    border: none;
+    margin: 0 0 2rem 0;
+    padding: 0;
+}
+
+fieldset h2 {
+    background: #000000;
+    color: white;
+    padding: 1rem 1.5rem;
+    margin: 0 0 1.5rem 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.submit-row {
+    text-align: center;
+    padding: 2rem;
+    background: #F4EFE9;
+    border-radius: 12px;
+    margin-top: 2rem;
+    border: 1px solid #E6E6E6;
+}
+
+.submit-row input[type="submit"], .submit-row .btn, .submit-row a {
+    background: #000000;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.submit-row input[type="submit"]:hover, .submit-row .btn:hover, .submit-row a:hover {
+    background: #3F3F3F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* تحسين رسائل النجاح والخطأ */
+.messagelist {
+    margin: 0 0 2rem 0;
+    padding: 0;
+    list-style: none;
+}
+
+.messagelist li {
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.messagelist .success {
+    background: #dcfce7;
+    border: 1px solid #10b981;
+    color: #065f46;
+}
+
+.messagelist .error {
+    background: #fef2f2;
+    border: 1px solid #CC0000;
+    color: #991b1b;
+}
+
+.messagelist .warning {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+}
+
+.errorlist {
+    color: #CC0000;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    list-style: none;
+    padding: 0;
+}
+
+.helptext {
+    color: #666666;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+/* تحسين الجداول */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th, table td {
+    padding: 0.8rem;
+    text-align: right;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+table th {
+    background: #F4EFE9;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* تحسين الأزرار الصغيرة */
+.button, .btn {
+    background: #000000;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.button:hover, .btn:hover {
+    background: #3F3F3F;
+    transform: translateY(-1px);
+}
+
+.button.cancel, .btn.cancel {
+    background: #CC0000;
+}
+
+.button.cancel:hover, .btn.cancel:hover {
+    background: #FF0000;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,203 @@
+<nav class="navbar shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="text-white text-2xl font-bold hover:text-gray-300 transition-colors duration-300">
+                    النظام المصرفي
+                </a>
+            </div>
+            
+            {% if request.user.is_authenticated %}
+                <div class="hidden md:flex items-center space-x-6 space-x-reverse">
+                    
+                    <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                        <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-9 9a1 1 0 001.414 1.414L2 12.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-4.586l.293.293a1 1 0 001.414-1.414l-9-9z"/>
+                        </svg>
+                        الرئيسية
+                    </a>
+                    
+                    
+                    <a href="{% url 'transactions:transaction_report' %}" class="nav-link {% if 'transaction_report' in request.resolver_match.url_name %}active{% endif %}">
+                        <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 00-1 1v6a1 1 0 001 1v1a2 2 0 01-2-2V5zM15 5a2 2 0 00-2-2v1a1 1 0 011 1v6a1 1 0 01-1 1v1a2 2 0 002-2V5z" clip-rule="evenodd"/>
+                            <path d="M8 8a1 1 0 000 2h4a1 1 0 100-2H8z"/>
+                        </svg>
+                        كشف الحساب
+                    </a>
+                    
+                    
+                    <a href="{% url 'transactions:deposit_money' %}" class="nav-link {% if 'deposit' in request.resolver_match.url_name %}active{% endif %}">
+                        <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+                        </svg>
+                        إيداع
+                    </a>
+                    
+                    
+                    <a href="{% url 'transactions:withdraw_money' %}" class="nav-link {% if 'withdraw' in request.resolver_match.url_name %}active{% endif %}">
+                        <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v6a1 1 0 102 0V7z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd" d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        سحب
+                    </a>
+                    
+                    
+                    <a href="{% url 'accounts:user_logout' %}" class="btn-secondary px-4 py-2 rounded-lg font-medium hover:scale-105 transition-all duration-300">
+                        تسجيل الخروج
+                    </a>
+                </div>
+            {% else %}
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse">
+                    <a href="{% url 'accounts:user_login' %}" class="nav-link {% if 'user_login' in request.resolver_match.url_name %}active{% endif %}">
+                        تسجيل الدخول
+                    </a>
+                    <a href="{% url 'accounts:user_registration' %}" class="btn-primary px-6 py-2 rounded-lg font-medium hover:scale-105 transition-all duration-300">
+                        إنشاء حساب
+                    </a>
+                </div>
+            {% endif %}
+            
+            
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none transition-transform duration-300">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
+            {% if request.user.is_authenticated %}
+                <div class="flex flex-col space-y-2">
+                    <a href="{% url 'home' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                        الرئيسية
+                    </a>
+                    <a href="{% url 'transactions:transaction_report' %}" class="mobile-nav-link {% if 'transaction_report' in request.resolver_match.url_name %}active{% endif %}">
+                        كشف الحساب
+                    </a>
+                    <a href="{% url 'transactions:deposit_money' %}" class="mobile-nav-link {% if 'deposit' in request.resolver_match.url_name %}active{% endif %}">
+                        إيداع
+                    </a>
+                    <a href="{% url 'transactions:withdraw_money' %}" class="mobile-nav-link {% if 'withdraw' in request.resolver_match.url_name %}active{% endif %}">
+                        سحب
+                    </a>
+                    <a href="{% url 'accounts:user_logout' %}" class="mobile-nav-link">
+                        تسجيل الخروج
+                    </a>
+                </div>
+            {% else %}
+                <div class="flex flex-col space-y-2">
+                    <a href="{% url 'accounts:user_login' %}" class="mobile-nav-link {% if 'user_login' in request.resolver_match.url_name %}active{% endif %}">
+                        تسجيل الدخول
+                    </a>
+                    <a href="{% url 'accounts:user_registration' %}" class="mobile-nav-link {% if 'user_registration' in request.resolver_match.url_name %}active{% endif %}">
+                        إنشاء حساب
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<style>
+    .nav-link {
+        display: flex;
+        align-items: center;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    .nav-link.active::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, white, transparent);
+        animation: slide 2s ease-in-out infinite;
+    }
+    
+    .mobile-nav-link {
+        display: block;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border-right: 3px solid transparent;
+    }
+    
+    .mobile-nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-right-color: white;
+    }
+    
+    .mobile-nav-link.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-right-color: white;
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        to {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+    }
+    
+    @keyframes slide {
+        0%, 100% {
+            transform: translateX(-100%);
+        }
+        50% {
+            transform: translateX(100%);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        50% {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+    
+    .navbar {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+<script>
+    
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const button = this;
+        
+        mobileMenu.classList.toggle('hidden');
+        button.style.transform = mobileMenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+    });
+</script>

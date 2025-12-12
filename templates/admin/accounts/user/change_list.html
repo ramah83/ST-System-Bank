@@ -1,0 +1,139 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrahead %}
+<style>
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeInRow {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+.table-row:hover {
+    background: var(--light-beige) !important;
+    transform: scale(1.01) !important;
+}
+.btn-edit:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(63, 63, 63, 0.3) !important;
+}
+.btn-delete:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3) !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; font-weight: bold; color: var(--black); margin-bottom: 1rem; animation: fadeInUp 0.8s ease-out;">
+        المستخدمين ({{ cl.result_count }})
+    </h1>
+    <p style="font-size: 1.25rem; color: var(--medium-gray); animation: fadeInUp 0.8s ease-out 0.2s both;">
+        إدارة وعرض جميع المستخدمين في النظام
+    </p>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem; animation: slideInUp 0.6s ease-out 0.3s both;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 2rem; font-weight: bold; color: var(--black); margin: 0;">
+                قائمة المستخدمين
+            </h2>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--medium-gray); padding: 0.5rem 1rem; background: var(--light-beige); border-radius: 20px; font-weight: 500;">العدد: {{ cl.result_count }}</span>
+                {% if has_add_permission %}
+                <a href="{% url 'admin:accounts_user_add' %}" class="btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 25px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                    إضافة مستخدم جديد
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if cl.result_count > 0 %}
+        <div style="overflow-x: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead style="background: linear-gradient(135deg, #000000, #3F3F3F); color: white;">
+                    <tr>
+                        <th style="padding: 1.25rem; text-align: right; font-weight: 600; font-size: 0.95rem;">البريد الإلكتروني</th>
+                        <th style="padding: 1.25rem; text-align: right; font-weight: 600; font-size: 0.95rem;">الاسم الأول</th>
+                        <th style="padding: 1.25rem; text-align: right; font-weight: 600; font-size: 0.95rem;">الاسم الأخير</th>
+                        <th style="padding: 1.25rem; text-align: center; font-weight: 600; font-size: 0.95rem;">موظف</th>
+                        <th style="padding: 1.25rem; text-align: center; font-weight: 600; font-size: 0.95rem;">نشط</th>
+                        <th style="padding: 1.25rem; text-align: center; font-weight: 600; font-size: 0.95rem;">تاريخ الانضمام</th>
+                        <th style="padding: 1.25rem; text-align: center; font-weight: 600; font-size: 0.95rem;">العمليات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in cl.result_list %}
+                    <tr class="table-row" style="border-bottom: 1px solid var(--accent-gray); transition: all 0.3s ease; animation: fadeInRow 0.5s ease-out both;"></tr>
+                        <td style="padding: 1.25rem; color: var(--black); font-weight: 500;">{{ obj.email }}</td>
+                        <td style="padding: 1.25rem; color: var(--black);">{{ obj.first_name|default:"-" }}</td>
+                        <td style="padding: 1.25rem; color: var(--black);">{{ obj.last_name|default:"-" }}</td>
+                        <td style="padding: 1.25rem; text-align: center;">
+                            {% if obj.is_staff %}
+                                <span style="background: linear-gradient(45deg, #000000, #3F3F3F); color: #FFFFFF; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">نعم</span>
+                            {% else %}
+                                <span style="background: linear-gradient(45deg, #7F7F7F, #999999); color: #FFFFFF; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 500; box-shadow: 0 2px 8px rgba(127, 127, 127, 0.2);">لا</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 1.25rem; text-align: center;">
+                            {% if obj.is_active %}
+                                <span style="background: linear-gradient(45deg, #000000, #3F3F3F); color: #FFFFFF; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">نشط</span>
+                            {% else %}
+                                <span style="background: linear-gradient(45deg, #CC0000, #FF0000); color: #FFFFFF; padding: 0.4rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 500; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.2);">غير نشط</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 1.25rem; color: var(--medium-gray); font-weight: 500;">{{ obj.date_joined|date:"Y-m-d" }}</td>
+                        <td style="padding: 1.25rem; text-align: center;">
+                            <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <a href="{% url 'admin:accounts_user_change' obj.pk %}" 
+                                   class="btn-edit" style="background: linear-gradient(45deg, #3F3F3F, #7F7F7F); color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(63, 63, 63, 0.2);">
+                                    تعديل
+                                </a>
+                                <a href="{% url 'admin:accounts_user_delete' obj.pk %}" 
+                                   class="btn-delete" style="background: linear-gradient(45deg, #CC0000, #FF0000); color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(204, 0, 0, 0.2);">
+                                    حذف
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="card" style="padding: 3rem; text-align: center; background: linear-gradient(135deg, var(--light-beige), var(--beige)); animation: slideInUp 0.6s ease-out 0.5s both;">
+            <div style="font-size: 4rem; margin-bottom: 1.5rem; animation: bounce 2s infinite;">👥</div>
+            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--black); font-weight: 600;">لا توجد مستخدمين</h3>
+            <p style="margin-bottom: 2rem; color: var(--medium-gray); font-size: 1.1rem;">لم يتم العثور على أي مستخدمين في النظام حالياً.</p>
+            <a href="{% url 'admin:accounts_user_add' %}" 
+               class="btn-primary" style="padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease;">
+                إضافة مستخدم جديد
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if has_add_permission and cl.result_count > 0 %}
+    <div class="card" style="padding: 1.5rem; text-align: center; animation: slideInUp 0.6s ease-out 0.7s both;">
+        <a href="{% url 'admin:accounts_user_add' %}" 
+           class="btn-primary" style="padding: 1rem 2.5rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease;">
+            إضافة مستخدم جديد
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

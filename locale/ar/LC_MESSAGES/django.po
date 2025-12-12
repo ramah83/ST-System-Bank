@@ -1,0 +1,783 @@
+# Arabic translation for Banking System
+# Copyright (C) 2024
+# This file is distributed under the same license as the Banking System package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Banking System 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-11 21:00+0300\n"
+"PO-Revision-Date: 2024-12-11 21:00+0300\n"
+"Last-Translator: Banking System Team\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+# Admin interface
+msgid "Administration"
+msgstr "الإدارة"
+
+msgid "Site administration"
+msgstr "إدارة الموقع"
+
+msgid "Welcome,"
+msgstr "مرحباً،"
+
+msgid "View site"
+msgstr "عرض الموقع"
+
+msgid "Documentation"
+msgstr "التوثيق"
+
+msgid "Change password"
+msgstr "تغيير كلمة المرور"
+
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+# Models
+msgid "User"
+msgstr "مستخدم"
+
+msgid "Users"
+msgstr "المستخدمين"
+
+msgid "Bank Account Type"
+msgstr "نوع حساب بنكي"
+
+msgid "Bank Account Types"
+msgstr "أنواع الحسابات البنكية"
+
+msgid "User Bank Account"
+msgstr "حساب بنكي"
+
+msgid "User Bank Accounts"
+msgstr "الحسابات البنكية"
+
+msgid "User Address"
+msgstr "عنوان مستخدم"
+
+msgid "User Addresses"
+msgstr "عناوين المستخدمين"
+
+msgid "Transaction"
+msgstr "معاملة مالية"
+
+msgid "Transactions"
+msgstr "المعاملات المالية"
+
+# Fields
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+msgid "First name"
+msgstr "الاسم الأول"
+
+msgid "Last name"
+msgstr "اسم العائلة"
+
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgid "Password confirmation"
+msgstr "تأكيد كلمة المرور"
+
+msgid "Account number"
+msgstr "رقم الحساب"
+
+msgid "Account type"
+msgstr "نوع الحساب"
+
+msgid "Balance"
+msgstr "الرصيد"
+
+msgid "Gender"
+msgstr "الجنس"
+
+msgid "Birth date"
+msgstr "تاريخ الميلاد"
+
+msgid "Amount"
+msgstr "المبلغ"
+
+msgid "Transaction type"
+msgstr "نوع المعاملة"
+
+msgid "Timestamp"
+msgstr "وقت المعاملة"
+
+msgid "Street address"
+msgstr "عنوان الشارع"
+
+msgid "City"
+msgstr "المدينة"
+
+msgid "Postal code"
+msgstr "الرمز البريدي"
+
+msgid "Country"
+msgstr "البلد"
+
+# Transaction types
+msgid "Deposit"
+msgstr "إيداع"
+
+msgid "Withdrawal"
+msgstr "سحب"
+
+msgid "Interest"
+msgstr "فائدة"
+
+# Gender choices
+msgid "Male"
+msgstr "ذكر"
+
+msgid "Female"
+msgstr "أنثى"
+
+# Forms and validation
+msgid "This field is required."
+msgstr "هذا الحقل مطلوب."
+
+msgid "Enter a valid email address."
+msgstr "أدخل عنوان بريد إلكتروني صحيح."
+
+msgid "The two password fields didn't match."
+msgstr "كلمتا المرور غير متطابقتين."
+
+# Navigation
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+msgid "Register"
+msgstr "إنشاء حساب"
+
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+msgid "Account Statement"
+msgstr "كشف الحساب"
+
+msgid "Deposit Money"
+msgstr "إيداع"
+
+msgid "Withdraw Money"
+msgstr "سحب"
+
+# Buttons and actions
+msgid "Save"
+msgstr "حفظ"
+
+msgid "Cancel"
+msgstr "إلغاء"
+
+msgid "Submit"
+msgstr "إرسال"
+
+msgid "Add"
+msgstr "إضافة"
+
+msgid "Edit"
+msgstr "تعديل"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "View"
+msgstr "عرض"
+
+msgid "Search"
+msgstr "بحث"
+
+# Messages
+msgid "Successfully logged in."
+msgstr "تم تسجيل الدخول بنجاح."
+
+msgid "Successfully logged out."
+msgstr "تم تسجيل الخروج بنجاح."
+
+msgid "Account created successfully."
+msgstr "تم إنشاء الحساب بنجاح."
+
+msgid "Transaction completed successfully."
+msgstr "تمت المعاملة بنجاح."
+
+msgid "Invalid credentials."
+msgstr "بيانات الدخول غير صحيحة."
+
+msgid "Insufficient balance."
+msgstr "الرصيد غير كافي."
+
+# Date and time
+msgid "Today"
+msgstr "اليوم"
+
+msgid "Yesterday"
+msgstr "أمس"
+
+msgid "This week"
+msgstr "هذا الأسبوع"
+
+msgid "This month"
+msgstr "هذا الشهر"
+
+msgid "Date range"
+msgstr "نطاق التاريخ"
+
+# Common phrases
+msgid "Banking System"
+msgstr "النظام المصرفي"
+
+msgid "Welcome to Banking System"
+msgstr "مرحباً بك في النظام المصرفي"
+
+msgid "Account Management"
+msgstr "إدارة الحسابات"
+
+msgid "Financial Transactions"
+msgstr "المعاملات المالية"
+
+msgid "System Core"
+msgstr "النظام الأساسي"
+
+msgid "No transactions found"
+msgstr "لا توجد معاملات"
+
+msgid "Total Balance"
+msgstr "إجمالي الأرصدة"
+
+msgid "Recent Transactions"
+msgstr "آخر المعاملات"
+
+msgid "Quick Actions"
+msgstr "عمليات سريعة"
+
+msgid "System Statistics"
+msgstr "إحصائيات النظام"
+
+msgid "Total Users"
+msgstr "إجمالي المستخدمين"
+
+msgid "Total Accounts"
+msgstr "الحسابات البنكية"
+
+msgid "Total Transactions"
+msgstr "إجمالي المعاملات"
+
+# Admin specific
+msgid "Banking System Administration"
+msgstr "لوحة إدارة النظام المصرفي"
+
+msgid "Bank Administration"
+msgstr "إدارة البنك"
+
+msgid "Welcome to Banking System Administration"
+msgstr "مرحباً بك في لوحة إدارة النظام المصرفي"
+
+msgid "View only"
+msgstr "للعرض فقط"
+
+msgid "Read only"
+msgstr "للقراءة فقط"
+
+msgid "Cannot be modified"
+msgstr "لا يمكن تعديله"
+
+msgid "System generated"
+msgstr "مُنشأ بواسطة النظام"
+
+msgid "Automatic calculation"
+msgstr "حساب تلقائي"
+
+msgid "Current balance"
+msgstr "الرصيد الحالي"
+
+msgid "Last transaction"
+msgstr "آخر معاملة"
+
+msgid "No recent transactions"
+msgstr "لا توجد معاملات حديثة"
+
+msgid "Account information"
+msgstr "معلومات الحساب"
+
+msgid "Personal information"
+msgstr "معلومات شخصية"
+
+msgid "Important dates"
+msgstr "تواريخ مهمة"
+
+msgid "Transaction information"
+msgstr "معلومات المعاملة"
+
+msgid "Additional information"
+msgstr "معلومات إضافية"
+
+msgid "Login information"
+msgstr "معلومات تسجيل الدخول"
+
+msgid "Permissions"
+msgstr "الصلاحيات"
+
+msgid "Create new user"
+msgstr "إنشاء مستخدم جديد"
+
+msgid "Manage users"
+msgstr "إدارة المستخدمين"
+
+msgid "Manage accounts"
+msgstr "إدارة الحسابات"
+
+msgid "Manage transactions"
+msgstr "إدارة المعاملات"
+
+msgid "Account types"
+msgstr "أنواع الحسابات"
+
+msgid "Back to main system"
+msgstr "العودة للنظام الرئيسي"
+
+msgid "Quick navigation"
+msgstr "التنقل السريع"
+
+msgid "Return to homepage"
+msgstr "العودة للصفحة الرئيسية"
+
+# Authentication and Authorization
+msgid "Authentication and Authorization"
+msgstr "المصادقة والتفويض"
+
+msgid "Groups"
+msgstr "المجموعات"
+
+msgid "Users"
+msgstr "المستخدمين"
+
+# Periodic Tasks
+msgid "Periodic Tasks"
+msgstr "المهام الدورية"
+
+msgid "Clocked"
+msgstr "المجدولة"
+
+msgid "Crontabs"
+msgstr "جداول التوقيت"
+
+msgid "Intervals"
+msgstr "الفترات الزمنية"
+
+msgid "Periodic tasks"
+msgstr "المهام الدورية"
+
+msgid "Solar events"
+msgstr "الأحداث الشمسية"
+
+# Django Celery Beat translations
+msgid "Django Celery Beat"
+msgstr "مجدول المهام"
+
+msgid "Periodic Task"
+msgstr "مهمة دورية"
+
+msgid "Crontab Schedule"
+msgstr "جدولة التوقيت"
+
+msgid "Interval Schedule"
+msgstr "جدولة الفترات"
+
+msgid "Solar Schedule"
+msgstr "الجدولة الشمسية"
+
+msgid "Clocked Schedule"
+msgstr "الجدولة المحددة"
+
+# Admin interface elements
+msgid "Add"
+msgstr "إضافة"
+
+msgid "Change"
+msgstr "تعديل"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "History"
+msgstr "التاريخ"
+
+msgid "Object tools"
+msgstr "أدوات الكائن"
+
+msgid "Recent actions"
+msgstr "الإجراءات الأخيرة"
+
+msgid "My actions"
+msgstr "إجراءاتي"
+
+msgid "None available"
+msgstr "غير متوفر"
+
+msgid "Unknown content"
+msgstr "محتوى غير معروف"
+
+msgid "Yes"
+msgstr "نعم"
+
+msgid "No"
+msgstr "لا"
+
+msgid "Unknown"
+msgstr "غير معروف"
+
+msgid "All"
+msgstr "الكل"
+
+msgid "Any date"
+msgstr "أي تاريخ"
+
+msgid "Today"
+msgstr "اليوم"
+
+msgid "Past 7 days"
+msgstr "آخر 7 أيام"
+
+msgid "This month"
+msgstr "هذا الشهر"
+
+msgid "This year"
+msgstr "هذا العام"
+
+msgid "No date"
+msgstr "بدون تاريخ"
+
+msgid "Has date"
+msgstr "له تاريخ"
+
+msgid "Empty"
+msgstr "فارغ"
+
+msgid "Not empty"
+msgstr "غير فارغ"
+
+msgid "Filter"
+msgstr "تصفية"
+
+msgid "Clear all filters"
+msgstr "مسح جميع المرشحات"
+
+msgid "Show all"
+msgstr "عرض الكل"
+# Django Admin Interface
+msgid "Django administration"
+msgstr "إدارة Django"
+
+msgid "Site administration"
+msgstr "إدارة الموقع"
+
+msgid "Recent Actions"
+msgstr "الإجراءات الأخيرة"
+
+msgid "My Actions"
+msgstr "إجراءاتي"
+
+msgid "None available"
+msgstr "غير متوفر"
+
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+msgid "Password change"
+msgstr "تغيير كلمة المرور"
+
+msgid "Password change successful"
+msgstr "تم تغيير كلمة المرور بنجاح"
+
+msgid "Documentation"
+msgstr "التوثيق"
+
+msgid "View site"
+msgstr "عرض الموقع"
+
+msgid "Welcome,"
+msgstr "مرحباً،"
+
+# Form elements
+msgid "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr "اضغط على \"Control\" أو \"Command\" على Mac لتحديد أكثر من واحد."
+
+msgid "Available %s"
+msgstr "%s المتاحة"
+
+msgid "Chosen %s"
+msgstr "%s المختارة"
+
+msgid "Choose %s"
+msgstr "اختر %s"
+
+msgid "Choose %s to change"
+msgstr "اختر %s للتعديل"
+
+msgid "Choose all"
+msgstr "اختر الكل"
+
+msgid "Remove all"
+msgstr "إزالة الكل"
+
+msgid "Choose a date from the list below to recover a deleted version of an object."
+msgstr "اختر تاريخاً من القائمة أدناه لاستعادة نسخة محذوفة من الكائن."
+
+msgid "Choose a time"
+msgstr "اختر وقتاً"
+
+msgid "Midnight"
+msgstr "منتصف الليل"
+
+msgid "6 a.m."
+msgstr "6 صباحاً"
+
+msgid "Noon"
+msgstr "الظهر"
+
+msgid "6 p.m."
+msgstr "6 مساءً"
+
+# Pagination
+msgid "0 of %(cnt)s selected"
+msgstr "تم تحديد 0 من %(cnt)s"
+
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "لا توجد نتائج"
+msgstr[1] "نتيجة واحدة"
+msgstr[2] "نتيجتان"
+msgstr[3] "%(counter)s نتائج"
+msgstr[4] "%(counter)s نتيجة"
+msgstr[5] "%(counter)s نتيجة"
+
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s إجمالي"
+
+msgid "Show %(name)s"
+msgstr "عرض %(name)s"
+
+# Actions
+msgid "Go"
+msgstr "انتقال"
+
+msgid "Click here to select the objects across all pages"
+msgstr "انقر هنا لتحديد الكائنات عبر جميع الصفحات"
+
+msgid "Select all %(total_count)s %(module_name)s"
+msgstr "تحديد جميع %(total_count)s %(module_name)s"
+
+msgid "Clear selection"
+msgstr "مسح التحديد"
+
+msgid "%(selection_note)s Only the first %(total_count)s entries are shown."
+msgstr "%(selection_note)s يتم عرض أول %(total_count)s إدخال فقط."
+
+msgid "Action:"
+msgstr "الإجراء:"
+
+msgid "Delete selected %(verbose_name_plural)s"
+msgstr "حذف %(verbose_name_plural)s المحددة"
+
+msgid "Are you sure you want to delete the selected %(objects_name)s? All of the following objects and their related items will be deleted:"
+msgstr "هل أنت متأكد من حذف %(objects_name)s المحددة؟ سيتم حذف جميع الكائنات التالية والعناصر المرتبطة بها:"
+
+msgid "Objects"
+msgstr "الكائنات"
+
+msgid "Yes, I'm sure"
+msgstr "نعم، أنا متأكد"
+
+msgid "No, take me back"
+msgstr "لا، أعدني للخلف"
+
+# Error messages
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "يرجى تصحيح الأخطاء أدناه."
+msgstr[1] "يرجى تصحيح الخطأ أدناه."
+msgstr[2] "يرجى تصحيح الخطأين أدناه."
+msgstr[3] "يرجى تصحيح الأخطاء أدناه."
+msgstr[4] "يرجى تصحيح الأخطاء أدناه."
+msgstr[5] "يرجى تصحيح الأخطاء أدناه."
+
+msgid "The %(name)s \"%(obj)s\" was added successfully."
+msgstr "تمت إضافة %(name)s \"%(obj)s\" بنجاح."
+
+msgid "The %(name)s \"%(obj)s\" was changed successfully."
+msgstr "تم تعديل %(name)s \"%(obj)s\" بنجاح."
+
+msgid "The %(name)s \"%(obj)s\" was deleted successfully."
+msgstr "تم حذف %(name)s \"%(obj)s\" بنجاح."
+
+msgid "You may add another %(name)s below."
+msgstr "يمكنك إضافة %(name)s آخر أدناه."
+
+msgid "You may edit it again below."
+msgstr "يمكنك تعديله مرة أخرى أدناه."
+
+# Date and time
+msgid "Date:"
+msgstr "التاريخ:"
+
+msgid "Time:"
+msgstr "الوقت:"
+
+msgid "Lookup"
+msgstr "البحث"
+
+msgid "Currently:"
+msgstr "حالياً:"
+
+msgid "Change:"
+msgstr "تغيير:"
+
+msgid "Clear"
+msgstr "مسح"
+
+# File uploads
+msgid "Currently:"
+msgstr "حالياً:"
+
+msgid "Change:"
+msgstr "تغيير:"
+
+msgid "Clear"
+msgstr "مسح"
+
+# Inline forms
+msgid "Add another %(verbose_name)s"
+msgstr "إضافة %(verbose_name)s آخر"
+
+msgid "Remove"
+msgstr "إزالة"
+
+# Search
+msgid "Search"
+msgstr "بحث"
+
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "لا توجد نتائج"
+msgstr[1] "نتيجة واحدة"
+msgstr[2] "نتيجتان"
+msgstr[3] "%(counter)s نتائج"
+msgstr[4] "%(counter)s نتيجة"
+msgstr[5] "%(counter)s نتيجة"
+
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s إجمالي"
+
+# Breadcrumbs
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "%(name)s object with primary key %(key)r does not exist."
+msgstr "كائن %(name)s بالمفتاح الأساسي %(key)r غير موجود."
+
+msgid "Add %(name)s"
+msgstr "إضافة %(name)s"
+
+msgid "Change %(name)s"
+msgstr "تعديل %(name)s"
+
+msgid "Delete %(name)s"
+msgstr "حذف %(name)s"
+
+msgid "View %(name)s"
+msgstr "عرض %(name)s"
+
+# Permissions
+msgid "You don't have permission to edit anything."
+msgstr "ليس لديك صلاحية لتعديل أي شيء."
+
+msgid "You don't have permission to view or edit anything."
+msgstr "ليس لديك صلاحية لعرض أو تعديل أي شيء."
+
+msgid "Forbidden"
+msgstr "محظور"
+
+msgid "You don't have permission to access this page."
+msgstr "ليس لديك صلاحية للوصول إلى هذه الصفحة."
+# Custom messages for transaction admin
+msgid "Warning"
+msgstr "تنبيه"
+
+msgid "Financial transactions are view only and cannot be modified from the admin panel"
+msgstr "المعاملات المالية للعرض فقط ولا يمكن تعديلها من لوحة الإدارة"
+
+msgid "All transactions must be done through the main system to maintain data integrity"
+msgstr "جميع المعاملات يجب أن تتم من خلال النظام الأساسي للحفاظ على سلامة البيانات"
+
+msgid "Back to transaction list"
+msgstr "العودة إلى قائمة المعاملات"
+
+msgid "Information"
+msgstr "معلومة"
+
+msgid "This list is view only. Financial transactions are automatically created by the system when users perform deposit and withdrawal operations"
+msgstr "هذه القائمة للعرض فقط. المعاملات المالية يتم إنشاؤها تلقائياً من خلال النظام عند قيام المستخدمين بعمليات الإيداع والسحب"
+
+msgid "Balance cannot be modified directly from admin panel"
+msgstr "لا يمكن تعديل الرصيد مباشرة من لوحة الإدارة"
+
+msgid "Balance is updated automatically when user performs deposit and withdrawal operations through the system"
+msgstr "الرصيد يتم تحديثه تلقائياً عند قيام المستخدم بعمليات الإيداع والسحب من خلال النظام"
+
+msgid "Current Balance"
+msgstr "الرصيد الحالي"
+
+msgid "Last Transaction"
+msgstr "آخر معاملة"
+
+msgid "No transactions"
+msgstr "لا توجد معاملات"
+
+msgid "Edit Bank Account"
+msgstr "تعديل الحساب البنكي"
+
+msgid "Add New Bank Account"
+msgstr "إضافة حساب بنكي جديد"
+
+msgid "View Financial Transaction"
+msgstr "عرض المعاملة المالية"
+
+msgid "Financial Transactions"
+msgstr "المعاملات المالية"
+
+msgid "This list is for viewing only"
+msgstr "هذه القائمة للعرض فقط"
+
+msgid "Financial transactions are automatically created by the system"
+msgstr "المعاملات المالية يتم إنشاؤها تلقائياً بواسطة النظام"
+
+msgid "when users perform deposit and withdrawal operations"
+msgstr "عند قيام المستخدمين بعمليات الإيداع والسحب"
+msgid "Comprehensive management for all aspects of the banking system"
+msgstr "إدارة شاملة لجميع جوانب النظام المصرفي"
+msgid "Date"
+msgstr "التاريخ"
+msgid "No transactions have been recorded recently"
+msgstr "لم يتم تسجيل أي معاملات مؤخراً"
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Bank Accounts"
+msgstr "الحسابات البنكية"
+
+msgid "Electronic Banking System"
+msgstr "النظام المصرفي الإلكتروني"
+
+msgid "Administration Panel"
+msgstr "لوحة الإدارة"

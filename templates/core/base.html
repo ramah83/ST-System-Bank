@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="النظام المصرفي الإلكتروني" />
+        <meta name="author" content="Banking System" />
+        <title>
+            {% block head_title %}النظام المصرفي{% endblock %}
+        </title>
+        <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+        
+        <style>
+            :root {
+                --primary-dark: #2D3748;
+                --primary-light: #4A5568;
+                --accent-gray: #E6E6E6;
+                --light-beige: #F4EFE9;
+                --beige: #EFE6DE;
+                --medium-gray: #999999;
+                --white: #FFFFFF;
+                --black: #000000;
+            }
+            
+            * {
+                font-family: 'Cairo', sans-serif;
+            }
+            
+            body {
+                background-color: var(--light-beige);
+                min-height: 100vh;
+            }
+            
+            .card {
+                background: var(--white);
+                border: 1px solid var(--accent-gray);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            }
+            
+            .btn-primary {
+                background-color: var(--primary-dark);
+                color: var(--white);
+                border: none;
+                transition: all 0.3s ease;
+            }
+            
+            .btn-primary:hover {
+                background-color: var(--primary-light);
+                transform: translateY(-1px);
+            }
+            
+            .btn-secondary {
+                background-color: var(--accent-gray);
+                color: var(--primary-dark);
+                border: 1px solid var(--primary-dark);
+                transition: all 0.3s ease;
+            }
+            
+            .btn-secondary:hover {
+                background-color: var(--primary-dark);
+                color: var(--white);
+            }
+            
+            .navbar {
+                background-color: var(--primary-dark);
+            }
+            
+            .input-field {
+                background-color: var(--white);
+                border: 2px solid var(--accent-gray);
+                transition: all 0.3s ease;
+            }
+            
+            .input-field:focus {
+                border-color: var(--primary-dark);
+                outline: none;
+            }
+            
+            .text-primary { color: var(--primary-dark); }
+            .text-secondary { color: var(--primary-light); }
+            .text-muted { color: var(--medium-gray); }
+            .bg-primary { background-color: var(--primary-dark); }
+            .bg-secondary { background-color: var(--primary-light); }
+            .bg-light { background-color: var(--light-beige); }
+            .bg-beige { background-color: var(--beige); }
+        </style>
+
+        {% block head_extra %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% include 'core/navbar.html' %}
+            <div class="lg:container lg:mx-auto">
+                {% include 'core/messages.html' %}
+                {% block content %}
+                <!-- Add content here -->
+                {% endblock %}
+            </div>
+            {% include 'core/footer.html' %}
+
+        {% endblock %}
+        {% block footer_extra %}{% endblock %}
+    </body>
+</html>
