@@ -7,6 +7,8 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
+from django.contrib import messages
+from django.utils.html import format_html
 
 from .models import BankAccountType, User, UserAddress, UserBankAccount
 from transactions.models import Transaction
@@ -35,7 +37,9 @@ admin.site.index_title = "مرحباً بك في لوحة إدارة النظا�
 class RestrictedAdminMixin:
     """
     Mixin لمنع الأدمن من القيام بالمعاملات المالية
+    الأدمن يقدر يشوف ويحلل ويحذف ويضيف بس مش يودع أو يسحب
     """
+    
     def has_add_permission(self, request):
 
         if self.model._meta.app_label == 'transactions':
@@ -50,9 +54,11 @@ class RestrictedAdminMixin:
     
     def has_delete_permission(self, request, obj=None):
 
-        if self.model._meta.app_label == 'transactions':
-            return False
         return super().has_delete_permission(request, obj)
+    
+    def has_view_permission(self, request, obj=None):
+
+        return super().has_view_permission(request, obj)
 
 
 class CustomAdminSite(admin.AdminSite):
@@ -131,18 +137,27 @@ class BankAccountTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'annual_interest_rate', 'maximum_withdrawal_amount', 'interest_calculation_per_year')
     list_filter = ('annual_interest_rate', 'interest_calculation_per_year')
     search_fields = ('name',)
+    
+    fieldsets = (
+        ('معلومات أساسية', {
+            'fields': ('name',)
+        }),
+        ('إعدادات مالية', {
+            'fields': ('maximum_withdrawal_amount', 'annual_interest_rate', 'interest_calculation_per_year')
+        }),
+    )
 
 
 @admin.register(UserBankAccount)
 class UserBankAccountAdmin(RestrictedAdminMixin, admin.ModelAdmin):
-    list_display = ('account_no', 'user', 'account_type', 'balance', 'gender', 'initial_deposit_date')
+    list_display = ('account_no', 'user', 'account_type', 'balance_display', 'gender', 'initial_deposit_date', 'account_status')
     list_filter = ('account_type', 'gender', 'initial_deposit_date')
     search_fields = ('account_no', 'user__email', 'user__first_name', 'user__last_name')
-    readonly_fields = ('account_no', 'balance')  # جعل الرصيد للقراءة فقط
+    readonly_fields = ('balance', 'balance_display')  # جعل الرصيد للقراءة فقط
     
     fieldsets = (
         ('معلومات الحساب', {
-            'fields': ('user', 'account_type', 'account_no', 'balance')
+            'fields': ('user', 'account_type', 'account_no', 'balance_display')
         }),
         ('معلومات شخصية', {
             'fields': ('gender', 'birth_date')
@@ -152,14 +167,89 @@ class UserBankAccountAdmin(RestrictedAdminMixin, admin.ModelAdmin):
         }),
     )
     
+    add_fieldsets = (
+        ('إنشاء حساب بنكي جديد', {
+            'fields': ('user', 'account_type', 'gender', 'birth_date', 'initial_deposit_date', 'interest_start_date')
+        }),
+    )
+    
+    def balance_display(self, obj):
+        """عرض الرصيد مع تنسيق جميل"""
+        if obj.balance >= 0:
+            return format_html(
+                '<span style="color: green; font-weight: bold;">{:,.2f} ريال</span>',
+                obj.balance
+            )
+        else:
+            return format_html(
+                '<span style="color: red; font-weight: bold;">{:,.2f} ريال</span>',
+                obj.balance
+            )
+    balance_display.short_description = 'الرصيد الحالي'
+    
+    def account_status(self, obj):
+        """عرض حالة الحساب"""
+        if obj.balance > 1000:
+            return format_html('<span style="color: green;">نشط</span>')
+        elif obj.balance > 0:
+            return format_html('<span style="color: orange;">رصيد منخفض</span>')
+        else:
+            return format_html('<span style="color: red;">رصيد سالب</span>')
+    account_status.short_description = 'حالة الحساب'
+    
+
+    
     def get_readonly_fields(self, request, obj=None):
         """
         جعل الرصيد للقراءة فقط لمنع الأدمن من تعديله مباشرة
         """
         readonly_fields = list(super().get_readonly_fields(request, obj))
-        if 'balance' not in readonly_fields:
-            readonly_fields.append('balance')
+        financial_fields = ['balance', 'balance_display']
+        
+
+        if obj:
+            financial_fields.append('account_no')
+        
+        for field in financial_fields:
+            if field not in readonly_fields:
+                readonly_fields.append(field)
         return readonly_fields
+    
+    def get_fieldsets(self, request, obj=None):
+        """
+        استخدام fieldsets مختلفة للإضافة والتعديل
+        """
+        if not obj:  # إضافة جديدة
+            return self.add_fieldsets
+        return super().get_fieldsets(request, obj)
+    
+    def save_model(self, request, obj, form, change):
+        """منع تعديل الرصيد من لوحة الإدارة ومنع إنشاء حساب بنكي للأدمن"""
+
+        if not change:  # إذا كان إضافة جديدة
+            if obj.user.is_staff or obj.user.is_superuser:
+                messages.error(
+                    request, 
+                    'لا يمكن إنشاء حساب بنكي للأدمن. حسابات الإدارة مخصصة للإدارة والتحليل فقط وليس للمعاملات المالية.'
+                )
+                return  # منع الحفظ
+            
+
+            if not obj.account_no:
+                last_account = UserBankAccount.objects.order_by('-account_no').first()
+                if last_account:
+                    obj.account_no = last_account.account_no + 1
+                else:
+                    obj.account_no = 1000001  # رقم البداية
+        
+        if change:  # إذا كان تعديل وليس إضافة جديدة
+
+            original = UserBankAccount.objects.get(pk=obj.pk)
+            if original.balance != obj.balance:
+                messages.error(request, 'لا يمكن تعديل الرصيد من لوحة الإدارة. استخدم نظام المعاملات.')
+                obj.balance = original.balance  # استرجاع الرصيد الأصلي
+        
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(UserAddress)

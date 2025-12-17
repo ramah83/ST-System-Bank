@@ -3,7 +3,7 @@
 
 {% block content %}
 <div style="margin-bottom: 2rem;">
-    <!-- Breadcrumbs -->
+    
     <nav style="background-color: var(--white); border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
         <a href="{% url 'admin:index' %}" style="color: var(--primary-dark); text-decoration: none;">الرئيسية</a>
         <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
@@ -24,7 +24,7 @@
         </span>
     </nav>
 
-    <!-- Page Header -->
+    
     <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 0.5rem 0;">
             {% if app_label == "auth" %}
@@ -46,7 +46,7 @@
         </p>
     </div>
 
-    <!-- Models Grid -->
+    
     {% if app_list %}
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
         {% for app in app_list %}
@@ -126,7 +126,7 @@
     </div>
     {% endif %}
 
-    <!-- Back to Main -->
+    
     <div style="margin-top: 2rem;">
         <a href="{% url 'admin:index' %}" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; text-decoration: none;">
             العودة للصفحة الرئيسية

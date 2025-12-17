@@ -81,18 +81,20 @@ class UserRegistrationForm(UserCreationForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
-            account_type = self.cleaned_data.get('account_type')
-            gender = self.cleaned_data.get('gender')
-            birth_date = self.cleaned_data.get('birth_date')
 
-            UserBankAccount.objects.create(
-                user=user,
-                gender=gender,
-                birth_date=birth_date,
-                account_type=account_type,
-                account_no=(
-                    user.id +
-                    settings.ACCOUNT_NUMBER_START_FROM
+            if not user.is_staff and not user.is_superuser:
+                account_type = self.cleaned_data.get('account_type')
+                gender = self.cleaned_data.get('gender')
+                birth_date = self.cleaned_data.get('birth_date')
+
+                UserBankAccount.objects.create(
+                    user=user,
+                    gender=gender,
+                    birth_date=birth_date,
+                    account_type=account_type,
+                    account_no=(
+                        user.id +
+                        settings.ACCOUNT_NUMBER_START_FROM
+                    )
                 )
-            )
         return user

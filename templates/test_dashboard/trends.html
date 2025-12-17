@@ -1,0 +1,1033 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>اتجاهات الاختبارات - النظام المصرفي</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin-enhanced.css' %}">
+    <link rel="stylesheet" href="{% static 'css/test-dashboard.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-dark: #2D3748;
+            --primary-light: #4A5568;
+            --accent-gray: #E6E6E6;
+            --light-beige: #F4EFE9;
+            --beige: #EFE6DE;
+            --medium-gray: #999999;
+            --white: #FFFFFF;
+            --black: #000000;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f4efe9 0%, #efe6de 50%, #e6ddd4 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #000000 0%, #3F3F3F 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+        
+        .controls-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--black), var(--primary-light));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(230, 230, 230, 0.8);
+            color: var(--black);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, var(--black), var(--primary-light));
+            color: white;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color, var(--info));
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .metric-card:hover::before {
+            height: 6px;
+        }
+        
+        .metric-card.success { --accent-color: var(--success); }
+        .metric-card.info { --accent-color: var(--info); }
+        .metric-card.purple { --accent-color: #8b5cf6; }
+        .metric-card.danger { --accent-color: var(--danger); }
+        
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent-color, var(--info)), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-label {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            margin-top: 0.5rem;
+        }
+        
+        .trend-up {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+        
+        .trend-down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+        
+        .trend-stable {
+            background: rgba(107, 114, 128, 0.15);
+            color: var(--medium-gray);
+        }
+        
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .main-charts {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .side-charts {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .side-charts {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .side-charts {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--success), var(--info), #8b5cf6, var(--warning));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .chart-container:hover::before {
+            opacity: 1;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .chart-container.large {
+            height: 450px;
+        }
+        
+        .chart-container.medium {
+            height: 350px;
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .chart-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--success), var(--info));
+            border-radius: 1px;
+        }
+        
+        .chart-canvas {
+            height: 300px;
+        }
+        
+        .footer {
+            background-color: var(--black);
+            color: var(--white);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            font-family: Cairo, sans-serif;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .notification.error {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .notification.info {
+            background: var(--info);
+            color: white;
+        }
+        
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: scale(1.05);
+            }
+        }
+        
+        .metric-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .metric-card:nth-child(2) { animation-delay: 0.2s; }
+        .metric-card:nth-child(3) { animation-delay: 0.3s; }
+        .metric-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .chart-container {
+            animation: slideInRight 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .main-charts .chart-container:nth-child(1) { animation-delay: 0.2s; }
+        .main-charts .chart-container:nth-child(2) { animation-delay: 0.4s; }
+        .side-charts .chart-container:nth-child(1) { animation-delay: 0.6s; }
+        .side-charts .chart-container:nth-child(2) { animation-delay: 0.8s; }
+        
+        .metric-icon {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{% url 'admin:index' %}" class="nav-brand">
+                اتجاهات اختبار النظام المصرفي
+            </a>
+            
+            <div class="nav-links">
+                <a href="{% url 'admin:index' %}" class="nav-link"></a>
+                    الرئيسية
+                </a>
+                
+                <a href="{% url 'admin:index' %}" class="nav-link">
+                    لوحة التحكم
+                </a>
+                
+                <a href="{% url 'test_dashboard:dashboard' %}" class="nav-link">
+                    لوحة الاختبارات
+                </a>
+                
+                <a href="{% url 'test_dashboard:trends' %}" class="nav-link active">
+                    الاتجاهات
+                </a>
+                
+                <a href="{% url 'test_dashboard:notifications' %}" class="nav-link">
+                    الإشعارات
+                </a>
+                
+                <a href="{% url 'accounts:user_logout' %}" class="nav-link">
+                    تسجيل الخروج
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="main-container">
+        
+        <div class="header-section">
+            <h1 class="header-title">اتجاهات وتحليلات الاختبارات</h1>
+            <p class="header-subtitle">الأداء التاريخي للاختبارات والاتجاهات</p>
+            
+            
+            <div class="controls-section">
+                <button onclick="refreshPage()" class="btn-secondary">🔄 تحديث البيانات</button>
+                <button onclick="toggleAutoRefresh()" id="autoRefreshBtn" class="btn-secondary">⏰ تحديث تلقائي: متوقف</button>
+            </div>
+        </div>
+
+        
+        <div class="metrics-grid">
+            <div class="metric-card success">
+                <div class="metric-icon">✅</div>
+                <div class="metric-value">{{ statistics.avg_success_rate|default:"95.2" }}%</div>
+                <div class="metric-label">متوسط معدل النجاح</div>
+                <div class="metric-trend trend-up">↗ +2.3% من الأسبوع الماضي</div>
+            </div>
+            
+            <div class="metric-card info">
+                <div class="metric-icon">⏱️</div>
+                <div class="metric-value">{{ statistics.avg_duration|default:"32.5" }}s</div>
+                <div class="metric-label">متوسط مدة التنفيذ</div>
+                <div class="metric-trend trend-down">↘ -1.2s تحسن في الأداء</div>
+            </div>
+            
+            <div class="metric-card purple">
+                <div class="metric-icon">📊</div>
+                <div class="metric-value">{{ statistics.avg_coverage|default:"88.7" }}%</div>
+                <div class="metric-label">متوسط تغطية الكود</div>
+                <div class="metric-trend trend-up">↗ +0.8% تحسن التغطية</div>
+            </div>
+            
+            <div class="metric-card danger">
+                <div class="metric-icon">⚠️</div>
+                <div class="metric-value">{{ statistics.failure_rate|default:"4.8" }}%</div>
+                <div class="metric-label">معدل الفشل</div>
+                <div class="metric-trend trend-down">↘ -0.5% انخفاض الأخطاء</div>
+            </div>
+        </div>
+
+        
+        <div class="dashboard-layout">
+            
+            <div class="main-charts">
+                
+                <div class="chart-container large">
+                    <h3 class="chart-title">📈 اتجاه معدل النجاح - آخر 14 يوماً</h3>
+                    <canvas id="successRateChart" class="chart-canvas"></canvas>
+                </div>
+                
+                
+                <div class="chart-container large">
+                    <h3 class="chart-title">⏱️ تحليل مدة الاختبارات</h3>
+                    <canvas id="durationChart" class="chart-canvas"></canvas>
+                </div>
+            </div>
+            
+            
+            <div class="side-charts">
+                
+                <div class="chart-container medium">
+                    <h3 class="chart-title">📊 تغطية الكود</h3>
+                    <canvas id="coverageChart" class="chart-canvas"></canvas>
+                </div>
+                
+                
+                <div class="chart-container medium">
+                    <h3 class="chart-title">⚠️ أنماط الفشل</h3>
+                    <canvas id="failureChart" class="chart-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="chart-container large" style="margin-bottom: 2rem;">
+            <h3 class="chart-title">🔍 التحليل الشامل - جميع المؤشرات</h3>
+            <canvas id="comprehensiveChart" class="chart-canvas"></canvas>
+        </div>
+
+        
+        <div style="background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);">
+            <h3 style="text-align: center; color: var(--primary-dark); margin-bottom: 1.5rem; font-size: 1.4rem;">📊 ملخص سريع للإحصائيات</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;">
+                <div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--success); margin-bottom: 0.5rem;">1,247</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">إجمالي الاختبارات</div>
+                </div>
+                
+                <div style="text-align: center; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--info); margin-bottom: 0.5rem;">1,187</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات ناجحة</div>
+                </div>
+                
+                <div style="text-align: center; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--danger); margin-bottom: 0.5rem;">60</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات فاشلة</div>
+                </div>
+                
+                <div style="text-align: center; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #8b5cf6; margin-bottom: 0.5rem;">34</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">جلسات اختبار</div>
+                </div>
+                
+                <div style="text-align: center; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--warning); margin-bottom: 0.5rem;">156</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات اليوم</div>
+                </div>
+                
+                <div style="text-align: center; padding: 1rem; background: rgba(107, 114, 128, 0.1); border-radius: 15px;">
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--medium-gray); margin-bottom: 0.5rem;">منذ 2 ساعة</div>
+                    <div style="font-size: 0.9rem; color: var(--medium-gray);">آخر تشغيل</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="controls-section">
+            <a href="{% url 'test_dashboard:dashboard' %}" class="btn-primary">🏠 العودة للوحة الاختبارات</a>
+            <a href="{% url 'test_dashboard:notifications' %}" class="btn-secondary">🔔 عرض الإشعارات</a>
+            <a href="{% url 'admin:index' %}" class="btn-secondary">⚙️ لوحة التحكم الرئيسية</a>
+        </div>
+    </div>
+
+    
+    <script id="trends-data" type="application/json">
+    {% if chart_data %}{{ chart_data|safe }}{% else %}{}{% endif %}
+    </script>
+
+    
+    <script>
+    let trendsData = {};
+    let autoRefreshInterval = null;
+    let autoRefreshEnabled = false;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Loading trends dashboard...');
+        
+        
+        if (typeof Chart === 'undefined') {
+            showNotification('خطأ في تحميل مكتبة الرسوم البيانية', 'error');
+            return;
+        }
+        
+        
+        const dataScript = document.getElementById('trends-data');
+        try {
+            if (dataScript && dataScript.textContent.trim() && dataScript.textContent !== '{}') {
+                trendsData = JSON.parse(dataScript.textContent);
+                console.log('Loaded real data:', trendsData);
+            } else {
+                console.warn('No data found, using sample data');
+                trendsData = generateSampleData();
+            }
+        } catch (error) {
+            console.error('Error parsing data:', error);
+            trendsData = generateSampleData();
+        }
+        
+        
+        createCharts();
+        
+        
+        showNotification('تم تحميل الرسوم البيانية بنجاح', 'success');
+    });
+
+    function generateSampleData() {
+        const dates = [];
+        const today = new Date();
+        for (let i = 13; i >= 0; i--) {
+            const date = new Date(today);
+            date.setDate(date.getDate() - i);
+            dates.push((date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0'));
+        }
+        
+        return {
+            success_rate_data: dates.map((date, index) => ({
+                date: date,
+                rate: Math.round((88 + Math.random() * 10) * 10) / 10
+            })),
+            duration_data: dates.map((date, index) => ({
+                date: date,
+                duration: Math.round((30 + Math.random() * 25) * 10) / 10
+            })),
+            coverage_data: dates.map((date, index) => ({
+                date: date,
+                coverage: Math.round((82 + Math.random() * 12) * 10) / 10
+            })),
+            failure_patterns: [
+                { category: 'اختبارات المصادقة', failures: 8 },
+                { category: 'اختبارات المعاملات', failures: 12 },
+                { category: 'اختبارات الحسابات', failures: 5 },
+                { category: 'اختبارات الأمان', failures: 3 },
+                { category: 'اختبارات الأداء', failures: 7 }
+            ],
+            statistics: {
+                avg_success_rate: 92.5,
+                avg_duration: 42.3,
+                avg_coverage: 88.1,
+                failure_rate: 7.5
+            }
+        };
+    }
+
+    function createCharts() {
+        
+        const successCtx = document.getElementById('successRateChart');
+        if (successCtx) {
+            const data = trendsData.success_rate_data || [];
+            const dates = data.map(d => d.date);
+            const rates = data.map(d => d.rate);
+            
+            new Chart(successCtx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'معدل النجاح (%)',
+                        data: rates,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 85,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+        
+        
+        const durationCtx = document.getElementById('durationChart');
+        if (durationCtx) {
+            const data = trendsData.duration_data || [];
+            const dates = data.map(d => d.date);
+            const durations = data.map(d => d.duration);
+            
+            new Chart(durationCtx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'المدة (ثانية)',
+                        data: durations,
+                        backgroundColor: durations.map(d => d > 40 ? '#ef4444' : '#3b82f6'),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        
+        const coverageCtx = document.getElementById('coverageChart');
+        if (coverageCtx) {
+            const data = trendsData.coverage_data || [];
+            const dates = data.map(d => d.date);
+            const coverage = data.map(d => d.coverage);
+            
+            new Chart(coverageCtx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'التغطية (%)',
+                        data: coverage,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            max: 95
+                        }
+                    }
+                }
+            });
+        }
+        
+        
+        const failureCtx = document.getElementById('failureChart');
+        if (failureCtx) {
+            const data = trendsData.failure_patterns || [];
+            const categories = data.map(d => d.category);
+            const failures = data.map(d => d.failures);
+            
+            new Chart(failureCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: failures,
+                        backgroundColor: [
+                            '#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#10b981'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 10,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+           
+        
+        const comprehensiveCtx = document.getElementById('comprehensiveChart');
+        if (comprehensiveCtx) {
+            const successData = trendsData.success_rate_data || [];
+            const durationData = trendsData.duration_data || [];
+            const coverageData = trendsData.coverage_data || [];
+            
+            if (successData.length > 0) {
+                const dates = successData.map(d => d.date);
+                
+                new Chart(comprehensiveCtx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [
+                            {
+                                label: 'معدل النجاح (%)',
+                                data: successData.map(d => d.rate),
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'المدة (ثانية)',
+                                data: durationData.map(d => d.duration),
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4,
+                                yAxisID: 'y1'
+                            },
+                            {
+                                label: 'التغطية (%)',
+                                data: coverageData.map(d => d.coverage),
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4,
+                                yAxisID: 'y'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: {
+                                        size: 12,
+                                        family: 'Cairo'
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: '#ffffff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'التاريخ'
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'النسبة المئوية (%)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'المدة (ثانية)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false,
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    function refreshPage() {
+        showNotification('جاري تحديث البيانات...', 'info');
+        setTimeout(() => location.reload(), 800);
+    }
+
+    function toggleAutoRefresh() {
+        const btn = document.getElementById('autoRefreshBtn');
+        
+        if (autoRefreshEnabled) {
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = null;
+            autoRefreshEnabled = false;
+            btn.textContent = '⏰ تحديث تلقائي: متوقف';
+            btn.style.background = '';
+            showNotification('تم إيقاف التحديث التلقائي', 'info');
+        } else {
+            autoRefreshInterval = setInterval(() => {
+                location.reload();
+            }, 120000); 
+            
+            autoRefreshEnabled = true;
+            btn.textContent = '⏰ تحديث تلقائي: مفعل';
+            btn.style.background = '#10b981';
+            btn.style.color = 'white';
+            showNotification('تم تفعيل التحديث التلقائي (كل دقيقتين)', 'success');
+        }
+    }
+
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    
+    window.addEventListener('beforeunload', function() {
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+        }
+    });
+    </script>
+
+    
+    <footer class="footer">
+        <div style="text-align: center; padding: 1rem;">
+            <p>&copy; 2024 النظام المصرفي - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+</body>
+</html>

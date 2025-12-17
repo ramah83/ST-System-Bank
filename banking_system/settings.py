@@ -40,9 +40,10 @@ INSTALLED_APPS = [
 
     'django_celery_beat',
 
-    'accounts',
-    'core',
-    'transactions',
+    'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig', 
+    'transactions.apps.TransactionsConfig',
+    'test_dashboard.apps.TestDashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,26 +134,26 @@ USE_TZ = True
 
 
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
 
-    'django_celery_beat',
-
-    'accounts.apps.AccountsConfig',
-    'core.apps.CoreConfig', 
-    'transactions.apps.TransactionsConfig',
-]
 
 
 
 
 
 STATIC_URL = '/static/'
+
+# Cache configuration for better performance
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,  # 5 minutes
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+            'CULL_FREQUENCY': 3,
+        }
+    }
+}
 
 ACCOUNT_NUMBER_START_FROM = 1000000000
 MINIMUM_DEPOSIT_AMOUNT = 10
@@ -168,3 +169,5 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

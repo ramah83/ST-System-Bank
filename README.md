@@ -63,6 +63,13 @@
 - **Caching Support** - Ready for Redis/Memcached integration
 - **Static File Management** - Optimized static file serving
 
+### 🧪 Testing & Quality Assurance
+- **Comprehensive Test Suite** - Unit tests, integration tests, and UI tests
+- **Automated Testing** - Selenium WebDriver for critical user flows
+- **Test Dashboard** - Real-time test execution monitoring and reporting
+- **Coverage Tracking** - Code coverage analysis and trending
+- **CI/CD Ready** - Automated test execution and failure notifications
+
 ---
 
 ## 📸 Screenshots
@@ -93,6 +100,8 @@
 | **Authentication** | Django Auth, Session Management |
 | **Localization** | Django i18n, Arabic (RTL) |
 | **Styling** | Custom CSS, Animations, Responsive Design |
+| **Testing** | Pytest, Selenium, Coverage.py |
+| **Test Dashboard** | Plotly, Pandas, Custom Django App |
 
 ---
 
@@ -143,14 +152,20 @@
    python manage.py collectstatic
    ```
 
-7. **Run the development server**
+7. **Install test dependencies (optional)**
+   ```bash
+   pip install -r requirements-test.txt
+   ```
+
+8. **Run the development server**
    ```bash
    python manage.py runserver
    ```
 
-8. **Access the application**
+9. **Access the application**
    - Main site: http://127.0.0.1:8000/
    - Admin panel: http://127.0.0.1:8000/admin/
+   - Test Dashboard: http://127.0.0.1:8000/test-dashboard/
 
 ---
 
@@ -340,3 +355,79 @@ The system supports full Arabic localization with RTL (Right-to-Left) layout:
    ```bash
    python manage.py compilemessages
    ```
+
+---
+
+## 🧪 Testing
+
+The system includes a comprehensive testing suite with automated test execution and monitoring.
+
+### Test Types
+
+1. **Unit Tests** - Test individual components and functions
+2. **Integration Tests** - Test component interactions
+3. **Selenium Tests** - Automated UI testing for critical user flows
+4. **Search Functionality Tests** - Test search and filtering features
+
+### Running Tests
+
+#### Run All Tests
+```bash
+python run_tests.py --type all
+```
+
+#### Run Unit Tests Only
+```bash
+python run_tests.py --type unit
+```
+
+#### Run Selenium Tests Only
+```bash
+python run_tests.py --type selenium
+```
+
+#### Run Tests with Pytest Directly
+```bash
+# Install test dependencies
+pip install -r requirements-test.txt
+
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=. --cov-report=html
+
+# Run specific test file
+pytest tests/test_authentication.py -v
+```
+
+### Test Dashboard
+
+Access the test dashboard at `http://localhost:8000/test-dashboard/` to:
+
+- **Monitor Test Results** - View pass/fail trends over time
+- **Track Coverage** - Monitor code coverage trends
+- **Analyze Failures** - Detailed failure analysis and error tracking
+- **Get Notifications** - Automatic notifications on test failures
+- **View Trends** - Historical test performance analytics
+
+### Test Coverage
+
+The system maintains high test coverage across:
+
+- **Authentication System** - Login, registration, logout flows
+- **Transaction Processing** - Deposit, withdrawal, balance validation
+- **Search Functionality** - User search, transaction filtering
+- **Admin Interface** - Admin-specific functionality and restrictions
+- **Security Features** - Permission checks and access control
+
+### Continuous Integration
+
+The test suite is designed for CI/CD integration:
+
+- **Automated Execution** - Tests run automatically on code changes
+- **Failure Notifications** - Immediate alerts on test failures
+- **Coverage Reporting** - Automatic coverage analysis
+- **Performance Monitoring** - Test execution time tracking
+
+---

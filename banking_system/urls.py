@@ -26,5 +26,6 @@ urlpatterns = [
     path(
         'transactions/',
         include('transactions.urls', namespace='transactions')
-    )
+    ),
+    path('test-dashboard/', include('test_dashboard.urls', namespace='test_dashboard')),
 ]

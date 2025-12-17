@@ -1,0 +1,123 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}البحث في المستخدمين{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary mb-4">البحث في المستخدمين</h1>
+            <p class="text-lg text-muted">ابحث عن المستخدمين في النظام</p>
+        </div>
+
+        
+        <div class="card rounded-xl p-6 mb-8">
+            <form method="get" class="flex gap-4 items-end">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-primary mb-2">البحث</label>
+                    <input type="text" 
+                           name="search" 
+                           value="{{ search_query }}"
+                           placeholder="ابحث بالبريد الإلكتروني أو الاسم..."
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <button type="submit" 
+                        class="btn-primary px-6 py-3 rounded-xl font-medium">
+                    بحث
+                </button>
+                {% if search_query %}
+                <a href="{% url 'transactions:user_search' %}" 
+                   class="btn-secondary px-6 py-3 rounded-xl font-medium">
+                    مسح
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        
+        {% if users %}
+        <div class="card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-primary mb-4">
+                نتائج البحث ({{ users|length }} مستخدم)
+            </h3>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="border border-gray-300 px-4 py-3 text-right">البريد الإلكتروني</th>
+                            <th class="border border-gray-300 px-4 py-3 text-right">الاسم الأول</th>
+                            <th class="border border-gray-300 px-4 py-3 text-right">الاسم الأخير</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">تاريخ التسجيل</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">نشط</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">العمليات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr class="hover:bg-light transition-colors">
+                            <td class="border border-gray-300 px-4 py-3">{{ user.email }}</td>
+                            <td class="border border-gray-300 px-4 py-3">{{ user.first_name|default:"-" }}</td>
+                            <td class="border border-gray-300 px-4 py-3">{{ user.last_name|default:"-" }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center">{{ user.date_joined|date:"Y-m-d" }}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center">
+                                {% if user.is_active %}
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">نشط</span>
+                                {% else %}
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm">غير نشط</span>
+                                {% endif %}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-3 text-center">
+                                <a href="{% url 'admin:accounts_user_change' user.pk %}" 
+                                   class="text-primary hover:text-primary-dark text-sm font-medium">
+                                    عرض التفاصيل
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            
+            {% if is_paginated %}
+            <div class="mt-6 flex justify-center">
+                <div class="flex gap-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                           class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            السابق
+                        </a>
+                    {% endif %}
+                    
+                    <span class="px-3 py-2 bg-primary text-white rounded">
+                        {{ page_obj.number }} من {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                           class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            التالي
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% elif search_query %}
+        <div class="card rounded-xl p-8 text-center">
+            <div class="text-6xl mb-4">🔍</div>
+            <h3 class="text-xl font-semibold text-primary mb-2">لا توجد نتائج</h3>
+            <p class="text-muted">لم يتم العثور على مستخدمين يطابقون البحث "{{ search_query }}"</p>
+        </div>
+        {% else %}
+        <div class="card rounded-xl p-8 text-center">
+            <div class="text-6xl mb-4">👥</div>
+            <h3 class="text-xl font-semibold text-primary mb-2">ابدأ البحث</h3>
+            <p class="text-muted">استخدم نموذج البحث أعلاه للعثور على المستخدمين</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -273,7 +273,7 @@
     {% block extrahead %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav class="navbar">
         <div class="nav-content">
             <a href="{% url 'admin:index' %}" class="nav-brand">
@@ -301,6 +301,10 @@
                     المعاملات
                 </a>
                 
+                <a href="{% url 'test_dashboard:dashboard' %}" class="nav-link">
+                    لوحة الاختبارات
+                </a>
+                
                 <a href="{% url 'accounts:user_logout' %}" class="nav-link">
                     تسجيل الخروج
                 </a>
@@ -308,7 +312,7 @@
         </div>
     </nav>
 
-    <!-- Content -->
+    
     <div class="content-area" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 10;">
         {% block content %}{% endblock %}
     </div>

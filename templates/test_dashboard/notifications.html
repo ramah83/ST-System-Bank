@@ -1,0 +1,363 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إشعارات الاختبارات - النظام المصرفي</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin-enhanced.css' %}">
+    
+    <style>
+        :root {
+            --primary-dark: #2D3748;
+            --primary-light: #4A5568;
+            --accent-gray: #E6E6E6;
+            --light-beige: #F4EFE9;
+            --beige: #EFE6DE;
+            --medium-gray: #999999;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f4efe9 0%, #efe6de 50%, #e6ddd4 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23000" opacity="0.02"/><circle cx="75" cy="75" r="1" fill="%23000" opacity="0.02"/><circle cx="50" cy="10" r="0.5" fill="%23000" opacity="0.01"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #000000 0%, #3F3F3F 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #FFFFFF, #E6E6E6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(230, 230, 230, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(230, 230, 230, 0.3));
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #000000, #3F3F3F);
+            color: var(--white);
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, rgba(230, 230, 230, 0.8), rgba(214, 205, 197, 0.8));
+            color: var(--black);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #000000, #3F3F3F);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-primary { color: var(--primary-dark); }
+        .text-muted { color: var(--medium-gray); }
+        
+        .footer {
+            background-color: var(--black);
+            color: var(--white);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--accent-gray);
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{% url 'admin:index' %}" class="nav-brand">
+                إشعارات اختبار النظام المصرفي
+            </a>
+            
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link">
+                    الرئيسية
+                </a>
+                
+                <a href="{% url 'admin:index' %}" class="nav-link">
+                    لوحة التحكم
+                </a>
+                
+                <a href="{% url 'test_dashboard:dashboard' %}" class="nav-link">
+                    لوحة الاختبارات
+                </a>
+                
+                <a href="{% url 'test_dashboard:trends' %}" class="nav-link">
+                    الاتجاهات
+                </a>
+                
+                <a href="{% url 'test_dashboard:notifications' %}" class="nav-link active">
+                    الإشعارات
+                </a>
+                
+                <a href="{% url 'accounts:user_logout' %}" class="nav-link">
+                    تسجيل الخروج
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="content-area" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 10;">
+<div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary mb-4">إشعارات الاختبارات</h1>
+            <p class="text-lg text-muted">تنبيهات فشل الاختبارات وإشعارات النظام</p>
+        </div>
+
+        
+        {% if notifications %}
+        <div class="card p-6">
+            <h3 class="text-xl font-semibold mb-4 text-primary">الإشعارات الأخيرة ({{ notifications|length }})</h3>
+            <div class="space-y-4">
+                {% for notification in notifications %}
+                <div class="border rounded-lg p-4 
+                    {% if notification.notification_type == 'test_failure' %}border-red-200 bg-red-50
+                    {% elif notification.notification_type == 'coverage_drop' %}border-yellow-200 bg-yellow-50
+                    {% else %}border-blue-200 bg-blue-50{% endif %}">
+                    
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 text-xs rounded-full font-medium
+                                    {% if notification.notification_type == 'test_failure' %}bg-red-100 text-red-800
+                                    {% elif notification.notification_type == 'coverage_drop' %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-blue-100 text-blue-800{% endif %}">
+                                    {% if notification.notification_type == 'test_failure' %}فشل في الاختبار
+                                    {% elif notification.notification_type == 'build_failure' %}فشل في البناء
+                                    {% elif notification.notification_type == 'coverage_drop' %}انخفاض التغطية
+                                    {% else %}{{ notification.get_notification_type_display }}{% endif %}
+                                </span>
+                                
+                                {% if notification.is_sent %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">تم الإرسال</span>
+                                {% else %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">في الانتظار</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="font-medium 
+                                {% if notification.notification_type == 'test_failure' %}text-red-800
+                                {% elif notification.notification_type == 'coverage_drop' %}text-yellow-800
+                                {% else %}text-blue-800{% endif %} mb-2">
+                                {{ notification.message }}
+                            </div>
+                            
+                            <div class="text-sm text-gray-600">
+                                تشغيل الاختبار: 
+                                <a href="{% url 'test_dashboard:test_run_detail' notification.test_run.pk %}" 
+                                   class="text-primary hover:text-primary-dark font-medium">
+                                    {{ notification.test_run.name }}
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="text-right text-sm text-gray-500">
+                            {{ notification.created_at|date:"M d, Y" }}<br>
+                            {{ notification.created_at|date:"H:i" }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            
+            {% if is_paginated %}
+            <div class="mt-6 flex justify-center">
+                <div class="flex gap-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" 
+                           class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            السابق
+                        </a>
+                    {% endif %}
+                    
+                    <span class="px-3 py-2 bg-primary text-white rounded">
+                        {{ page_obj.number }} من {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" 
+                           class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            التالي
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="card p-8 text-center">
+            <div class="text-6xl mb-4">🔔</div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">لا توجد إشعارات</h3>
+            <p class="text-gray-500">لم يتم إنشاء أي إشعارات اختبار بعد.</p>
+            <p class="text-sm text-gray-400 mt-2">
+                ستظهر الإشعارات هنا عند فشل الاختبارات أو انخفاض التغطية بشكل كبير.
+            </p>
+        </div>
+        {% endif %}
+
+        
+        <div class="mt-8 text-center">
+            <a href="{% url 'test_dashboard:dashboard' %}" 
+               class="btn-primary px-6 py-3 rounded-lg font-medium mr-4">
+                العودة للوحة الاختبارات
+            </a>
+            <a href="{% url 'test_dashboard:trends' %}" 
+               class="btn-secondary px-6 py-3 rounded-lg font-medium">
+                عرض الاتجاهات
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h3 style="color: var(--white); font-size: 1.1rem; font-weight: 600; margin: 0;">إشعارات اختبار النظام المصرفي</h3>
+                    <p style="color: var(--medium-gray); font-size: 0.9rem; margin: 0.5rem 0 0 0;">تنبيهات وإشعارات النظام</p>
+                </div>
+                
+                <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+                    <a href="{% url 'test_dashboard:dashboard' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">لوحة الاختبارات</a>
+                    <a href="{% url 'test_dashboard:trends' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الاتجاهات</a>
+                    <a href="{% url 'test_dashboard:notifications' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الإشعارات</a>
+                    <a href="{% url 'admin:index' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">لوحة التحكم</a>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                    <span style="color: var(--medium-gray); font-size: 0.85rem;">النظام متصل</span>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--primary-light); margin-top: 1rem; padding-top: 1rem; text-align: center;">
+                <p style="color: var(--medium-gray); margin: 0; font-size: 0.85rem;">© 2026 النظام المصرفي الإلكتروني - إشعارات اختبار النظام</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

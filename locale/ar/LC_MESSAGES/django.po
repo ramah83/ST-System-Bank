@@ -1,7 +1,7 @@
-# Arabic translation for Banking System
-# Copyright (C) 2024
-# This file is distributed under the same license as the Banking System package.
-#
+
+
+
+
 msgid ""
 msgstr ""
 "Project-Id-Version: Banking System 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 
-# Admin interface
+
 msgid "Administration"
 msgstr "الإدارة"
 
@@ -38,7 +38,7 @@ msgstr "تغيير كلمة المرور"
 msgid "Log out"
 msgstr "تسجيل الخروج"
 
-# Models
+
 msgid "User"
 msgstr "مستخدم"
 
@@ -69,7 +69,7 @@ msgstr "معاملة مالية"
 msgid "Transactions"
 msgstr "المعاملات المالية"
 
-# Fields
+
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -121,7 +121,7 @@ msgstr "الرمز البريدي"
 msgid "Country"
 msgstr "البلد"
 
-# Transaction types
+
 msgid "Deposit"
 msgstr "إيداع"
 
@@ -131,14 +131,14 @@ msgstr "سحب"
 msgid "Interest"
 msgstr "فائدة"
 
-# Gender choices
+
 msgid "Male"
 msgstr "ذكر"
 
 msgid "Female"
 msgstr "أنثى"
 
-# Forms and validation
+
 msgid "This field is required."
 msgstr "هذا الحقل مطلوب."
 
@@ -148,7 +148,7 @@ msgstr "أدخل عنوان بريد إلكتروني صحيح."
 msgid "The two password fields didn't match."
 msgstr "كلمتا المرور غير متطابقتين."
 
-# Navigation
+
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -170,7 +170,7 @@ msgstr "إيداع"
 msgid "Withdraw Money"
 msgstr "سحب"
 
-# Buttons and actions
+
 msgid "Save"
 msgstr "حفظ"
 
@@ -195,7 +195,7 @@ msgstr "عرض"
 msgid "Search"
 msgstr "بحث"
 
-# Messages
+
 msgid "Successfully logged in."
 msgstr "تم تسجيل الدخول بنجاح."
 
@@ -214,7 +214,7 @@ msgstr "بيانات الدخول غير صحيحة."
 msgid "Insufficient balance."
 msgstr "الرصيد غير كافي."
 
-# Date and time
+
 msgid "Today"
 msgstr "اليوم"
 
@@ -230,7 +230,7 @@ msgstr "هذا الشهر"
 msgid "Date range"
 msgstr "نطاق التاريخ"
 
-# Common phrases
+
 msgid "Banking System"
 msgstr "النظام المصرفي"
 
@@ -270,7 +270,7 @@ msgstr "الحسابات البنكية"
 msgid "Total Transactions"
 msgstr "إجمالي المعاملات"
 
-# Admin specific
+
 msgid "Banking System Administration"
 msgstr "لوحة إدارة النظام المصرفي"
 
@@ -349,7 +349,7 @@ msgstr "التنقل السريع"
 msgid "Return to homepage"
 msgstr "العودة للصفحة الرئيسية"
 
-# Authentication and Authorization
+
 msgid "Authentication and Authorization"
 msgstr "المصادقة والتفويض"
 
@@ -359,7 +359,7 @@ msgstr "المجموعات"
 msgid "Users"
 msgstr "المستخدمين"
 
-# Periodic Tasks
+
 msgid "Periodic Tasks"
 msgstr "المهام الدورية"
 
@@ -378,7 +378,7 @@ msgstr "المهام الدورية"
 msgid "Solar events"
 msgstr "الأحداث الشمسية"
 
-# Django Celery Beat translations
+
 msgid "Django Celery Beat"
 msgstr "مجدول المهام"
 
@@ -397,7 +397,7 @@ msgstr "الجدولة الشمسية"
 msgid "Clocked Schedule"
 msgstr "الجدولة المحددة"
 
-# Admin interface elements
+
 msgid "Add"
 msgstr "إضافة"
 
@@ -472,7 +472,7 @@ msgstr "مسح جميع المرشحات"
 
 msgid "Show all"
 msgstr "عرض الكل"
-# Django Admin Interface
+
 msgid "Django administration"
 msgstr "إدارة Django"
 
@@ -509,7 +509,7 @@ msgstr "عرض الموقع"
 msgid "Welcome,"
 msgstr "مرحباً،"
 
-# Form elements
+
 msgid "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr "اضغط على \"Control\" أو \"Command\" على Mac لتحديد أكثر من واحد."
 
@@ -549,7 +549,7 @@ msgstr "الظهر"
 msgid "6 p.m."
 msgstr "6 مساءً"
 
-# Pagination
+
 msgid "0 of %(cnt)s selected"
 msgstr "تم تحديد 0 من %(cnt)s"
 
@@ -568,7 +568,7 @@ msgstr "%(full_result_count)s إجمالي"
 msgid "Show %(name)s"
 msgstr "عرض %(name)s"
 
-# Actions
+
 msgid "Go"
 msgstr "انتقال"
 
@@ -602,7 +602,7 @@ msgstr "نعم، أنا متأكد"
 msgid "No, take me back"
 msgstr "لا، أعدني للخلف"
 
-# Error messages
+
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
 msgstr[0] "يرجى تصحيح الأخطاء أدناه."
@@ -627,7 +627,7 @@ msgstr "يمكنك إضافة %(name)s آخر أدناه."
 msgid "You may edit it again below."
 msgstr "يمكنك تعديله مرة أخرى أدناه."
 
-# Date and time
+
 msgid "Date:"
 msgstr "التاريخ:"
 
@@ -646,7 +646,7 @@ msgstr "تغيير:"
 msgid "Clear"
 msgstr "مسح"
 
-# File uploads
+
 msgid "Currently:"
 msgstr "حالياً:"
 
@@ -656,14 +656,14 @@ msgstr "تغيير:"
 msgid "Clear"
 msgstr "مسح"
 
-# Inline forms
+
 msgid "Add another %(verbose_name)s"
 msgstr "إضافة %(verbose_name)s آخر"
 
 msgid "Remove"
 msgstr "إزالة"
 
-# Search
+
 msgid "Search"
 msgstr "بحث"
 
@@ -679,7 +679,7 @@ msgstr[5] "%(counter)s نتيجة"
 msgid "%(full_result_count)s total"
 msgstr "%(full_result_count)s إجمالي"
 
-# Breadcrumbs
+
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -698,7 +698,7 @@ msgstr "حذف %(name)s"
 msgid "View %(name)s"
 msgstr "عرض %(name)s"
 
-# Permissions
+
 msgid "You don't have permission to edit anything."
 msgstr "ليس لديك صلاحية لتعديل أي شيء."
 
@@ -710,7 +710,7 @@ msgstr "محظور"
 
 msgid "You don't have permission to access this page."
 msgstr "ليس لديك صلاحية للوصول إلى هذه الصفحة."
-# Custom messages for transaction admin
+
 msgid "Warning"
 msgstr "تنبيه"
 

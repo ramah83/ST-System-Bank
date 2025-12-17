@@ -1,0 +1,252 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block head_title %}Test Dashboard - النظام المصرفي{% endblock %}
+
+{% block head_extra %}
+<style>
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card.success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.stat-card.danger {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+.stat-card.info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.notification-item {
+    background: #f8f9fa;
+    border-left: 4px solid #dc3545;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.notification-item.success {
+    border-left-color: #28a745;
+}
+
+.notification-item.warning {
+    border-left-color: #ffc107;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary mb-4">Test Dashboard</h1>
+            <p class="text-lg text-muted">Monitor test execution results and trends</p>
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card">
+                <div class="text-3xl font-bold">{{ total_runs|default:0 }}</div>
+                <div class="text-sm opacity-90">Total Test Runs</div>
+                <div class="text-xs opacity-75 mt-1">Last 30 days</div>
+            </div>
+            
+            <div class="stat-card success">
+                <div class="text-3xl font-bold">{{ passed_runs|default:0 }}</div>
+                <div class="text-sm opacity-90">Passed Runs</div>
+                <div class="text-xs opacity-75 mt-1">{{ success_rate|default:0 }}% success rate</div>
+            </div>
+            
+            <div class="stat-card danger">
+                <div class="text-3xl font-bold">{{ failed_runs|default:0 }}</div>
+                <div class="text-sm opacity-90">Failed Runs</div>
+                <div class="text-xs opacity-75 mt-1">Need attention</div>
+            </div>
+            
+            <div class="stat-card info">
+                <div class="text-3xl font-bold">{{ avg_duration|default:0 }}s</div>
+                <div class="text-sm opacity-90">Avg Duration</div>
+                <div class="text-xs opacity-75 mt-1">Per test run</div>
+            </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            
+            <div class="chart-container">
+                <h3 class="text-xl font-semibold mb-4">Daily Test Results (Last 7 Days)</h3>
+                <div class="space-y-2">
+                    {% for day_stat in daily_stats %}
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="font-medium">{{ day_stat.date }}</div>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">
+                                ✓ {{ day_stat.passed }}
+                            </span>
+                            <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-sm">
+                                ✗ {{ day_stat.failed }}
+                            </span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-8 text-gray-500">No test data available</div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            
+            <div class="chart-container">
+                <h3 class="text-xl font-semibold mb-4">Coverage Information</h3>
+                {% if coverage_trend %}
+                <div class="space-y-2">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-600 mb-2">
+                            {{ coverage_trend.0|default:"N/A" }}%
+                        </div>
+                        <div class="text-sm text-gray-600">Latest Coverage</div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-sm text-gray-600 mb-2">Recent Coverage Trend:</div>
+                        <div class="flex gap-1 items-end h-20">
+                            {% for coverage in coverage_trend|slice:":10" %}
+                            <div class="flex-1 bg-blue-200 rounded min-w-0 coverage-bar" data-coverage="{{ coverage }}" title="{{ coverage }}%"></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-8 text-gray-500">No coverage data available</div>
+                {% endif %}
+            </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <div class="chart-container">
+                <h3 class="text-xl font-semibold mb-4">Recent Test Runs</h3>
+                <div class="space-y-3">
+                    {% for run in recent_runs %}
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div>
+                            <div class="font-medium">{{ run.name }}</div>
+                            <div class="text-sm text-gray-600">{{ run.start_time|date:"M d, Y H:i" }}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                {% if run.status == 'passed' %}bg-green-100 text-green-800
+                                {% elif run.status == 'failed' %}bg-red-100 text-red-800
+                                {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ run.get_status_display }}
+                            </span>
+                            <a href="{% url 'test_dashboard:test_run_detail' run.pk %}" 
+                               class="text-primary hover:text-primary-dark text-sm">View</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-8 text-gray-500">
+                        No test runs found
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if recent_runs %}
+                <div class="mt-4 text-center">
+                    <a href="{% url 'test_dashboard:trends' %}" 
+                       class="btn-primary px-4 py-2 rounded-lg text-sm">
+                        View All Trends
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            
+            <div class="chart-container">
+                <h3 class="text-xl font-semibold mb-4">Recent Notifications</h3>
+                <div class="space-y-3">
+                    {% for notification in recent_notifications %}
+                    <div class="notification-item {% if notification.notification_type == 'test_failure' %}danger{% elif notification.notification_type == 'coverage_drop' %}warning{% else %}info{% endif %}">
+                        <div class="font-medium">{{ notification.get_notification_type_display }}</div>
+                        <div class="text-sm text-gray-600 mt-1">{{ notification.message|truncatewords:15 }}</div>
+                        <div class="text-xs text-gray-500 mt-2">{{ notification.created_at|date:"M d, Y H:i" }}</div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-8 text-gray-500">
+                        No recent notifications
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if recent_notifications %}
+                <div class="mt-4 text-center">
+                    <a href="{% url 'test_dashboard:notifications' %}" 
+                       class="btn-secondary px-4 py-2 rounded-lg text-sm">
+                        View All Notifications
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        
+        <div class="mt-8 text-center">
+            <div class="chart-container">
+                <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button onclick="runTests('all')" class="btn-primary px-6 py-3 rounded-lg font-medium">
+                        Run All Tests
+                    </button>
+                    <button onclick="runTests('unit')" class="btn-secondary px-6 py-3 rounded-lg font-medium">
+                        Run Unit Tests
+                    </button>
+                    <button onclick="runTests('selenium')" class="btn-secondary px-6 py-3 rounded-lg font-medium">
+                        Run Selenium Tests
+                    </button>
+                    <a href="{% url 'test_dashboard:trends' %}" class="btn-secondary px-6 py-3 rounded-lg font-medium">
+                        View Trends
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const coverageBars = document.querySelectorAll('.coverage-bar');
+    coverageBars.forEach(bar => {
+        const coverage = parseFloat(bar.dataset.coverage) || 0;
+        const height = Math.max(coverage, 10); 
+        bar.style.height = height + '%';
+    });
+});
+
+function runTests(testType) {
+    alert('Test execution would be triggered here for: ' + testType + '\nThis requires backend integration with the test runner.');
+}
+</script>
+{% endblock %}

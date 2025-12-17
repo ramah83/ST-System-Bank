@@ -11,13 +11,13 @@
 
 {% block content %}
 <div class="container mx-auto px-6 py-12">
-    <!-- Header Section -->
+    
     <div class="text-center mb-8">
         <h1 class="text-4xl font-bold text-primary mb-2">كشف الحساب</h1>
         <p class="text-muted">عرض جميع المعاملات المالية</p>
     </div>
 
-    <!-- Account Summary Card -->
+    
     <div class="max-w-4xl mx-auto mb-8">
         <div class="card rounded-2xl p-6">
             <div class="grid md:grid-cols-3 gap-6">
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Filter Section -->
+    
     <div class="max-w-2xl mx-auto mb-8">
         <div class="card rounded-xl p-6">
             <h3 class="text-lg font-medium text-primary mb-4">تصفية المعاملات</h3>
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- Transactions Table -->
+    
     <div class="max-w-6xl mx-auto">
         <div class="card rounded-xl overflow-hidden">
             <div class="bg-primary text-white p-4">
@@ -142,6 +142,8 @@
                 <div class="text-6xl text-muted mb-4">📊</div>
                 <h3 class="text-xl font-medium text-primary mb-2">لا توجد معاملات</h3>
                 <p class="text-muted mb-6">لم يتم العثور على أي معاملات في الفترة المحددة</p>
+                {# إخفاء أزرار الإيداع والسحب للأدمن #}
+                {% if not user.is_staff and not user.is_superuser %}
                 <div class="space-x-4 space-x-reverse">
                     <a href="{% url 'transactions:deposit_money' %}" class="btn-primary px-6 py-2 rounded-lg font-medium">
                         إيداع أموال
@@ -150,22 +152,26 @@
                         سحب أموال
                     </a>
                 </div>
+                {% endif %}
             </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- Quick Actions -->
+    
     <div class="max-w-2xl mx-auto mt-8">
         <div class="card rounded-xl p-6">
             <h3 class="text-lg font-medium text-primary mb-4">عمليات سريعة</h3>
             <div class="grid md:grid-cols-3 gap-4">
+                {# إخفاء أزرار الإيداع والسحب للأدمن #}
+                {% if not user.is_staff and not user.is_superuser %}
                 <a href="{% url 'transactions:deposit_money' %}" class="btn-primary text-center py-3 px-4 rounded-lg font-medium">
                     إيداع جديد
                 </a>
                 <a href="{% url 'transactions:withdraw_money' %}" class="btn-secondary text-center py-3 px-4 rounded-lg font-medium">
                     سحب أموال
                 </a>
+                {% endif %}
                 <a href="{% url 'home' %}" class="btn-secondary text-center py-3 px-4 rounded-lg font-medium">
                     الصفحة الرئيسية
                 </a>

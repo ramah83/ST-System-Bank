@@ -1,0 +1,387 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تفاصيل تشغيل الاختبار - النظام المصرفي</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin-enhanced.css' %}">
+    
+    <style>
+        :root {
+            --primary-dark: #2D3748;
+            --primary-light: #4A5568;
+            --accent-gray: #E6E6E6;
+            --light-beige: #F4EFE9;
+            --beige: #EFE6DE;
+            --medium-gray: #999999;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f4efe9 0%, #efe6de 50%, #e6ddd4 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23000" opacity="0.02"/><circle cx="75" cy="75" r="1" fill="%23000" opacity="0.02"/><circle cx="50" cy="10" r="0.5" fill="%23000" opacity="0.01"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #000000 0%, #3F3F3F 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #FFFFFF, #E6E6E6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(230, 230, 230, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(230, 230, 230, 0.3));
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(230, 230, 230, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #000000, #3F3F3F);
+            color: var(--white);
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, rgba(230, 230, 230, 0.8), rgba(214, 205, 197, 0.8));
+            color: var(--black);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #000000, #3F3F3F);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-primary { color: var(--primary-dark); }
+        .text-muted { color: var(--medium-gray); }
+        
+        .footer {
+            background-color: var(--black);
+            color: var(--white);
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--accent-gray);
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{% url 'admin:index' %}" class="nav-brand">
+                تفاصيل تشغيل الاختبار
+            </a>
+            
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link">
+                    الرئيسية
+                </a>
+                
+                <a href="{% url 'admin:index' %}" class="nav-link">
+                    لوحة التحكم
+                </a>
+                
+                <a href="{% url 'test_dashboard:dashboard' %}" class="nav-link">
+                    لوحة الاختبارات
+                </a>
+                
+                <a href="{% url 'test_dashboard:trends' %}" class="nav-link">
+                    الاتجاهات
+                </a>
+                
+                <a href="{% url 'test_dashboard:notifications' %}" class="nav-link">
+                    الإشعارات
+                </a>
+                
+                <a href="{% url 'accounts:user_logout' %}" class="nav-link">
+                    تسجيل الخروج
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="content-area" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 10;">
+<div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary mb-4">تفاصيل تشغيل الاختبار</h1>
+            <p class="text-lg text-muted">{{ test_run.name }}</p>
+        </div>
+
+        
+        <div class="card p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold 
+                        {% if test_run.status == 'passed' %}text-green-600
+                        {% elif test_run.status == 'failed' %}text-red-600
+                        {% else %}text-yellow-600{% endif %}">
+                        {% if test_run.status == 'passed' %}نجح
+                        {% elif test_run.status == 'failed' %}فشل
+                        {% elif test_run.status == 'running' %}يعمل
+                        {% else %}خطأ{% endif %}
+                    </div>
+                    <div class="text-sm text-gray-600">الحالة</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600">{{ test_run.total_tests }}</div>
+                    <div class="text-sm text-gray-600">إجمالي الاختبارات</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-gray-600">{{ test_run.duration|floatformat:2 }}s</div>
+                    <div class="text-sm text-gray-600">المدة</div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600">
+                        {% if test_run.coverage_percentage %}{{ test_run.coverage_percentage|floatformat:1 }}%{% else %}غير متاح{% endif %}
+                    </div>
+                    <div class="text-sm text-gray-600">التغطية</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+                <div class="text-3xl font-bold text-green-600">{{ test_run.passed_tests }}</div>
+                <div class="text-sm text-green-700">الاختبارات الناجحة</div>
+            </div>
+            
+            <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+                <div class="text-3xl font-bold text-red-600">{{ test_run.failed_tests }}</div>
+                <div class="text-sm text-red-700">الاختبارات الفاشلة</div>
+            </div>
+            
+            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-center">
+                <div class="text-3xl font-bold text-yellow-600">{{ test_run.error_tests }}</div>
+                <div class="text-sm text-yellow-700">اختبارات الخطأ</div>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+                <div class="text-3xl font-bold text-blue-600">{{ test_run.success_rate|floatformat:1 }}%</div>
+                <div class="text-sm text-blue-700">معدل النجاح</div>
+            </div>
+        </div>
+
+        
+        {% if failed_cases %}
+        <div class="card p-6 mb-8">
+            <h3 class="text-xl font-semibold text-red-600 mb-4">الاختبارات الفاشلة ({{ failed_cases|length }})</h3>
+            <div class="space-y-4">
+                {% for case in failed_cases %}
+                <div class="border border-red-200 rounded-lg p-4 bg-red-50">
+                    <div class="font-medium text-red-800">{{ case.name }}</div>
+                    <div class="text-sm text-red-600 mt-1">{{ case.class_name }} - {{ case.duration|floatformat:3 }}s</div>
+                    {% if case.error_message %}
+                    <div class="mt-2 p-2 bg-red-100 rounded text-sm text-red-700">
+                        {{ case.error_message|truncatewords:50 }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error_cases %}
+        <div class="card p-6 mb-8">
+            <h3 class="text-xl font-semibold text-yellow-600 mb-4">اختبارات الخطأ ({{ error_cases|length }})</h3>
+            <div class="space-y-4">
+                {% for case in error_cases %}
+                <div class="border border-yellow-200 rounded-lg p-4 bg-yellow-50">
+                    <div class="font-medium text-yellow-800">{{ case.name }}</div>
+                    <div class="text-sm text-yellow-600 mt-1">{{ case.class_name }} - {{ case.duration|floatformat:3 }}s</div>
+                    {% if case.error_message %}
+                    <div class="mt-2 p-2 bg-yellow-100 rounded text-sm text-yellow-700">
+                        {{ case.error_message|truncatewords:50 }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if passed_cases %}
+        <div class="card p-6 mb-8">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">الاختبارات الناجحة ({{ passed_cases|length }})</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for case in passed_cases|slice:":20" %}
+                <div class="border border-green-200 rounded-lg p-3 bg-green-50">
+                    <div class="font-medium text-green-800 text-sm">{{ case.name|truncatechars:40 }}</div>
+                    <div class="text-xs text-green-600 mt-1">{{ case.duration|floatformat:3 }}s</div>
+                </div>
+                {% endfor %}
+                {% if passed_cases|length > 20 %}
+                <div class="text-center text-gray-500 text-sm">
+                    ... و {{ passed_cases|length|add:"-20" }} أخرى
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        
+        <div class="text-center">
+            <a href="{% url 'test_dashboard:dashboard' %}" 
+               class="btn-primary px-6 py-3 rounded-lg font-medium mr-4">
+                العودة للوحة الاختبارات
+            </a>
+            <a href="{% url 'test_dashboard:trends' %}" 
+               class="btn-secondary px-6 py-3 rounded-lg font-medium">
+                عرض الاتجاهات
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h3 style="color: var(--white); font-size: 1.1rem; font-weight: 600; margin: 0;">تفاصيل تشغيل الاختبار</h3>
+                    <p style="color: var(--medium-gray); font-size: 0.9rem; margin: 0.5rem 0 0 0;">تفاصيل شاملة لتشغيل الاختبار</p>
+                </div>
+                
+                <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+                    <a href="{% url 'test_dashboard:dashboard' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">لوحة الاختبارات</a>
+                    <a href="{% url 'test_dashboard:trends' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الاتجاهات</a>
+                    <a href="{% url 'test_dashboard:notifications' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الإشعارات</a>
+                    <a href="{% url 'admin:index' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">لوحة التحكم</a>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
+                    <span style="color: var(--medium-gray); font-size: 0.85rem;">النظام متصل</span>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--primary-light); margin-top: 1rem; padding-top: 1rem; text-align: center;">
+                <p style="color: var(--medium-gray); margin: 0; font-size: 0.85rem;">© 2026 النظام المصرفي الإلكتروني - تفاصيل تشغيل الاختبار</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

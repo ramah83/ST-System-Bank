@@ -1,0 +1,161 @@
+
+
+
+@keyframes chartFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.chart-container {
+    animation: chartFadeIn 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.chart-container:nth-child(1) { animation-delay: 0.1s; }
+.chart-container:nth-child(2) { animation-delay: 0.2s; }
+.chart-container:nth-child(3) { animation-delay: 0.3s; }
+.chart-container:nth-child(4) { animation-delay: 0.4s; }
+
+
+@keyframes metricPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.metric-card:hover {
+    animation: metricPulse 0.6s ease-in-out;
+}
+
+
+.chart-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+
+.chart-container:hover .chart-title {
+    color: var(--primary-dark);
+    transform: translateX(-2px);
+}
+
+.metric-value {
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover .metric-value {
+    transform: scale(1.1);
+}
+
+
+.trend-indicator {
+    transition: all 0.3s ease;
+}
+
+.trend-indicator:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 768px) {
+    .chart-container {
+        margin-bottom: 1rem;
+    }
+    
+    .metric-card {
+        padding: 0.75rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .chart-container {
+        background: rgba(31, 41, 55, 0.95);
+        border-color: rgba(75, 85, 99, 0.5);
+    }
+    
+    .metric-card {
+        background: linear-gradient(135deg, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.9));
+        border-color: rgba(75, 85, 99, 0.5);
+    }
+}
+
+
+@media print {
+    .chart-container {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .nav-links,
+    .footer {
+        display: none;
+    }
+}
+
+
+.chart-container:focus-within {
+    outline: 2px solid var(--primary-dark);
+    outline-offset: 2px;
+}
+
+.metric-card:focus-within {
+    outline: 2px solid var(--primary-dark);
+    outline-offset: 2px;
+}
+
+
+@media (prefers-contrast: high) {
+    .chart-container {
+        border: 2px solid #000;
+    }
+    
+    .metric-card {
+        border: 2px solid #000;
+    }
+    
+    .trend-indicator {
+        border: 1px solid currentColor;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .chart-container,
+    .metric-card {
+        animation: none;
+    }
+    
+    .chart-container:hover,
+    .metric-card:hover {
+        transform: none;
+    }
+}
