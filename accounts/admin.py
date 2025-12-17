@@ -153,7 +153,7 @@ class UserBankAccountAdmin(RestrictedAdminMixin, admin.ModelAdmin):
     list_display = ('account_no', 'user', 'account_type', 'balance_display', 'gender', 'initial_deposit_date', 'account_status')
     list_filter = ('account_type', 'gender', 'initial_deposit_date')
     search_fields = ('account_no', 'user__email', 'user__first_name', 'user__last_name')
-    readonly_fields = ('balance', 'balance_display')  # جعل الرصيد للقراءة فقط
+    readonly_fields = ('balance', 'balance_display')  
     
     fieldsets = (
         ('معلومات الحساب', {
@@ -219,20 +219,20 @@ class UserBankAccountAdmin(RestrictedAdminMixin, admin.ModelAdmin):
         """
         استخدام fieldsets مختلفة للإضافة والتعديل
         """
-        if not obj:  # إضافة جديدة
+        if not obj: 
             return self.add_fieldsets
         return super().get_fieldsets(request, obj)
     
     def save_model(self, request, obj, form, change):
         """منع تعديل الرصيد من لوحة الإدارة ومنع إنشاء حساب بنكي للأدمن"""
 
-        if not change:  # إذا كان إضافة جديدة
+        if not change:  
             if obj.user.is_staff or obj.user.is_superuser:
                 messages.error(
                     request, 
                     'لا يمكن إنشاء حساب بنكي للأدمن. حسابات الإدارة مخصصة للإدارة والتحليل فقط وليس للمعاملات المالية.'
                 )
-                return  # منع الحفظ
+                return  
             
 
             if not obj.account_no:
@@ -240,14 +240,14 @@ class UserBankAccountAdmin(RestrictedAdminMixin, admin.ModelAdmin):
                 if last_account:
                     obj.account_no = last_account.account_no + 1
                 else:
-                    obj.account_no = 1000001  # رقم البداية
+                    obj.account_no = 1000001
         
-        if change:  # إذا كان تعديل وليس إضافة جديدة
+        if change:  
 
             original = UserBankAccount.objects.get(pk=obj.pk)
             if original.balance != obj.balance:
                 messages.error(request, 'لا يمكن تعديل الرصيد من لوحة الإدارة. استخدم نظام المعاملات.')
-                obj.balance = original.balance  # استرجاع الرصيد الأصلي
+                obj.balance = original.balance 
         
         super().save_model(request, obj, form, change)
 
