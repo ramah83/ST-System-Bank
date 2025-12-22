@@ -2,7 +2,32 @@
 {% load i18n static %}
 
 {% block content %}
-<div style="text-align: center; margin-bottom: 3rem;">
+<style>
+    
+    .add-btn-green:hover {
+        background: linear-gradient(135deg, #059669, #047857) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4) !important;
+    }
+    
+    .add-btn-blue:hover {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+    }
+    
+    .add-btn-purple:hover {
+        background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+    }
+    
+    .add-btn-green, .add-btn-blue, .add-btn-purple {
+        transition: all 0.3s ease !important;
+    }
+</style>
+
+<div style="text-align: center; margin-bottom: 3rem;"></div>
     <h1 style="font-size: 3rem; font-weight: bold; color: var(--primary-dark); margin-bottom: 1rem;">
         {% trans "إدارة النظام البنكي" %}
     </h1>
@@ -74,6 +99,15 @@
             </a>
             <a href="{% url 'admin:accounts_bankaccounttype_changelist' %}" class="btn-secondary" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 500;">
                 {% trans "أنواع الحسابات" %}
+            </a>
+            <a href="{% url 'admin:accounts_user_add' %}" class="add-btn-purple" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 600; background: linear-gradient(135deg, #000000, #746374); color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); transition: all 0.3s ease; border: 2px solid #8b5cf6;">
+                 {% trans "إضافة مستخدم" %}
+            </a>
+            <a href="{% url 'admin:accounts_bankaccounttype_add' %}" class="add-btn-green" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 600; background: linear-gradient(135deg, #000000, #746374); color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; border: 2px solid #10b981;">
+                 {% trans "إضافة نوع حساب" %}
+            </a>
+            <a href="{% url 'admin:accounts_userbankaccount_add' %}" class="add-btn-blue" style="text-align: center; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 600; background: linear-gradient(135deg, #000000, #746374); color: white; text-decoration: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); transition: all 0.3s ease; border: 2px solid #3b82f6;">
+                 {% trans "إضافة حساب بنكي" %}
             </a>
         </div>
     </div>
@@ -230,9 +264,7 @@
                                     عرض
                                 </a>
                             {% else %}
-                                <a href="{{ model.admin_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500;">
-                                    إدارة
-                                </a>
+                               
                             {% endif %}
                         {% endif %}
                     </div>

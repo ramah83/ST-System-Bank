@@ -1,14 +1,21 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
-<footer class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white mt-20 relative overflow-hidden">
+<footer class="modern-footer bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white mt-20 relative overflow-hidden">
     
-    <div class="absolute inset-0 opacity-10">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
+    <div class="absolute inset-0 opacity-20">
+        <div class="floating-3d-shapes">
+            <div class="shape-3d shape-3d-1"></div>
+            <div class="shape-3d shape-3d-2"></div>
+            <div class="shape-3d shape-3d-3"></div>
+            <div class="shape-3d shape-3d-4"></div>
+            <div class="shape-3d shape-3d-5"></div>
+        </div>
+        
+        <div class="animated-waves">
+            <div class="wave wave-1"></div>
+            <div class="wave wave-2"></div>
+            <div class="wave wave-3"></div>
         </div>
     </div>
     
@@ -16,193 +23,180 @@
         
         <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
             
-            <div class="text-center md:text-right footer-section">
+            
+            <div class="text-center md:text-right footer-section animate-slide-up">
                 <div class="mb-6">
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4 logo-animation">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="logo-3d inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-6 shadow-2xl">
+                        <svg class="w-10 h-10 text-white animate-pulse-slow" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
                         </svg>
                     </div>
-                    <h3 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                        النظام المصرفي الإلكتروني
+                    <h3 class="text-3xl font-bold mb-4 text-gradient animate-text-glow">
+                        بنك المستقبل الرقمي
                     </h3>
                 </div>
-                <p class="text-gray-300 leading-relaxed mb-6">
-                    نظام بنكي إلكتروني متكامل يوفر أفضل الخدمات المصرفية الرقمية بأعلى معايير الأمان والحماية
+                <p class="text-gray-300 leading-relaxed mb-6 animate-fade-in">
+                    بنك إلكتروني متطور يقدم خدمات مصرفية رقمية آمنة ومبتكرة لعملائنا الكرام في جميع أنحاء المملكة العربية السعودية
                 </p>
                 
                 <div class="flex justify-center md:justify-start space-x-4 space-x-reverse">
-                    <div class="security-badge">
-                        <span class="text-xs">SSL</span>
+                    <div class="security-badge-3d">
+                        <span class="text-xs">SSL آمن</span>
                     </div>
-                    <div class="security-badge">
-                        <span class="text-xs">آمن</span>
+                    <div class="security-badge-3d">
+                        <span class="text-xs">مرخص</span>
                     </div>
-                    <div class="security-badge">
+                    <div class="security-badge-3d">
                         <span class="text-xs">معتمد</span>
                     </div>
                 </div>
             </div>
             
             
-            <div class="text-center footer-section">
-                <h4 class="text-xl font-semibold mb-6 text-blue-400">خدماتنا المصرفية</h4>
-                <ul class="space-y-3">
-                    <li class="service-item">
-                        <span class="service-icon"></span>
-                        <span class="text-gray-300 hover:text-white transition-colors">إيداع وسحب الأموال</span>
+            <div class="text-center footer-section animate-slide-up" style="animation-delay: 0.2s;">
+                <h4 class="text-xl font-semibold mb-6 text-blue-400 animate-text-glow">خدماتنا المصرفية</h4>
+                <ul class="space-y-4">
+                    <li class="service-item-3d flex items-center justify-center md:justify-start">
+                        <span class="service-icon-3d mr-3"></span>
+                        <span class="text-gray-300 hover:text-blue-400 transition-all duration-300">إيداع وسحب الأموال</span>
                     </li>
-                    <li class="service-item">
-                        <span class="service-icon"></span>
-                        <span class="text-gray-300 hover:text-white transition-colors">كشوف الحساب التفصيلية</span>
+                    <li class="service-item-3d flex items-center justify-center md:justify-start">
+                        <span class="service-icon-3d mr-3"></span>
+                        <span class="text-gray-300 hover:text-blue-400 transition-all duration-300">كشوف الحساب التفصيلية</span>
                     </li>
-                    <li class="service-item">
-                        <span class="service-icon"></span>
-                        <span class="text-gray-300 hover:text-white transition-colors">حماية متقدمة للبيانات</span>
+                    <li class="service-item-3d flex items-center justify-center md:justify-start">
+                        <span class="service-icon-3d mr-3"></span>
+                        <span class="text-gray-300 hover:text-blue-400 transition-all duration-300">حماية متقدمة للبيانات</span>
                     </li>
-                    <li class="service-item">
-                        <span class="service-icon"></span>
-                        <span class="text-gray-300 hover:text-white transition-colors">معاملات فورية آمنة</span>
+                    <li class="service-item-3d flex items-center justify-center md:justify-start">
+                        <span class="service-icon-3d mr-3"></span>
+                        <span class="text-gray-300 hover:text-blue-400 transition-all duration-300">معاملات فورية آمنة</span>
                     </li>
-                    <li class="service-item">
-                        <span class="service-icon"></li><span>
-                        <span class="text-gray-300 hover:text-white transition-colors">خدمات رقمية متطورة</span>
-                    </li>
+        
                 </ul>
             </div>
             
             
-            <div class="text-center footer-section">
-                <h4 class="text-xl font-semibold mb-6 text-purple-400">تواصل معنا</h4>
+            <div class="text-center footer-section animate-slide-up" style="animation-delay: 0.4s;">
+                <h4 class="text-xl font-semibold mb-6 text-blue-400 animate-text-glow">تواصل معنا</h4>
                 <div class="space-y-4">
-                    <div class="contact-item">
-                        <span class="contact-icon">📧</span>
-                        <a href="mailto:info@banking-system.com" class="text-gray-300 hover:text-blue-400 transition-colors">
-                            info@banking-system.com
+                    <div class="contact-item-3d flex items-center justify-center md:justify-start">
+                        <span class="contact-icon-3d mr-3">📧</span>
+                        <a href="mailto:info@future-bank.sa" class="text-gray-300 hover:text-blue-400 transition-all duration-300">
+                            Rammah@future-bank.sa
                         </a>
                     </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">📞</span>
-                        <a href="tel:+966111234567" class="text-gray-300 hover:text-green-400 transition-colors">
-                            +966 11 123 4567
+                    <div class="contact-item-3d flex items-center justify-center md:justify-start">
+                        <span class="contact-icon-3d mr-3">📞</span>
+                        <a href="tel:+966920001234" class="text-gray-300 hover:text-blue-400 transition-all duration-300">
+                            +20 1117 1378 34
                         </a>
                     </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">🌐</span>
-                        <a href="https:
-                            www.banking-system.com
+                    <div class="contact-item-3d flex items-center justify-center md:justify-start">
+                        <span class="contact-icon-3d mr-3">🌐</span>
+                        <a href="https://www.future-bank.sa" class="text-gray-300 hover:text-blue-400 transition-all duration-300">
+                            www.Rammah-future-bank.Eg
                         </a>
                     </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">📍</span>
-                        <span class="text-gray-300">الرياض، المملكة العربية السعودية</span>
+                    <div class="contact-item-3d flex items-center justify-center md:justify-start">
+                        <span class="contact-icon-3d mr-3">📍</span>
+                        <span class="text-gray-300">الرماح</span>
                     </div>
                 </div>
-            </div>
+            </div></a><div><span></span></li></span>
             
             
-            <div class="text-center footer-section">
-                <h4 class="text-xl font-semibold mb-6 text-green-400">روابط سريعة</h4>
+            <div class="text-center footer-section animate-slide-up" style="animation-delay: 0.6s;">
+                <h4 class="text-xl font-semibold mb-6 text-blue-400 animate-text-glow">روابط سريعة</h4>
                 <ul class="space-y-3">
-                    <li><a href="{% url 'home' %}" class="quick-link">الصفحة الرئيسية</a></li>
-                    <li><a href="{% url 'accounts:user_login' %}" class="quick-link">تسجيل الدخول</a></li>
-                    <li><a href="{% url 'accounts:user_registration' %}" class="quick-link">إنشاء حساب</a></li>
-                    <li><a href="#" class="quick-link">سياسة الخصوصية</a></li>
-                    <li><a href="#" class="quick-link">الشروط والأحكام</a></li>
-                    <li><a href="#" class="quick-link">الأسئلة الشائعة</a></li>
+                    <li><a href="{% url 'home' %}" class="quick-link-3d">الصفحة الرئيسية</a></li>
+                    <li><a href="{% url 'accounts:user_login' %}" class="quick-link-3d">تسجيل الدخول</a></li>
+                    <li><a href="{% url 'accounts:user_registration' %}" class="quick-link-3d">إنشاء حساب جديد</a></li>
+                    <li><a href="#" class="quick-link-3d">سياسة الخصوصية</a></li>
+                    <li><a href="#" class="quick-link-3d">الشروط والأحكام</a></li>
+                    <li><a href="#" class="quick-link-3d">مركز المساعدة</a></li>
                 </ul>
             </div>
         </div>
         
-        
-        <div class="border-t border-gray-700 pt-8 mb-8">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+        <div class="border-t border-gray-700 pt-8 mb-8 animate-slide-up" style="animation-delay: 0.8s;">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
                 
-                <div class="flex space-x-6 space-x-reverse">
-                    <h5 class="text-lg font-semibold text-gray-300 ml-4">تابعنا على:</h5>
-                    <a href="#" class="social-link" data-platform="twitter">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" data-platform="linkedin">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" data-platform="instagram">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.926 3.708 13.775 3.708 12.478s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" data-platform="youtube">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                    </a>
+                <div class="text-center md:text-right">
+                    <h5 class="text-lg font-semibold text-gray-300 mb-4">تابعنا على وسائل التواصل:</h5>
+                    <div class="flex justify-center md:justify-start space-x-4 space-x-reverse">
+                        <a href="https://twitter.com/future_bank_sa" class="social-link-3d" data-platform="twitter">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/company/future-bank-sa" class="social-link-3d" data-platform="linkedin">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/future_bank_sa" class="social-link-3d" data-platform="instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.926 3.708 13.775 3.708 12.478s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297z"/>
+                            </svg>
+                        </a>
+                        <a href="https://youtube.com/@future-bank-sa" class="social-link-3d" data-platform="youtube">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
                 
                 
-                <div class="newsletter-signup">
-                    <h5 class="text-lg font-semibold text-gray-300 mb-3">اشترك في النشرة الإخبارية</h5>
-                    <div class="flex">
-                        <input type="email" placeholder="أدخل بريدك الإلكتروني" class="newsletter-input">
-                        <button class="newsletter-btn">اشتراك</button>
+                <div class="text-center md:text-left">
+                    <div class="newsletter-container-3d flex max-w-md mx-auto md:mx-0">
+                        <input type="email" placeholder="أدخل بريدك الإلكتروني" class="newsletter-input-3d flex-1 px-4 py-3 rounded-r-lg border-0 bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button class="newsletter-btn-3d px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-l-lg font-semibold">
+                            اشتراك
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         
-        
-        <div class="border-t border-gray-700 pt-8 text-center">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <p class="text-gray-400 copyright-text">
-                    © 2026 النظام المصرفي الإلكتروني - جميع الحقوق محفوظة
-                </p>
-                <div class="flex space-x-6 space-x-reverse text-sm text-gray-400">
-                    <span>مرخص من البنك المركزي السعودي</span>
-                    <span>|</span>
-                    <span>رقم الترخيص: 123456789</span>
-                </div>
-            </div>
+       
         </div>
     </div>
 </footer>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
-    const newsletterForm = document.querySelector('.newsletter-signup');
-    const newsletterInput = newsletterForm.querySelector('.newsletter-input');
-    const newsletterBtn = newsletterForm.querySelector('.newsletter-btn');
+    const newsletterInput = document.querySelector('.newsletter-input-3d');
+    const newsletterBtn = document.querySelector('.newsletter-btn-3d');
     
-    newsletterBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const email = newsletterInput.value.trim();
-        
-        if (email && isValidEmail(email)) {
+    if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = newsletterInput.value.trim();
             
-            newsletterBtn.innerHTML = '✓ تم الاشتراك';
-            newsletterBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-            newsletterInput.value = '';
-            
-            
-            setTimeout(() => {
-                newsletterBtn.innerHTML = 'اشتراك';
-                newsletterBtn.style.background = 'linear-gradient(45deg, #3b82f6, #8b5cf6)';
-            }, 3000);
-            
-            
-            showNotification('تم الاشتراك بنجاح في النشرة الإخبارية!', 'success');
-        } else {
-            
-            showNotification('يرجى إدخال بريد إلكتروني صحيح', 'error');
-            newsletterInput.style.borderColor = '#ef4444';
-            setTimeout(() => {
-                newsletterInput.style.borderColor = '';
-            }, 2000);
-        }
-    });
+            if (email && isValidEmail(email)) {
+                
+                newsletterBtn.innerHTML = '✓ تم الاشتراك';
+                newsletterBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                newsletterInput.value = '';
+                
+                
+                setTimeout(() => {
+                    newsletterBtn.innerHTML = 'اشتراك';
+                    newsletterBtn.style.background = 'linear-gradient(45deg, #3b82f6, #2563eb)';
+                }, 3000);
+                
+                showNotification('تم الاشتراك بنجاح في النشرة الإخبارية!', 'success');
+            } else {
+                showNotification('يرجى إدخال بريد إلكتروني صحيح', 'error');
+                newsletterInput.style.borderColor = '#ef4444';
+                setTimeout(() => {
+                    newsletterInput.style.borderColor = '';
+                }, 2000);
+            }
+        });
+    }
     
     
     function isValidEmail(email) {
@@ -222,29 +216,27 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         document.body.appendChild(notification);
-        
-        
         setTimeout(() => notification.classList.add('show'), 100);
-        
-        
         setTimeout(() => {
             notification.classList.remove('show');
-            setTimeout(() => document.body.removeChild(notification), 300);
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
         }, 4000);
     }
     
     
-    document.querySelectorAll('.social-link').forEach(link => {
+    document.querySelectorAll('.social-link-3d').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const platform = this.getAttribute('data-platform');
             
-            
-            this.style.transform = 'scale(0.95)';
+            this.style.transform = 'scale(0.95) rotateY(180deg)';
             setTimeout(() => {
                 this.style.transform = '';
-            }, 150);
-            
+            }, 300);
             
             showNotification(`سيتم توجيهك إلى صفحة ${getPlatformName(platform)}`, 'success');
         });
@@ -259,226 +251,432 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         return names[platform] || platform;
     }
-    
-    
-    document.querySelectorAll('.contact-item a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.href.startsWith('mailto:') || this.href.startsWith('tel:')) {
-                e.preventDefault();
-                const text = this.textContent.trim();
-                
-                
-                navigator.clipboard.writeText(text).then(() => {
-                    showNotification(`تم نسخ ${text} إلى الحافظة`, 'success');
-                }).catch(() => {
-                    showNotification('فشل في النسخ', 'error');
-                });
-            }
-        });
-    });
-    
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-    
-    
-    document.querySelectorAll('.footer-section').forEach(section => {
-        observer.observe(section);
-    });
     
     
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const shapes = document.querySelectorAll('.shape');
+        const shapes = document.querySelectorAll('.shape-3d');
         
         shapes.forEach((shape, index) => {
-            const speed = 0.5 + (index * 0.1);
+            const speed = 0.3 + (index * 0.1);
             const yPos = -(scrolled * speed);
-            shape.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+            const rotation = scrolled * 0.05;
+            shape.style.transform = `translateY(${yPos}px) rotateX(${rotation}deg) rotateY(${rotation * 2}deg)`;
         });
-    });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    
-    const newsletterForm = document.querySelector('.newsletter-signup');
-    const newsletterInput = newsletterForm.querySelector('.newsletter-input');
-    const newsletterBtn = newsletterForm.querySelector('.newsletter-btn');
-    
-    newsletterBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const email = newsletterInput.value.trim();
-        
-        if (email && isValidEmail(email)) {
-            
-            newsletterBtn.innerHTML = '✓ تم الاشتراك';
-            newsletterBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-            newsletterInput.value = '';
-            
-            
-            setTimeout(() => {
-                newsletterBtn.innerHTML = 'اشتراك';
-                newsletterBtn.style.background = 'linear-gradient(45deg, #3b82f6, #8b5cf6)';
-            }, 3000);
-            
-            
-            showNotification('تم الاشتراك بنجاح في النشرة الإخبارية!', 'success');
-        } else {
-            
-            showNotification('يرجى إدخال بريد إلكتروني صحيح', 'error');
-            newsletterInput.style.borderColor = '#ef4444';
-            setTimeout(() => {
-                newsletterInput.style.borderColor = '';
-            }, 2000);
-        }
-    });
-    
-    
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
-    
-    function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-icon">${type === 'success' ? '✓' : '⚠'}</span>
-                <span class="notification-message">${message}</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
         
         
-        setTimeout(() => notification.classList.add('show'), 100);
-        
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => document.body.removeChild(notification), 300);
-        }, 4000);
-    }
-    
-    
-    document.querySelectorAll('.social-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const platform = this.getAttribute('data-platform');
-            
-            
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-            
-            
-            showNotification(`سيتم توجيهك إلى صفحة ${getPlatformName(platform)}`, 'success');
+        const waves = document.querySelectorAll('.wave');
+        waves.forEach((wave, index) => {
+            const waveSpeed = 0.2 + (index * 0.05);
+            const wavePos = -(scrolled * waveSpeed);
+            wave.style.transform = `translateY(${wavePos}px)`;
         });
     });
     
-    function getPlatformName(platform) {
-        const names = {
-            'twitter': 'تويتر',
-            'linkedin': 'لينكد إن',
-            'instagram': 'إنستغرام',
-            'youtube': 'يوتيوب'
-        };
-        return names[platform] || platform;
-    }
     
-    
-    document.querySelectorAll('.service-item').forEach(item => {
+    document.querySelectorAll('.service-item-3d, .contact-item-3d').forEach(item => {
         item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px) scale(1.02)';
+            this.style.transform = 'translateX(-10px) translateZ(20px) rotateY(5deg)';
         });
         
         item.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
     });
-    
-    
-    document.querySelectorAll('.contact-item a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (this.href.startsWith('mailto:') || this.href.startsWith('tel:')) {
-                e.preventDefault();
-                const text = this.textContent.trim();
-                
-                
-                navigator.clipboard.writeText(text).then(() => {
-                    showNotification(`تم نسخ ${text} إلى الحافظة`, 'success');
-                }).catch(() => {
-                    showNotification('فشل في النسخ', 'error');
-                });
-            }
-        });
-    });
-    
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-    
-    
-    document.querySelectorAll('.footer-section').forEach(section => {
-        observer.observe(section);
-    });
-    
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const shapes = document.querySelectorAll('.shape');
-        
-        shapes.forEach((shape, index) => {
-            const speed = 0.5 + (index * 0.1);
-            const yPos = -(scrolled * speed);
-            shape.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
-        });
-    });
 });
 </script>
-
 <style>
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+    50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes pulseBlue {
+    0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.4); }
+}
+
+@keyframes float3D {
+    0%, 100% { 
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg); 
+    }
+    33% { 
+        transform: translateY(-20px) rotateX(10deg) rotateY(120deg); 
+    }
+    66% { 
+        transform: translateY(-10px) rotateX(-5deg) rotateY(240deg); 
+    }
+}
+
+@keyframes wave {
+    0%, 100% { transform: translateY(0px) scaleY(1); }
+    50% { transform: translateY(-15px) scaleY(1.1); }
+}
+
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.animate-text-glow {
+    animation: textGlow 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+    animation: pulseBlue 4s ease-in-out infinite;
+}
+
+
+.logo-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: all 0.6s ease;
+    position: relative;
+}
+
+.logo-3d:hover {
+    transform: rotateY(360deg) scale(1.1);
+}
+
+.logo-3d::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.3), rgba(147, 197, 253, 0.3));
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulseBlue 3s ease-in-out infinite;
+}
+
+
+.floating-3d-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+}
+
+.shape-3d {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1));
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transform-style: preserve-3d;
+}
+
+.shape-3d-1 {
+    width: 120px;
+    height: 120px;
+    top: 10%;
+    left: 5%;
+    animation: float3D 8s ease-in-out infinite;
+}
+
+.shape-3d-2 {
+    width: 80px;
+    height: 80px;
+    top: 30%;
+    right: 10%;
+    animation: float3D 10s ease-in-out infinite reverse;
+    animation-delay: -2s;
+}
+
+.shape-3d-3 {
+    width: 100px;
+    height: 100px;
+    bottom: 40%;
+    left: 15%;
+    animation: float3D 12s ease-in-out infinite;
+    animation-delay: -4s;
+}
+
+.shape-3d-4 {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 20%;
+    animation: float3D 9s ease-in-out infinite reverse;
+    animation-delay: -1s;
+}
+
+.shape-3d-5 {
+    width: 90px;
+    height: 90px;
+    bottom: 20%;
+    right: 5%;
+    animation: float3D 11s ease-in-out infinite;
+    animation-delay: -3s;
+}
+
+
+.animated-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100px;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    border-radius: 50%;
+}
+
+.wave-1 {
+    animation: wave 6s ease-in-out infinite;
+}
+
+.wave-2 {
+    animation: wave 8s ease-in-out infinite reverse;
+    animation-delay: -2s;
+    opacity: 0.7;
+}
+
+.wave-3 {
+    animation: wave 10s ease-in-out infinite;
+    animation-delay: -4s;
+    opacity: 0.5;
+}
+
+
+.service-item-3d, .contact-item-3d {
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-item-3d::before, .contact-item-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.service-item-3d:hover::before, .contact-item-3d:hover::before {
+    left: 100%;
+}
+
+.service-item-3d:hover, .contact-item-3d:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1));
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+    transform: translateX(-10px) translateZ(20px) rotateY(5deg);
+}
+
+.service-icon-3d, .contact-icon-3d {
+    display: inline-block;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.service-item-3d:hover .service-icon-3d,
+.contact-item-3d:hover .contact-icon-3d {
+    transform: rotateY(360deg) scale(1.2);
+}
+
+
+.quick-link-3d {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 8px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.quick-link-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(147, 197, 253, 0.2));
+    transition: width 0.4s ease;
+    border-radius: 8px;
+    z-index: -1;
+}
+
+.quick-link-3d:hover::before {
+    width: 100%;
+}
+
+.quick-link-3d:hover {
+    color: #3b82f6;
+    transform: translateX(-8px) translateZ(10px) rotateY(3deg);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+
+.social-link-3d {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 197, 253, 0.2));
+    border-radius: 50%;
+    color: #d1d5db;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link-3d::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
+    transition: all 0.4s ease;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.social-link-3d:hover::before {
+    width: 100px;
+    height: 100px;
+}
+
+.social-link-3d:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transform: translateY(-5px) rotateY(360deg) scale(1.1);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+}
+
+
+.newsletter-container-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.newsletter-input-3d {
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.newsletter-input-3d:focus {
+    transform: translateZ(10px) rotateX(2deg);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+}
+
+.newsletter-btn-3d {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter-btn-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.newsletter-btn-3d:hover::before {
+    left: 100%;
+}
+
+.newsletter-btn-3d:hover {
+    background: linear-gradient(45deg, #2563eb, #1d4ed8);
+    transform: translateY(-3px) translateZ(15px) rotateX(-5deg);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+}
+
+
+.security-badge-3d {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 197, 253, 0.2));
+    padding: 6px 16px;
+    border-radius: 25px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    backdrop-filter: blur(10px);
+}
+
+.security-badge-3d:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 197, 253, 0.3));
+    transform: translateY(-2px) translateZ(5px) rotateX(5deg);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+
+.text-gradient {
+    background: linear-gradient(45deg, #3b82f6, #60a5fa, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 
 .notification {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 10000;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transform: translateX(100%);
-    transition: transform 0.3s ease;
-    max-width: 300px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 320px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .notification.show {
-    transform: translateX(0);
+    transform: translateX(0) translateZ(20px);
 }
 
 .notification-content {
@@ -489,8 +687,8 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .notification-icon {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -501,11 +699,11 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .notification-success .notification-icon {
-    background: #10b981;
+    background: linear-gradient(135deg, #10b981, #059669);
 }
 
 .notification-error .notification-icon {
-    background: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
 .notification-message {
@@ -515,59 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 
-.animate-in {
-    animation: slideInUp 0.6s ease-out;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-.service-item:hover {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-}
-
-.contact-item:hover {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-}
-
-
-.newsletter-btn.loading {
-    position: relative;
-    color: transparent;
-}
-
-.newsletter-btn.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    margin: -8px 0 0 -8px;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .notification {
         right: 10px;
         left: 10px;
@@ -579,8 +725,20 @@ document.addEventListener('DOMContentLoaded', function() {
         transform: translateY(0);
     }
     
-    .floating-shapes {
-        display: none; 
+    .floating-3d-shapes {
+        display: none;
+    }
+    
+    .animated-waves {
+        display: none;
+    }
+    
+    .service-item-3d:hover, .contact-item-3d:hover {
+        transform: translateX(-5px);
+    }
+    
+    .social-link-3d:hover {
+        transform: translateY(-2px) scale(1.05);
     }
 }
 </style>

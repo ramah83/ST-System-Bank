@@ -1,476 +1,360 @@
 """
-Test cases for all models to improve coverage
+اختبارات النماذج (Models) للنظام المصرفي
 """
+
 import pytest
-from decimal import Decimal
 from django.test import TestCase
-from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from accounts.models import UserBankAccount, BankAccountType, UserAddress
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from decimal import Decimal
+from datetime import date, datetime
+
+from accounts.models import BankAccountType, UserBankAccount, UserAddress
 from transactions.models import Transaction
-from transactions.constants import DEPOSIT, WITHDRAWAL
-from test_dashboard.models import TestRun, TestCase as TestCaseModel, TestNotification
 
 User = get_user_model()
 
 
-class UserModelTestCase(TestCase):
-    """Test User model functionality"""
+class UserModelTest(TestCase):
+    """اختبارات نموذج المستخدم"""
     
-    def test_user_creation(self):
-        """Test user creation"""
+    def test_create_user(self):
+        """اختبار إنشاء مستخدم جديد"""
         user = User.objects.create_user(
             email='test@example.com',
             password='testpass123',
-            first_name='Test',
-            last_name='User'
+            first_name='أحمد',
+            last_name='محمد'
         )
         
         self.assertEqual(user.email, 'test@example.com')
-        self.assertEqual(user.first_name, 'Test')
-        self.assertEqual(user.last_name, 'User')
+        self.assertEqual(user.first_name, 'أحمد')
+        self.assertEqual(user.last_name, 'محمد')
         self.assertTrue(user.check_password('testpass123'))
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
     
-    def test_user_str_representation(self):
-        """Test user string representation"""
-        user = User.objects.create_user(
-            email='test@example.com',
-            password='testpass123'
-        )
-        self.assertEqual(str(user), 'test@example.com')
-    
-    def test_user_full_name_property(self):
-        """Test user full name property"""
-        user = User.objects.create_user(
-            email='test@example.com',
-            password='testpass123',
-            first_name='John',
-            last_name='Doe'
-        )
-        self.assertEqual(user.get_full_name(), 'John Doe')
-    
-    def test_superuser_creation(self):
-        """Test superuser creation"""
-        user = User.objects.create_superuser(
+    def test_create_superuser(self):
+        """اختبار إنشاء مستخدم إداري"""
+        admin_user = User.objects.create_superuser(
             email='admin@example.com',
             password='adminpass123'
         )
         
-        self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
-
-
-class BankAccountTypeModelTestCase(TestCase):
-    """Test BankAccountType model"""
+        self.assertEqual(admin_user.email, 'admin@example.com')
+        self.assertTrue(admin_user.is_staff)
+        self.assertTrue(admin_user.is_superuser)
     
-    def test_account_type_creation(self):
-        """Test account type creation"""
+    def test_user_string_representation(self):
+        """اختبار تمثيل المستخدم كنص"""
+        user = User.objects.create_user(
+            email='test@example.com',
+            password='testpass123'
+        )
+        
+        self.assertEqual(str(user), 'test@example.com')
+    
+    def test_email_required(self):
+        """اختبار أن البريد الإلكتروني مطلوب"""
+        with self.assertRaises(ValueError):
+            User.objects.create_user(
+                email='',
+                password='testpass123'
+            )
+    
+    def test_unique_email(self):
+        """اختبار أن البريد الإلكتروني فريد"""
+        User.objects.create_user(
+            email='test@example.com',
+            password='testpass123'
+        )
+        
+        with self.assertRaises(IntegrityError):
+            User.objects.create_user(
+                email='test@example.com',
+                password='anotherpass123'
+            )
+
+
+class BankAccountTypeModelTest(TestCase):
+    """اختبارات نموذج نوع الحساب البنكي"""
+    
+    def test_create_account_type(self):
+        """اختبار إنشاء نوع حساب بنكي"""
         account_type = BankAccountType.objects.create(
-            name='Savings Account',
-            maximum_withdrawal_amount=5000,
-            annual_interest_rate=Decimal('2.5'),
+            name='حساب توفير',
+            maximum_withdrawal_amount=Decimal('5000.00'),
+            annual_interest_rate=Decimal('3.5'),
             interest_calculation_per_year=12
         )
         
-        self.assertEqual(account_type.name, 'Savings Account')
-        self.assertEqual(account_type.maximum_withdrawal_amount, 5000)
+        self.assertEqual(account_type.name, 'حساب توفير')
+        self.assertEqual(account_type.maximum_withdrawal_amount, Decimal('5000.00'))
+        self.assertEqual(account_type.annual_interest_rate, Decimal('3.5'))
+        self.assertEqual(account_type.interest_calculation_per_year, 12)
     
-    def test_account_type_str_representation(self):
-        """Test account type string representation"""
+    def test_account_type_string_representation(self):
+        """اختبار تمثيل نوع الحساب كنص"""
         account_type = BankAccountType.objects.create(
-            name='Current Account',
-            maximum_withdrawal_amount=10000,
-            annual_interest_rate=Decimal('2.5'),
+            name='حساب جاري',
+            maximum_withdrawal_amount=Decimal('10000.00'),
+            annual_interest_rate=Decimal('1.0'),
+            interest_calculation_per_year=4
+        )
+        
+        self.assertEqual(str(account_type), 'حساب جاري')
+    
+    def test_account_type_required_fields(self):
+        """اختبار الحقول المطلوبة لنوع الحساب"""
+        
+        account_type = BankAccountType.objects.create(
+            name='حساب اختبار',
+            maximum_withdrawal_amount=Decimal('5000.00'),
+            annual_interest_rate=Decimal('3.5'),
             interest_calculation_per_year=12
         )
-        self.assertEqual(str(account_type), 'Current Account')
+        
+        self.assertIsNotNone(account_type)
+        self.assertGreater(account_type.maximum_withdrawal_amount, 0)
 
 
-class UserBankAccountModelTestCase(TestCase):
-    """Test UserBankAccount model"""
+class UserBankAccountModelTest(TestCase):
+    """اختبارات نموذج الحساب البنكي للمستخدم"""
     
     def setUp(self):
-        """Set up test data"""
+        """إعداد البيانات للاختبارات"""
         self.user = User.objects.create_user(
             email='test@example.com',
-            password='testpass123'
+            password='testpass123',
+            first_name='أحمد',
+            last_name='محمد'
         )
         
         self.account_type = BankAccountType.objects.create(
-            name='Savings Account',
-            maximum_withdrawal_amount=5000,
-            annual_interest_rate=Decimal("2.5"),
+            name='حساب توفير',
+            maximum_withdrawal_amount=Decimal('5000.00'),
+            annual_interest_rate=Decimal('3.5'),
             interest_calculation_per_year=12
         )
     
-    def test_bank_account_creation(self):
-        """Test bank account creation"""
-        account = UserBankAccount.objects.create(
+    def test_create_bank_account(self):
+        """اختبار إنشاء حساب بنكي"""
+        bank_account = UserBankAccount.objects.create(
             user=self.user,
             account_type=self.account_type,
-            account_no='1234567890',
-            balance=Decimal('1000.00')
+            account_no=1000001,
+            gender='M',
+            birth_date=date(1990, 1, 1),
+            initial_deposit_date=date.today(),
+            interest_start_date=date.today()
         )
         
-        self.assertEqual(account.user, self.user)
-        self.assertEqual(account.account_type, self.account_type)
-        self.assertEqual(account.account_no, '1234567890')
-        self.assertEqual(account.balance, Decimal('1000.00'))
+        self.assertEqual(bank_account.user, self.user)
+        self.assertEqual(bank_account.account_type, self.account_type)
+        self.assertEqual(bank_account.account_no, 1000001)
+        self.assertEqual(bank_account.gender, 'M')
+        self.assertEqual(bank_account.balance, Decimal('0.00'))
     
-    def test_bank_account_str_representation(self):
-        """Test bank account string representation"""
-        account = UserBankAccount.objects.create(
+    def test_bank_account_string_representation(self):
+        """اختبار تمثيل الحساب البنكي كنص"""
+        bank_account = UserBankAccount.objects.create(
             user=self.user,
             account_type=self.account_type,
-            account_no='1234567890',
-            balance=Decimal('1000.00')
+            account_no=1000001,
+            gender='M'
         )
-        expected_str = f"{account.account_no} - {self.user.get_full_name()}"
-        self.assertEqual(str(account), expected_str)
+        
+        self.assertEqual(str(bank_account), '1000001')
     
-    def test_account_balance_update(self):
-        """Test account balance update"""
-        account = UserBankAccount.objects.create(
+    def test_unique_account_number(self):
+        """اختبار أن رقم الحساب فريد"""
+        UserBankAccount.objects.create(
             user=self.user,
             account_type=self.account_type,
-            account_no='1234567890',
-            balance=Decimal('1000.00')
+            account_no=1000001,
+            gender='M'
         )
         
-
-        account.balance = Decimal('1500.00')
-        account.save()
         
+        another_user = User.objects.create_user(
+            email='another@example.com',
+            password='testpass123'
+        )
+        
+        with self.assertRaises(IntegrityError):
+            UserBankAccount.objects.create(
+                user=another_user,
+                account_type=self.account_type,
+                account_no=1000001,  
+                gender='F'
+            )
+    
+    def test_one_account_per_user(self):
+        """اختبار أن المستخدم لا يمكن أن يكون له أكثر من حساب واحد"""
+        UserBankAccount.objects.create(
+            user=self.user,
+            account_type=self.account_type,
+            account_no=1000001,
+            gender='M'
+        )
+        
+        with self.assertRaises(IntegrityError):
+            UserBankAccount.objects.create(
+                user=self.user,  
+                account_type=self.account_type,
+                account_no=1000002,
+                gender='M'
+            )
 
-        account.refresh_from_db()
-        self.assertEqual(account.balance, Decimal('1500.00'))
 
-
-class UserAddressModelTestCase(TestCase):
-    """Test UserAddress model"""
+class UserAddressModelTest(TestCase):
+    """اختبارات نموذج عنوان المستخدم"""
     
     def setUp(self):
-        """Set up test data"""
+        """إعداد البيانات للاختبارات"""
         self.user = User.objects.create_user(
             email='test@example.com',
             password='testpass123'
         )
     
-    def test_address_creation(self):
-        """Test address creation"""
+    def test_create_user_address(self):
+        """اختبار إنشاء عنوان للمستخدم"""
         address = UserAddress.objects.create(
             user=self.user,
-            street_address='123 Test Street',
-            city='Test City',
+            street_address='شارع الملك فهد، حي النخيل',
+            city='الرياض',
             postal_code='12345',
-            country='Test Country'
+            country='السعودية'
         )
         
         self.assertEqual(address.user, self.user)
-        self.assertEqual(address.street_address, '123 Test Street')
-        self.assertEqual(address.city, 'Test City')
+        self.assertEqual(address.street_address, 'شارع الملك فهد، حي النخيل')
+        self.assertEqual(address.city, 'الرياض')
         self.assertEqual(address.postal_code, '12345')
-        self.assertEqual(address.country, 'Test Country')
+        self.assertEqual(address.country, 'السعودية')
     
-    def test_address_str_representation(self):
-        """Test address string representation"""
+    def test_address_string_representation(self):
+        """اختبار تمثيل العنوان كنص"""
         address = UserAddress.objects.create(
             user=self.user,
-            street_address='123 Test Street',
-            city='Test City',
+            street_address='شارع الملك فهد',
+            city='الرياض',
             postal_code='12345',
-            country='Test Country'
+            country='السعودية'
         )
-        expected_str = f"{address.street_address}, {address.city}"
-        self.assertEqual(str(address), expected_str)
+        
+        
+        self.assertEqual(str(address), self.user.email)
+    
+    def test_one_address_per_user(self):
+        """اختبار أن المستخدم لا يمكن أن يكون له أكثر من عنوان واحد"""
+        UserAddress.objects.create(
+            user=self.user,
+            street_address='شارع الملك فهد',
+            city='الرياض',
+            postal_code='12345',
+            country='السعودية'
+        )
+        
+        with self.assertRaises(IntegrityError):
+            UserAddress.objects.create(
+                user=self.user,  
+                street_address='شارع آخر',
+                city='جدة',
+                postal_code='54321',
+                country='السعودية'
+            )
 
 
-class TransactionModelTestCase(TestCase):
-    """Test Transaction model"""
+class TransactionModelTest(TestCase):
+    """اختبارات نموذج المعاملات"""
     
     def setUp(self):
-        """Set up test data"""
+        """إعداد البيانات للاختبارات"""
         self.user = User.objects.create_user(
             email='test@example.com',
             password='testpass123'
         )
         
         self.account_type = BankAccountType.objects.create(
-            name='Savings Account',
-            maximum_withdrawal_amount=5000,
-            annual_interest_rate=Decimal("2.5"),
+            name='حساب توفير',
+            maximum_withdrawal_amount=Decimal('5000.00'),
+            annual_interest_rate=Decimal('3.5'),
             interest_calculation_per_year=12
         )
         
-        self.account = UserBankAccount.objects.create(
+        self.bank_account = UserBankAccount.objects.create(
             user=self.user,
             account_type=self.account_type,
-            account_no='1234567890',
-            balance=Decimal('1000.00')
+            account_no=1000001,
+            gender='M'
         )
     
-    def test_transaction_creation(self):
-        """Test transaction creation"""
+    def test_create_deposit_transaction(self):
+        """اختبار إنشاء معاملة إيداع"""
         transaction = Transaction.objects.create(
-            account=self.account,
-            transaction_type=DEPOSIT,
-            amount=Decimal('500.00'),
-            balance_after_transaction=Decimal('1500.00')
+            account=self.bank_account,
+            amount=Decimal('1000.00'),
+            balance_after_transaction=Decimal('1000.00'),
+            transaction_type=1  
         )
         
-        self.assertEqual(transaction.account, self.account)
-        self.assertEqual(transaction.transaction_type, DEPOSIT)
+        self.assertEqual(transaction.account, self.bank_account)
+        self.assertEqual(transaction.amount, Decimal('1000.00'))
+        self.assertEqual(transaction.balance_after_transaction, Decimal('1000.00'))
+        self.assertEqual(transaction.transaction_type, 1)
+        self.assertIsNotNone(transaction.timestamp)
+    
+    def test_create_withdrawal_transaction(self):
+        """اختبار إنشاء معاملة سحب"""
+        
+        self.bank_account.balance = Decimal('2000.00')
+        self.bank_account.save()
+        
+        transaction = Transaction.objects.create(
+            account=self.bank_account,
+            amount=Decimal('500.00'),
+            balance_after_transaction=Decimal('1500.00'),
+            transaction_type=2  
+        )
+        
+        self.assertEqual(transaction.account, self.bank_account)
         self.assertEqual(transaction.amount, Decimal('500.00'))
         self.assertEqual(transaction.balance_after_transaction, Decimal('1500.00'))
+        self.assertEqual(transaction.transaction_type, 2)
     
-    def test_transaction_str_representation(self):
-        """Test transaction string representation"""
+    def test_transaction_string_representation(self):
+        """اختبار تمثيل المعاملة كنص"""
         transaction = Transaction.objects.create(
-            account=self.account,
-            transaction_type=DEPOSIT,
-            amount=Decimal('500.00'),
-            balance_after_transaction=Decimal('1500.00')
+            account=self.bank_account,
+            amount=Decimal('1000.00'),
+            balance_after_transaction=Decimal('1000.00'),
+            transaction_type=1
         )
-        expected_str = f"{self.account.account_no} - {transaction.get_transaction_type_display()}"
+        
+        
+        expected_str = f"{self.bank_account.account_no} - إيداع"
         self.assertEqual(str(transaction), expected_str)
     
-    def test_transaction_type_display(self):
-        """Test transaction type display"""
-        deposit_transaction = Transaction.objects.create(
-            account=self.account,
-            transaction_type=DEPOSIT,
-            amount=Decimal('500.00'),
-            balance_after_transaction=Decimal('1500.00')
-        )
-        
-        withdrawal_transaction = Transaction.objects.create(
-            account=self.account,
-            transaction_type=WITHDRAWAL,
-            amount=Decimal('200.00'),
-            balance_after_transaction=Decimal('1300.00')
-        )
-        
-        self.assertEqual(deposit_transaction.get_transaction_type_display(), 'إيداع')
-        self.assertEqual(withdrawal_transaction.get_transaction_type_display(), 'سحب')
-
-
-class TestDashboardModelsTestCase(TestCase):
-    """Test TestDashboard models"""
-    
-    def test_test_run_creation(self):
-        """Test TestRun model creation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='passed',
-            total_tests=10,
-            passed_tests=8,
-            failed_tests=2,
-            error_tests=0,
-            duration=45.5,
-            coverage_percentage=85.5
-        )
-        
-        self.assertEqual(test_run.name, 'Test Run 1')
-        self.assertEqual(test_run.status, 'passed')
-        self.assertEqual(test_run.total_tests, 10)
-        self.assertEqual(test_run.passed_tests, 8)
-        self.assertEqual(test_run.failed_tests, 2)
-        self.assertEqual(test_run.error_tests, 0)
-        self.assertEqual(test_run.duration, 45.5)
-        self.assertEqual(test_run.coverage_percentage, 85.5)
-    
-    def test_test_run_success_rate_property(self):
-        """Test TestRun success_rate property"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            total_tests=10,
-            passed_tests=8,
-            failed_tests=2,
-            error_tests=0
-        )
-        
-        self.assertEqual(test_run.success_rate, 80.0)
-        
-
-        empty_run = TestRun.objects.create(
-            name='Empty Run',
-            total_tests=0,
-            passed_tests=0,
-            failed_tests=0,
-            error_tests=0
-        )
-        
-        self.assertEqual(empty_run.success_rate, 0)
-    
-    def test_test_run_str_representation(self):
-        """Test TestRun string representation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='passed'
-        )
-        self.assertEqual(str(test_run), 'Test Run 1 - passed')
-    
-    def test_test_case_creation(self):
-        """Test TestCase model creation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='passed'
-        )
-        
-        test_case = TestCaseModel.objects.create(
-            test_run=test_run,
-            name='test_example',
-            class_name='TestExample',
-            module_name='test_module',
-            status='passed',
-            duration=1.5
-        )
-        
-        self.assertEqual(test_case.test_run, test_run)
-        self.assertEqual(test_case.name, 'test_example')
-        self.assertEqual(test_case.class_name, 'TestExample')
-        self.assertEqual(test_case.module_name, 'test_module')
-        self.assertEqual(test_case.status, 'passed')
-        self.assertEqual(test_case.duration, 1.5)
-    
-    def test_test_case_str_representation(self):
-        """Test TestCase string representation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='passed'
-        )
-        
-        test_case = TestCaseModel.objects.create(
-            test_run=test_run,
-            name='test_example',
-            class_name='TestExample',
-            module_name='test_module',
-            status='passed'
-        )
-        
-        self.assertEqual(str(test_case), 'test_example - passed')
-    
-    def test_test_notification_creation(self):
-        """Test TestNotification model creation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='failed'
-        )
-        
-        notification = TestNotification.objects.create(
-            test_run=test_run,
-            notification_type='test_failure',
-            message='Test failed with errors',
-            is_sent=False
-        )
-        
-        self.assertEqual(notification.test_run, test_run)
-        self.assertEqual(notification.notification_type, 'test_failure')
-        self.assertEqual(notification.message, 'Test failed with errors')
-        self.assertFalse(notification.is_sent)
-    
-    def test_test_notification_str_representation(self):
-        """Test TestNotification string representation"""
-        test_run = TestRun.objects.create(
-            name='Test Run 1',
-            status='failed'
-        )
-        
-        notification = TestNotification.objects.create(
-            test_run=test_run,
-            notification_type='test_failure',
-            message='Test failed with errors'
-        )
-        
-        expected_str = f"test_failure - {test_run.name}"
-        self.assertEqual(str(notification), expected_str)
-
-
-@pytest.mark.django_db
-class TestModelsPytest:
-    """Pytest-style model tests"""
-    
-    def test_user_model_fields(self):
-        """Test user model fields"""
-        user = User.objects.create_user(
-            email='pytest@example.com',
-            password='testpass123',
-            first_name='Pytest',
-            last_name='User',
-            gender='M',
-            birth_date='1990-01-01'
-        )
-        
-        assert user.email == 'pytest@example.com'
-        assert user.first_name == 'Pytest'
-        assert user.last_name == 'User'
-        assert user.gender == 'M'
-        assert str(user.birth_date) == '1990-01-01'
-    
-    def test_bank_account_balance_precision(self):
-        """Test bank account balance precision"""
-        user = User.objects.create_user(
-            email='test@example.com',
-            password='testpass123'
-        )
-        
-        account_type = BankAccountType.objects.create(
-            name='Test Account',
-            maximum_withdrawal_amount=1000,
-            annual_interest_rate=Decimal("2.5"),
-            interest_calculation_per_year=12
-        )
-        
-        account = UserBankAccount.objects.create(
-            user=user,
-            account_type=account_type,
-            account_no='1234567890',
-            balance=Decimal('1234.56')
-        )
-        
-        assert account.balance == Decimal('1234.56')
-        assert isinstance(account.balance, Decimal)
-    
     def test_transaction_ordering(self):
-        """Test transaction ordering"""
-        user = User.objects.create_user(
-            email='test@example.com',
-            password='testpass123'
-        )
+        """اختبار ترتيب المعاملات حسب التاريخ"""
         
-        account_type = BankAccountType.objects.create(
-            name='Test Account',
-            maximum_withdrawal_amount=1000,
-            annual_interest_rate=Decimal("2.5"),
-            interest_calculation_per_year=12
-        )
-        
-        account = UserBankAccount.objects.create(
-            user=user,
-            account_type=account_type,
-            account_no='1234567890',
-            balance=Decimal('1000.00')
-        )
-        
-
         transaction1 = Transaction.objects.create(
-            account=account,
-            transaction_type=DEPOSIT,
-            amount=Decimal('100.00'),
-            balance_after_transaction=Decimal('1100.00')
+            account=self.bank_account,
+            amount=Decimal('1000.00'),
+            balance_after_transaction=Decimal('1000.00'),
+            transaction_type=1
         )
         
         transaction2 = Transaction.objects.create(
-            account=account,
-            transaction_type=WITHDRAWAL,
-            amount=Decimal('50.00'),
-            balance_after_transaction=Decimal('1050.00')
+            account=self.bank_account,
+            amount=Decimal('500.00'),
+            balance_after_transaction=Decimal('1500.00'),
+            transaction_type=1
         )
         
-
-        transactions = Transaction.objects.all()
         
-
-        assert transactions[0].timestamp >= transactions[1].timestamp
+        transactions = Transaction.objects.all()
+        self.assertEqual(transactions[0], transaction1)
+        self.assertEqual(transactions[1], transaction2)

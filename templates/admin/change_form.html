@@ -1,153 +1,170 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify %}
 
-{% block content %}
-<div style="margin-bottom: 2rem;">
-    
-    <nav style="background-color: var(--white); border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
-        <a href="{% url 'admin:index' %}" style="color: var(--primary-dark); text-decoration: none;">الرئيسية</a>
-        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
-        <a href="{% url 'admin:app_list' app_label=opts.app_label %}" style="color: var(--primary-dark); text-decoration: none;">
-            {% if opts.app_label == "auth" %}
-                المصادقة والتفويض
-            {% elif opts.app_label == "django_celery_beat" %}
-                المهام الدورية
-            {% elif opts.app_label == "accounts" %}
-                إدارة الحسابات
-            {% elif opts.app_label == "transactions" %}
-                المعاملات المالية
-            {% elif opts.app_label == "core" %}
-                النظام الأساسي
-            {% else %}
-                {{ opts.app_label|capfirst }}
-            {% endif %}
-        </a>
-        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
-        <a href="{% url opts|admin_urlname:'changelist' %}" style="color: var(--primary-dark); text-decoration: none;">{{ opts.verbose_name_plural|capfirst }}</a>
-        <span style="margin: 0 0.5rem; color: var(--medium-gray);">›</span>
-        <span style="color: var(--medium-gray);">
-            {% if add %}إضافة {{ opts.verbose_name }}{% else %}تعديل {{ opts.verbose_name }}{% endif %}
-        </span>
-    </nav>
-
-    
-    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.5rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 0.5rem 0;">
-            {% if add %}
-                إضافة {{ opts.verbose_name }}
-            {% else %}
-                تعديل {{ opts.verbose_name }}
-            {% endif %}
-        </h1>
-        <p style="color: var(--medium-gray); margin: 0;">
-            {% if add %}
-                أدخل البيانات المطلوبة لإضافة {{ opts.verbose_name }} جديد
-            {% else %}
-                قم بتعديل البيانات حسب الحاجة
-            {% endif %}
-        </p>
-    </div>
-
-    
-    <div class="card" style="padding: 2rem;">
-        {% if errors %}
-            <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem;">
-                <h3 style="color: #991b1b; font-weight: 600; margin: 0 0 0.5rem 0;">يرجى تصحيح الأخطاء التالية:</h3>
-                {{ errors }}
-            </div>
-        {% endif %}
-
-        <form method="post" id="{{ opts.model_name }}_form" novalidate>
-            {% csrf_token %}
-            
-            {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
-            {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
-            
-            <div style="display: grid; gap: 1.5rem;">
-                {% for fieldset in adminform %}
-                    <fieldset style="border: 1px solid var(--accent-gray); border-radius: 0.75rem; padding: 1.5rem; background-color: var(--light-beige);">
-                        {% if fieldset.name %}
-                            <legend style="font-size: 1.25rem; font-weight: 600; color: var(--primary-dark); padding: 0 1rem; margin-bottom: 1rem;">
-                                {{ fieldset.name }}
-                            </legend>
-                        {% endif %}
-                        
-                        <div style="display: grid; gap: 1rem;">
-                            {% for line in fieldset %}
-                                <div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}">
-                                    {% for field in line %}
-                                        <div style="margin-bottom: 1rem;">
-                                            {% if field.field.label %}
-                                                <label for="{{ field.field.html_name }}" style="display: block; font-weight: 600; color: var(--primary-dark); margin-bottom: 0.5rem;">
-                                                    {{ field.field.label }}
-                                                    {% if field.field.required %}
-                                                        <span style="color: #dc2626;">*</span>
-                                                    {% endif %}
-                                                </label>
-                                            {% endif %}
-                                            
-                                            <div style="position: relative;">
-                                                {% if field.is_checkbox %}
-                                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                                        {{ field.field }}
-                                                        {% if field.field.label %}
-                                                            <label for="{{ field.field.html_name }}" style="color: var(--primary-dark); margin: 0;">
-                                                                {{ field.field.label }}
-                                                            </label>
-                                                        {% endif %}
-                                                    </div>
-                                                {% else %}
-                                                    {{ field.field }}
-                                                {% endif %}
-                                            </div>
-                                            
-                                            {% if field.field.help_text %}
-                                                <p style="font-size: 0.875rem; color: var(--medium-gray); margin: 0.25rem 0 0 0;">
-                                                    {{ field.field.help_text|safe }}
-                                                </p>
-                                            {% endif %}
-                                            
-                                            {% if field.field.errors %}
-                                                <div style="margin-top: 0.25rem;">
-                                                    {% for error in field.field.errors %}
-                                                        <p style="color: #dc2626; font-size: 0.875rem; margin: 0;">{{ error }}</p>
-                                                    {% endfor %}
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </fieldset>
-                {% endfor %}
-            </div>
-
-            
-            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--accent-gray); display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button type="submit" name="_save" class="btn-primary" style="padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600;">
-                    {% if add %}إضافة{% else %}حفظ التغييرات{% endif %}
-                </button>
-                
-                {% if not add %}
-                    <button type="submit" name="_continue" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;">
-                        حفظ والمتابعة
-                    </button>
-                {% endif %}
-                
-                <button type="submit" name="_addanother" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500;">
-                    {% if add %}حفظ وإضافة آخر{% else %}حفظ وإضافة آخر{% endif %}
-                </button>
-                
-                <a href="{% url opts|admin_urlname:'changelist' %}" class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; text-decoration: none;">
-                    إلغاء
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-
+{% block extrahead %}
+{{ block.super }}
 <style>
+    
+    .form-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--success), var(--info), #8b5cf6, var(--warning));
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid rgba(230, 230, 230, 0.5);
+    }
+    
+    .form-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-dark);
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, var(--primary-dark), var(--info));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .form-subtitle {
+        color: var(--medium-gray);
+        font-size: 1.1rem;
+    }
+    
+    
+    .form-row {
+        background: rgba(244, 239, 233, 0.3) !important;
+        border-radius: 15px !important;
+        padding: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        border: 1px solid rgba(230, 230, 230, 0.5) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .form-row:hover {
+        background: rgba(255, 255, 255, 0.8) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .form-row label {
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        color: var(--primary-dark) !important;
+        margin-bottom: 0.75rem !important;
+        display: block !important;
+    }
+    
+    .form-row input, .form-row select, .form-row textarea {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid rgba(230, 230, 230, 0.8) !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+        border-color: var(--info) !important;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+        outline: none !important;
+        background: white !important;
+    }
+    
+    
+    fieldset {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        padding: 0 !important;
+        margin-bottom: 2rem !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(230, 230, 230, 0.5) !important;
+        overflow: hidden !important;
+    }
+    
+    fieldset h2 {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)) !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1.5rem !important;
+        margin: 0 !important;
+        font-size: 1.3rem !important;
+        font-weight: 600 !important;
+        border: none !important;
+    }
+    
+    fieldset .form-row {
+        margin: 1.5rem !important;
+    }
+    
+    
+    .submit-row {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        padding: 2rem !important;
+        margin-top: 2rem !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+        text-align: center !important;
+        border: 1px solid rgba(230, 230, 230, 0.5) !important;
+    }
+    
+    .submit-row input[type="submit"], .submit-row .default {
+        background: linear-gradient(45deg, var(--success), var(--info)) !important;
+        color: white !important;
+        border: none !important;
+        padding: 1rem 3rem !important;
+        border-radius: 25px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        margin: 0 0.5rem !important;
+    }
+    
+    .submit-row input[type="submit"]:hover, .submit-row .default:hover {
+        background: linear-gradient(45deg, var(--info), #8b5cf6) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .submit-row .deletelink {
+        background: linear-gradient(45deg, var(--danger), #dc2626) !important;
+        color: white !important;
+        padding: 1rem 2rem !important;
+        border-radius: 25px !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 0 0.5rem !important;
+        display: inline-block !important;
+    }
+    
+    .submit-row .deletelink:hover {
+        background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+        color: white !important;
+    }
+    
     
     input[type="text"], 
     input[type="email"], 
@@ -195,4 +212,86 @@
         margin: 0 !important;
     }
 </style>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    {% block object-tools %}
+        {% if change %}{% if not is_popup %}
+        <ul class="object-tools">
+            {% block object-tools-items %}
+                {% change_form_object_tools %}
+            {% endblock %}
+        </ul>
+        {% endif %}{% endif %}
+    {% endblock %}
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">
+                {% if add %}
+                    ➕ إضافة {{ opts.verbose_name }}
+                {% else %}
+                    ✏️ تعديل {{ opts.verbose_name }}
+                {% endif %}
+            </h1>
+            <p class="form-subtitle">
+                {% if add %}
+                    أدخل البيانات المطلوبة لإنشاء {{ opts.verbose_name }} جديد
+                {% else %}
+                    قم بتعديل البيانات حسب الحاجة
+                {% endif %}
+            </p>
+        </div>
+
+        <form method="post"{% if has_file_field %} enctype="multipart/form-data"{% endif %} novalidate>
+            {% csrf_token %}
+            {% block form_top %}{% endblock %}
+            
+            <div>
+                {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
+                {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
+                {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+                
+                {% if errors %}
+                    <div class="errorlist">
+                        <h3>يرجى تصحيح الأخطاء التالية:</h3>
+                        {{ adminform.form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% block field_sets %}
+                    {% for fieldset in adminform %}
+                        {% include "admin/includes/fieldset.html" %}
+                    {% endfor %}
+                {% endblock %}
+
+                {% block after_field_sets %}{% endblock %}
+
+                {% block inline_field_sets %}
+                    {% for inline_admin_formset in inline_admin_formsets %}
+                        {% include inline_admin_formset.opts.template %}
+                    {% endfor %}
+                {% endblock %}
+
+                {% block after_related_objects %}{% endblock %}
+
+                {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+                {% block admin_change_form_document_ready %}
+                    <script id="django-admin-form-add-constants"
+                            src="{% static "admin/js/change_form.js" %}"
+                            {% if adminform and add %}
+                                data-model-name="{{ opts.model_name }}"
+                            {% endif %}
+                            async>
+                    </script>
+                {% endblock %}
+
+                {
+                {% prepopulated_fields_js %}
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

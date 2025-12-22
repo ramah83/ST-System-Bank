@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/admin-enhanced.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-celery-fix.css' %}">
     
     <style>
         :root {
@@ -258,6 +259,283 @@
             transform: translateX(-2px);
         }
         
+        
+        .submit-row {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 15px !important;
+            padding: 1.5rem !important;
+            margin-top: 2rem !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+            text-align: center !important;
+            border: 1px solid rgba(230, 230, 230, 0.5) !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .submit-row input[type="submit"], 
+        .submit-row .default,
+        .submit-row button {
+            background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+            color: white !important;
+            border: none !important;
+            padding: 12px 24px !important;
+            border-radius: 8px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            margin: 0 8px !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            text-decoration: none !important;
+        }
+        
+        .submit-row input[type="submit"]:hover, 
+        .submit-row .default:hover,
+        .submit-row button:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .submit-row .deletelink,
+        .submit-row a.deletelink {
+            background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+            color: white !important;
+            padding: 12px 20px !important;
+            border-radius: 8px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            margin: 0 8px !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            font-size: 14px !important;
+        }
+        
+        .submit-row .deletelink:hover,
+        .submit-row a.deletelink:hover {
+            background: linear-gradient(45deg, #b91c1c, #991b1b) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+            color: white !important;
+        }
+        
+        
+        .actions {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 10px !important;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .actions select,
+        .actions button,
+        .actions input[type="submit"] {
+            background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            margin: 0 4px !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .actions select:hover,
+        .actions button:hover,
+        .actions input[type="submit"]:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000) !important;
+            transform: translateY(-1px) !important;
+        }
+        
+        
+        .object-tools {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 10px !important;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .object-tools li {
+            display: inline-block !important;
+            margin: 0 8px !important;
+        }
+        
+        .object-tools a {
+            background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            border-radius: 8px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            font-size: 14px !important;
+        }
+        
+        .object-tools a:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+            color: white !important;
+        }
+        
+        
+        .change-list table tbody tr td a,
+        .change-list table tbody tr td input[type="submit"],
+        .change-list table tbody tr td button {
+            background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+            color: white !important;
+            padding: 6px 12px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            border: none !important;
+            cursor: pointer !important;
+            margin: 2px !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .change-list table tbody tr td a:hover,
+        .change-list table tbody tr td input[type="submit"]:hover,
+        .change-list table tbody tr td button:hover {
+            background: linear-gradient(45deg, #3F3F3F, #000000) !important;
+            transform: translateY(-1px) !important;
+            color: white !important;
+        }
+        
+        
+        .module[data-app-label="django_celery_beat"] .submit-row,
+        .app-django_celery_beat .submit-row {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            padding: 20px !important;
+            border-radius: 15px !important;
+            margin: 20px 0 !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .module[data-app-label="django_celery_beat"] .submit-row *,
+        .app-django_celery_beat .submit-row * {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        
+        input[type="submit"], 
+        button, 
+        .deletelink, 
+        .addlink, 
+        .changelink,
+        a[href*="/add/"],
+        a[href*="/change/"],
+        a[href*="/delete/"] {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 101 !important;
+            font-family: 'Cairo', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            text-decoration: none !important;
+            text-indent: 0 !important;
+            line-height: 40px !important;
+            vertical-align: middle !important;
+            min-width: 100px !important;
+            min-height: 40px !important;
+            padding: 10px 20px !important;
+            margin: 5px !important;
+            border-radius: 8px !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+            color: #ffffff !important;
+        }
+        
+        
+        .deletelink,
+        a[href*="/delete/"] {
+            background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+            color: #ffffff !important;
+        }
+        
+        
+        .addlink,
+        a[href*="/add/"] {
+            background: linear-gradient(45deg, #059669, #047857) !important;
+            color: #ffffff !important;
+        }
+        
+        
+        .changelink,
+        a[href*="/change/"] {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8) !important;
+            color: #ffffff !important;
+        }
+        
+        
+        input[type="submit"]:hover, 
+        button:hover, 
+        .deletelink:hover, 
+        .addlink:hover, 
+        .changelink:hover,
+        a[href*="/add/"]:hover,
+        a[href*="/change/"]:hover,
+        a[href*="/delete/"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        
+        select {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #000000 !important;
+            padding: 8px 12px !important;
+            border-radius: 6px !important;
+            font-family: 'Cairo', sans-serif !important;
+            font-size: 14px !important;
+        }
+        
+        
+        table input[type="submit"], 
+        table button, 
+        table a {
+            padding: 5px 10px !important;
+            margin: 2px !important;
+            font-size: 12px !important;
+            min-width: 60px !important;
+            min-height: 30px !important;
+            line-height: 20px !important;
+        }
+        
         @media (max-width: 768px) {
             .nav-content {
                 flex-direction: column;
@@ -266,6 +544,22 @@
             
             .nav-links {
                 justify-content: center;
+            }
+            
+            
+            .footer .grid-footer {
+                grid-template-columns: 1fr !important;
+                text-align: center !important;
+                gap: 1.5rem !important;
+            }
+            
+            .footer .nav-links-footer {
+                justify-content: center !important;
+                gap: 1rem !important;
+            }
+            
+            .footer .status-footer {
+                justify-content: center !important;
             }
         }
     </style>
@@ -301,10 +595,6 @@
                     المعاملات
                 </a>
                 
-                <a href="{% url 'test_dashboard:dashboard' %}" class="nav-link">
-                    لوحة الاختبارات
-                </a>
-                
                 <a href="{% url 'accounts:user_logout' %}" class="nav-link">
                     تسجيل الخروج
                 </a>
@@ -319,26 +609,30 @@
 
     <footer class="footer">
         <div style="max-width: 1200px; margin: 0 auto; padding: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div class="grid-footer" style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 2rem; align-items: center;">
+                
                 <div>
-                    <h3 style="color: var(--white); font-size: 1.1rem; font-weight: 600; margin: 0;">لوحة إدارة النظام المصرفي</h3>
-                    <p style="color: var(--medium-gray); font-size: 0.9rem; margin: 0.5rem 0 0 0;">نظام إدارة آمن ومتطور</p>
+                    <h3 style="color: var(--white); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem 0;">النظام المصرفي</h3>
+                    <p style="color: var(--medium-gray); font-size: 0.9rem; margin: 0;">نظام إدارة آمن ومتطور</p>
                 </div>
                 
-                <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
-                    <a href="{% url 'admin:index' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الرئيسية</a>
-                    <a href="{% url 'admin:accounts_user_changelist' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">المستخدمين</a>
-                    <a href="{% url 'admin:transactions_transaction_changelist' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">المعاملات</a>
-                    <a href="{% url 'home' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s;">الموقع</a>
+                
+                <div class="nav-links-footer" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;"></div>
+                    <a href="{% url 'admin:index' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; padding: 0.25rem 0;">الرئيسية</a>
+                    <a href="{% url 'admin:accounts_user_changelist' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; padding: 0.25rem 0;">المستخدمين</a>
+                    <a href="{% url 'admin:transactions_transaction_changelist' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; padding: 0.25rem 0;">المعاملات</a>
+                    <a href="{% url 'home' %}" style="color: var(--medium-gray); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; padding: 0.25rem 0;">الموقع</a>
                 </div>
                 
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                
+                <div class="status-footer" style="display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem;"></div>
                     <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
                     <span style="color: var(--medium-gray); font-size: 0.85rem;">النظام متصل</span>
                 </div>
             </div>
             
-            <div style="border-top: 1px solid var(--primary-light); margin-top: 1rem; padding-top: 1rem; text-align: center;">
+            
+            <div style="border-top: 1px solid var(--primary-light); margin-top: 1.5rem; padding-top: 1rem; text-align: center;">
                 <p style="color: var(--medium-gray); margin: 0; font-size: 0.85rem;">© 2026 النظام المصرفي الإلكتروني - لوحة الإدارة</p>
             </div>
         </div>
@@ -399,6 +693,140 @@ document.addEventListener('DOMContentLoaded', function() {
             sessionStorage.setItem('adminWelcomeShown', 'true');
         }, 1000);
     }
+    
+    
+    let buttonsInitialized = false;
+    
+    function initializeButtons() {
+        if (buttonsInitialized) return;
+        
+        
+        const buttonStyles = `
+            .submit-row, .object-tools, .actions {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                padding: 15px !important;
+                border-radius: 10px !important;
+                margin: 15px 0 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            }
+            
+            input[type="submit"], button, .deletelink, .addlink, .changelink,
+            a[href*="/add/"], a[href*="/change/"], a[href*="/delete/"] {
+                display: inline-block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                font-family: 'Cairo', sans-serif !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                text-align: center !important;
+                text-decoration: none !important;
+                min-width: 80px !important;
+                min-height: 40px !important;
+                padding: 10px 20px !important;
+                margin: 5px !important;
+                border-radius: 8px !important;
+                border: none !important;
+                cursor: pointer !important;
+                transition: all 0.3s ease !important;
+                background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+                color: #ffffff !important;
+            }
+            
+            .deletelink, a[href*="/delete/"] {
+                background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+            }
+            
+            .addlink, a[href*="/add/"] {
+                background: linear-gradient(45deg, #059669, #047857) !important;
+            }
+            
+            .changelink, a[href*="/change/"] {
+                background: linear-gradient(45deg, #2563eb, #1d4ed8) !important;
+            }
+            
+            input[type="submit"]:hover, button:hover, .deletelink:hover, 
+            .addlink:hover, .changelink:hover,
+            a[href*="/add/"]:hover, a[href*="/change/"]:hover, a[href*="/delete/"]:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+            }
+        `;
+        
+        
+        const styleElement = document.createElement('style');
+        styleElement.textContent = buttonStyles;
+        document.head.appendChild(styleElement);
+        
+        
+        setTimeout(() => {
+            const buttons = document.querySelectorAll('input[type="submit"], button, .deletelink, .addlink, .changelink');
+            buttons.forEach(btn => {
+                if (btn.tagName === 'INPUT' && btn.type === 'submit') {
+                    if (!btn.value || btn.value.trim() === '' || btn.value === 'Submit') {
+                        if (btn.name === '_save' || btn.classList.contains('default')) {
+                            btn.value = 'حفظ';
+                        } else if (btn.name === '_continue') {
+                            btn.value = 'حفظ ومتابعة التعديل';
+                        } else if (btn.name === '_addanother') {
+                            btn.value = 'حفظ وإضافة آخر';
+                        } else {
+                            btn.value = 'حفظ';
+                        }
+                    }
+                } else if (btn.tagName === 'BUTTON') {
+                    if (!btn.textContent || btn.textContent.trim() === '' || btn.textContent === 'Submit') {
+                        btn.textContent = 'تنفيذ';
+                    }
+                } else if (btn.classList.contains('deletelink')) {
+                    if (!btn.textContent || btn.textContent.trim() === '' || btn.textContent === 'Delete') {
+                        btn.textContent = 'حذف';
+                    }
+                } else if (btn.classList.contains('addlink')) {
+                    if (!btn.textContent || btn.textContent.trim() === '' || btn.textContent === 'Add') {
+                        btn.textContent = 'إضافة';
+                    }
+                } else if (btn.classList.contains('changelink')) {
+                    if (!btn.textContent || btn.textContent.trim() === '' || btn.textContent === 'Change') {
+                        btn.textContent = 'تعديل';
+                    }
+                }
+            });
+        }, 500);
+        
+        buttonsInitialized = true;
+    }
+    
+    
+    initializeButtons();
+    
+    
+    const observer = new MutationObserver(function(mutations) {
+        let needsUpdate = false;
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { 
+                        const newButtons = node.querySelectorAll && node.querySelectorAll('input[type="submit"], button, .deletelink, .addlink, .changelink');
+                        if (newButtons && newButtons.length > 0) {
+                            needsUpdate = true;
+                        }
+                    }
+                });
+            }
+        });
+        
+        if (needsUpdate) {
+            setTimeout(initializeButtons, 100);
+        }
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 });
 
 const style = document.createElement('style');

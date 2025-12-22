@@ -19,7 +19,7 @@ class TestRun(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='running')
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(null=True, blank=True)
-    duration = models.FloatField(null=True, blank=True)  # in seconds
+    duration = models.FloatField(null=True, blank=True)  
     total_tests = models.IntegerField(default=0)
     passed_tests = models.IntegerField(default=0)
     failed_tests = models.IntegerField(default=0)
@@ -55,7 +55,7 @@ class TestCase(models.Model):
     class_name = models.CharField(max_length=200)
     module_name = models.CharField(max_length=200)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-    duration = models.FloatField(default=0.0)  # in seconds
+    duration = models.FloatField(default=0.0)  
     error_message = models.TextField(blank=True)
     traceback = models.TextField(blank=True)
     

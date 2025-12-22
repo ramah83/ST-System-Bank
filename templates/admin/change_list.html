@@ -39,8 +39,8 @@
             </div>
             
             {% if has_add_permission %}
-                <a href="{% url cl.opts|admin_urlname:'add' %}" class="btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none;">
-                    إضافة {{ cl.opts.verbose_name }}
+                <a href="{% url cl.opts|admin_urlname:'add' %}" class="add-btn-green" style="padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); border: 2px solid #10b981; font-size: 1.1rem; transition: all 0.3s ease;">
+                    ➕ إضافة {{ cl.opts.verbose_name }}
                 </a>
             {% endif %}
         </div>

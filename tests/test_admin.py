@@ -102,7 +102,7 @@ class AdminTestCase(TestCase):
         """Test admin site access"""
 
         response = self.client.get('/admin/')
-        self.assertEqual(response.status_code, 302)  # Redirect to login
+        self.assertEqual(response.status_code, 302)  
         
 
         self.client.login(username='admin@example.com', password='adminpass123')
@@ -210,7 +210,7 @@ class AdminTestCase(TestCase):
 
         self.client.login(username='user@example.com', password='userpass123')
         response = self.client.get('/admin/')
-        self.assertEqual(response.status_code, 302)  # Redirect to login
+        self.assertEqual(response.status_code, 302)  
         
 
         self.client.login(username='admin@example.com', password='adminpass123')

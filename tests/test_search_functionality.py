@@ -180,9 +180,9 @@ class SearchFunctionalityTestCase(TestCase):
         })
         
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, '500.00')  # John's deposit
-        self.assertNotContains(response, '200.00')  # John's withdrawal
-        self.assertNotContains(response, '750.00')  # Jane's deposit
+        self.assertContains(response, '500.00')  
+        self.assertNotContains(response, '200.00')  
+        self.assertNotContains(response, '750.00')  
     
     def test_transaction_report_search_for_user(self):
         """Test transaction report search for logged-in user"""
@@ -215,7 +215,7 @@ class SearchFunctionalityTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         if response.context['is_paginated']:
-            self.assertContains(response, 'من')  # Arabic pagination text
+            self.assertContains(response, 'من')  
 
 
 @pytest.mark.django_db

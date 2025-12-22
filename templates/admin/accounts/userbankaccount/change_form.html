@@ -15,7 +15,7 @@
                 🏦 حساب نشط
             </span>
             <span style="background: #0288d1; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;">
-                💰 {{ original.balance }} ريال
+                💰 {{ original.balance }} جنيه
             </span>
         </div>
     {% else %}
@@ -45,7 +45,7 @@
     </div>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
         <div style="background: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 8px; text-align: center;">
-            <div style="font-size: 1.5rem; color: #065f46; font-weight: 700;">{{ original.balance }} ريال</div>
+            <div style="font-size: 1.5rem; color: #065f46; font-weight: 700;">{{ original.balance }} جنيه</div>
             <div style="color: #065f46; font-weight: 500; font-size: 0.85rem;">الرصيد الحالي</div>
         </div>
         <div style="background: rgba(255, 255, 255, 0.5); padding: 1rem; border-radius: 8px; text-align: center;">
@@ -98,12 +98,12 @@
                     </td>
                     <td style="padding: 0.8rem; font-weight: 600;">
                         {% if transaction.transaction_type == 1 %}
-                            <span style="color: #10b981;">{{ transaction.amount }} ريال</span>
+                            <span style="color: #10b981;">{{ transaction.amount }} جنيه</span>
                         {% else %}
-                            <span style="color: #CC0000;">{{ transaction.amount }} ريال</span>
+                            <span style="color: #CC0000;">{{ transaction.amount }} جنيه</span>
                         {% endif %}
                     </td>
-                    <td style="padding: 0.8rem; color: #000000; font-weight: 500;">{{ transaction.balance_after_transaction }} ريال</td>
+                    <td style="padding: 0.8rem; color: #000000; font-weight: 500;">{{ transaction.balance_after_transaction }} جنيه</td>
                     <td style="padding: 0.8rem; color: #666666; font-weight: 500; text-align: center; font-family: monospace; font-size: 0.8rem;">
                         {{ transaction.timestamp|date:"Y-m-d H:i" }}
                     </td>

@@ -18,7 +18,6 @@
                         الرئيسية
                     </a>
                     
-                    {# للأدمن: لوحة التحكم، للمستخدمين العاديين: كشف الحساب #}
                     {% if request.user.is_staff or request.user.is_superuser %}
                     <a href="/admin/" class="nav-link {% if '/admin/' in request.path %}active{% endif %}">
                         <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -46,7 +45,6 @@
                     </a>
                     {% endif %}
                     
-                    {# إخفاء روابط الإيداع والسحب للأدمن #}
                     {% if not request.user.is_staff and not request.user.is_superuser %}
                     <a href="{% url 'transactions:deposit_money' %}" class="nav-link {% if 'deposit' in request.resolver_match.url_name %}active{% endif %}">
                         <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -98,7 +96,6 @@
                     <a href="{% url 'home' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
                         الرئيسية
                     </a>
-                    {# للأدمن: لوحة التحكم، للمستخدمين العاديين: كشف الحساب #}
                     {% if request.user.is_staff or request.user.is_superuser %}
                     <a href="/admin/" class="mobile-nav-link {% if '/admin/' in request.path %}active{% endif %}">
                         لوحة التحكم
@@ -113,7 +110,6 @@
                         Test Dashboard
                     </a>
                     {% endif %}
-                    {# إخفاء روابط الإيداع والسحب للأدمن في القائمة المحمولة #}
                     {% if not request.user.is_staff and not request.user.is_superuser %}
                     <a href="{% url 'transactions:deposit_money' %}" class="mobile-nav-link {% if 'deposit' in request.resolver_match.url_name %}active{% endif %}">
                         إيداع

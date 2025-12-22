@@ -27,17 +27,17 @@ class TransactionAdmin(admin.ModelAdmin):
     
     def amount_display(self, obj):
         """عرض المبلغ مع تنسيق جميل"""
-        if obj.transaction_type == 1:  # إيداع
+        if obj.transaction_type == 1:  
             return format_html(
                 '<span style="color: green; font-weight: bold;">+{:,.2f} ريال</span>',
                 obj.amount
             )
-        elif obj.transaction_type == 2:  # سحب
+        elif obj.transaction_type == 2:  
             return format_html(
                 '<span style="color: red; font-weight: bold;">-{:,.2f} ريال</span>',
                 obj.amount
             )
-        else:  # فائدة
+        else:  
             return format_html(
                 '<span style="color: blue; font-weight: bold;">+{:,.2f} ريال</span>',
                 obj.amount

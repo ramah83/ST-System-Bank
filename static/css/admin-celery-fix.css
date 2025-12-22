@@ -1,0 +1,154 @@
+
+
+
+.submit-row,
+.object-tools,
+.actions,
+input[type="submit"],
+button,
+.deletelink,
+.addlink,
+.changelink {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+}
+
+
+.submit-row,
+.object-tools,
+.actions {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 10px !important;
+    padding: 15px !important;
+    margin: 15px 0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    text-align: center !important;
+}
+
+
+input[type="submit"],
+button,
+.deletelink,
+.addlink,
+.changelink,
+a[href*="/add/"],
+a[href*="/change/"],
+a[href*="/delete/"] {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    min-width: 80px !important;
+    min-height: 40px !important;
+    padding: 10px 20px !important;
+    margin: 5px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    color: #ffffff !important;
+    background: linear-gradient(45deg, #000000, #3F3F3F) !important;
+    line-height: 20px !important;
+    vertical-align: middle !important;
+}
+
+
+.deletelink,
+a[href*="/delete/"] {
+    background: linear-gradient(45deg, #dc2626, #b91c1c) !important;
+}
+
+.addlink,
+a[href*="/add/"] {
+    background: linear-gradient(45deg, #059669, #047857) !important;
+}
+
+.changelink,
+a[href*="/change/"] {
+    background: linear-gradient(45deg, #2563eb, #1d4ed8) !important;
+}
+
+
+input[type="submit"]:hover,
+button:hover,
+.deletelink:hover,
+.addlink:hover,
+.changelink:hover,
+a[href*="/add/"]:hover,
+a[href*="/change/"]:hover,
+a[href*="/delete/"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+}
+
+
+body.app-django_celery_beat .submit-row,
+body.model-clockedschedule .submit-row,
+body.model-crontabschedule .submit-row,
+body.model-intervalschedule .submit-row,
+body.model-periodictask .submit-row,
+body.model-solarschedule .submit-row {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+body.app-django_celery_beat .submit-row *,
+body.model-clockedschedule .submit-row *,
+body.model-crontabschedule .submit-row *,
+body.model-intervalschedule .submit-row *,
+body.model-periodictask .submit-row *,
+body.model-solarschedule .submit-row * {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+select {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 14px !important;
+}
+
+
+table input[type="submit"],
+table button,
+table a {
+    padding: 5px 10px !important;
+    margin: 2px !important;
+    font-size: 12px !important;
+    min-width: 60px !important;
+    min-height: 30px !important;
+    line-height: 18px !important;
+}
+
+
+@media (max-width: 768px) {
+    .submit-row,
+    .object-tools,
+    .actions {
+        padding: 10px !important;
+    }
+    
+    input[type="submit"],
+    button,
+    .deletelink,
+    .addlink,
+    .changelink {
+        display: block !important;
+        width: 100% !important;
+        margin: 5px 0 !important;
+        text-align: center !important;
+    }
+}

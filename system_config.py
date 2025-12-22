@@ -1,6 +1,3 @@
-"""
-System configuration and health check
-"""
 import os
 import sys
 from pathlib import Path

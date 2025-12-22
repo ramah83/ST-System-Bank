@@ -100,7 +100,7 @@ class TransactionTestCase(TestCase):
     
     def test_withdraw_insufficient_funds(self):
         """Test withdrawal with insufficient funds"""
-        withdraw_amount = Decimal('2000.00')  # More than balance
+        withdraw_amount = Decimal('2000.00')  
         
         form = WithdrawForm(
             data={'amount': withdraw_amount, 'transaction_type': WITHDRAWAL},
@@ -116,7 +116,7 @@ class TransactionTestCase(TestCase):
         self.account.balance = Decimal('10000.00')
         self.account.save()
         
-        withdraw_amount = Decimal('6000.00')  # Exceeds limit of 5000
+        withdraw_amount = Decimal('6000.00')  
         
         form = WithdrawForm(
             data={'amount': withdraw_amount, 'transaction_type': WITHDRAWAL},
@@ -196,10 +196,10 @@ class TransactionTestCase(TestCase):
         
 
         response = self.client.get(reverse('transactions:deposit_money'))
-        self.assertEqual(response.status_code, 302)  # Should redirect
+        self.assertEqual(response.status_code, 302)  
         
         response = self.client.get(reverse('transactions:withdraw_money'))
-        self.assertEqual(response.status_code, 302)  # Should redirect
+        self.assertEqual(response.status_code, 302)  
 
 
 @pytest.mark.django_db

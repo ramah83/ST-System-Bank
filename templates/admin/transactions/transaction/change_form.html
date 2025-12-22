@@ -76,16 +76,16 @@
                         <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">المبلغ</label>
                         <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 600; font-size: 1.1rem; border: 1px solid var(--accent-gray);">
                             {% if original.transaction_type == 1 %}
-                                <span style="color: #10b981;">{{ original.amount }} ريال</span>
+                                <span style="color: #10b981;">{{ original.amount }}جنيه</span>
                             {% else %}
-                                <span style="color: #CC0000;">{{ original.amount }} ريال</span>
+                                <span style="color: #CC0000;">{{ original.amount }}جنيه</span>
                             {% endif %}
                         </div>
                     </div>
                     <div style="margin-bottom: 1rem;">
                         <label style="display: block; color: var(--medium-gray); font-size: 0.9rem; margin-bottom: 0.25rem;">الرصيد بعد المعاملة</label>
                         <div style="background: white; padding: 0.75rem; border-radius: 8px; font-weight: 600; color: var(--black); border: 1px solid var(--accent-gray);">
-                            {{ original.balance_after_transaction }} ريال
+                            {{ original.balance_after_transaction }}جنيه
                         </div>
                     </div>
                     <div>
@@ -104,8 +104,8 @@
                 <span style="font-size: 1.3rem;">✅</span> تفاصيل الإيداع
             </h3>
             <p style="color: #065f46; margin: 0; font-size: 0.95rem;">
-                تم إيداع مبلغ {{ original.amount }} ريال بنجاح في الحساب رقم {{ original.account.account_no }}. 
-                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }} ريال.
+                تم إيداع مبلغ {{ original.amount }}جنيه بنجاح في الحساب رقم {{ original.account.account_no }}. 
+                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }}جنيه.
             </p>
         </div>
         {% else %}
@@ -114,8 +114,8 @@
                 <span style="font-size: 1.3rem;">📤</span> تفاصيل السحب
             </h3>
             <p style="color: #991b1b; margin: 0; font-size: 0.95rem;">
-                تم سحب مبلغ {{ original.amount }} ريال من الحساب رقم {{ original.account.account_no }}. 
-                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }} ريال.
+                تم سحب مبلغ {{ original.amount }}جنيه من الحساب رقم {{ original.account.account_no }}. 
+                الرصيد الحالي للحساب هو {{ original.balance_after_transaction }}جنيه.
             </p>
         </div>
         {% endif %}

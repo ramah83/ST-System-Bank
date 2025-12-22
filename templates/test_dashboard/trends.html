@@ -593,32 +593,32 @@
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;">
                 <div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--success); margin-bottom: 0.5rem;">1,247</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--success); margin-bottom: 0.5rem;">{{ real_statistics.total_tests|default:"0" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">إجمالي الاختبارات</div>
                 </div>
                 
                 <div style="text-align: center; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--info); margin-bottom: 0.5rem;">1,187</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--info); margin-bottom: 0.5rem;">{{ real_statistics.passed_tests|default:"0" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات ناجحة</div>
                 </div>
                 
                 <div style="text-align: center; padding: 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--danger); margin-bottom: 0.5rem;">60</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--danger); margin-bottom: 0.5rem;">{{ real_statistics.failed_tests|default:"0" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات فاشلة</div>
                 </div>
                 
                 <div style="text-align: center; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: #8b5cf6; margin-bottom: 0.5rem;">34</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #8b5cf6; margin-bottom: 0.5rem;">{{ real_statistics.total_runs|default:"0" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">جلسات اختبار</div>
                 </div>
                 
                 <div style="text-align: center; padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--warning); margin-bottom: 0.5rem;">156</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--warning); margin-bottom: 0.5rem;">{{ real_statistics.today_tests|default:"0" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">اختبارات اليوم</div>
                 </div>
                 
                 <div style="text-align: center; padding: 1rem; background: rgba(107, 114, 128, 0.1); border-radius: 15px;">
-                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--medium-gray); margin-bottom: 0.5rem;">منذ 2 ساعة</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: var(--medium-gray); margin-bottom: 0.5rem;">{{ real_statistics.last_run|default:"لا يوجد" }}</div>
                     <div style="font-size: 0.9rem; color: var(--medium-gray);">آخر تشغيل</div>
                 </div>
             </div>
@@ -658,6 +658,12 @@
             if (dataScript && dataScript.textContent.trim() && dataScript.textContent !== '{}') {
                 trendsData = JSON.parse(dataScript.textContent);
                 console.log('Loaded real data:', trendsData);
+                
+                
+                if (!trendsData.success_rate_data || trendsData.success_rate_data.length === 0) {
+                    console.warn('No success rate data found, using sample data');
+                    trendsData = generateSampleData();
+                }
             } else {
                 console.warn('No data found, using sample data');
                 trendsData = generateSampleData();
@@ -713,12 +719,16 @@
     }
 
     function createCharts() {
+        console.log('Creating charts with data:', trendsData);
+        
         
         const successCtx = document.getElementById('successRateChart');
-        if (successCtx) {
-            const data = trendsData.success_rate_data || [];
+        if (successCtx && trendsData.success_rate_data) {
+            const data = trendsData.success_rate_data;
             const dates = data.map(d => d.date);
             const rates = data.map(d => d.rate);
+            
+            console.log('Success rate data:', { dates, rates });
             
             new Chart(successCtx, {
                 type: 'line',
@@ -731,20 +741,43 @@
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { 
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'Cairo' },
+                            bodyFont: { family: 'Cairo' }
+                        }
                     },
                     scales: {
                         y: {
                             beginAtZero: false,
-                            min: 85,
-                            max: 100
+                            min: Math.max(0, Math.min(...rates) - 5),
+                            max: Math.min(100, Math.max(...rates) + 5),
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
                         }
                     }
                 }
@@ -753,10 +786,12 @@
         
         
         const durationCtx = document.getElementById('durationChart');
-        if (durationCtx) {
-            const data = trendsData.duration_data || [];
+        if (durationCtx && trendsData.duration_data) {
+            const data = trendsData.duration_data;
             const dates = data.map(d => d.date);
             const durations = data.map(d => d.duration);
+            
+            console.log('Duration data:', { dates, durations });
             
             new Chart(durationCtx, {
                 type: 'bar',
@@ -765,19 +800,43 @@
                     datasets: [{
                         label: 'المدة (ثانية)',
                         data: durations,
-                        backgroundColor: durations.map(d => d > 40 ? '#ef4444' : '#3b82f6'),
-                        borderRadius: 4
+                        backgroundColor: durations.map(d => {
+                            if (d > 60) return '#ef4444'; 
+                            if (d > 30) return '#f59e0b'; 
+                            return '#3b82f6'; 
+                        }),
+                        borderRadius: 4,
+                        borderWidth: 1,
+                        borderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { 
+                            display: true,
+                            labels: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'Cairo' },
+                            bodyFont: { family: 'Cairo' }
+                        }
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
                         }
                     }
                 }
@@ -786,10 +845,12 @@
         
         
         const coverageCtx = document.getElementById('coverageChart');
-        if (coverageCtx) {
-            const data = trendsData.coverage_data || [];
+        if (coverageCtx && trendsData.coverage_data) {
+            const data = trendsData.coverage_data;
             const dates = data.map(d => d.date);
             const coverage = data.map(d => d.coverage);
+            
+            console.log('Coverage data:', { dates, coverage });
             
             new Chart(coverageCtx, {
                 type: 'line',
@@ -802,20 +863,42 @@
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointBackgroundColor: '#8b5cf6',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { 
+                            display: true,
+                            labels: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'Cairo' },
+                            bodyFont: { family: 'Cairo' }
+                        }
                     },
                     scales: {
                         y: {
                             beginAtZero: false,
-                            min: 80,
-                            max: 95
+                            min: Math.max(0, Math.min(...coverage) - 5),
+                            max: Math.min(100, Math.max(...coverage) + 5),
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { family: 'Cairo' }
+                            }
                         }
                     }
                 }
@@ -824,10 +907,12 @@
         
         
         const failureCtx = document.getElementById('failureChart');
-        if (failureCtx) {
-            const data = trendsData.failure_patterns || [];
+        if (failureCtx && trendsData.failure_patterns) {
+            const data = trendsData.failure_patterns;
             const categories = data.map(d => d.category);
             const failures = data.map(d => d.failures);
+            
+            console.log('Failure patterns data:', { categories, failures });
             
             new Chart(failureCtx, {
                 type: 'doughnut',
@@ -836,7 +921,7 @@
                     datasets: [{
                         data: failures,
                         backgroundColor: [
-                            '#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#10b981'
+                            '#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#10b981', '#ec4899', '#14b8a6'
                         ],
                         borderWidth: 2,
                         borderColor: '#ffffff'
@@ -849,15 +934,25 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                padding: 10,
-                                usePointStyle: true
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { 
+                                    family: 'Cairo',
+                                    size: 11
+                                }
                             }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: { family: 'Cairo' },
+                            bodyFont: { family: 'Cairo' }
                         }
                     }
                 }
             });
         }
            
+         
         
         const comprehensiveCtx = document.getElementById('comprehensiveChart');
         if (comprehensiveCtx) {
@@ -867,6 +962,8 @@
             
             if (successData.length > 0) {
                 const dates = successData.map(d => d.date);
+                
+                console.log('Comprehensive chart data:', { successData, durationData, coverageData });
                 
                 new Chart(comprehensiveCtx, {
                     type: 'line',
@@ -881,7 +978,11 @@
                                 borderWidth: 3,
                                 fill: false,
                                 tension: 0.4,
-                                yAxisID: 'y'
+                                yAxisID: 'y',
+                                pointBackgroundColor: '#10b981',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 4
                             },
                             {
                                 label: 'المدة (ثانية)',
@@ -891,7 +992,11 @@
                                 borderWidth: 3,
                                 fill: false,
                                 tension: 0.4,
-                                yAxisID: 'y1'
+                                yAxisID: 'y1',
+                                pointBackgroundColor: '#3b82f6',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 4
                             },
                             {
                                 label: 'التغطية (%)',
@@ -901,7 +1006,11 @@
                                 borderWidth: 3,
                                 fill: false,
                                 tension: 0.4,
-                                yAxisID: 'y'
+                                yAxisID: 'y',
+                                pointBackgroundColor: '#8b5cf6',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 4
                             }
                         ]
                     },
@@ -929,7 +1038,9 @@
                                 titleColor: '#ffffff',
                                 bodyColor: '#ffffff',
                                 borderColor: '#ffffff',
-                                borderWidth: 1
+                                borderWidth: 1,
+                                titleFont: { family: 'Cairo' },
+                                bodyFont: { family: 'Cairo' }
                             }
                         },
                         scales: {
@@ -937,7 +1048,11 @@
                                 display: true,
                                 title: {
                                     display: true,
-                                    text: 'التاريخ'
+                                    text: 'التاريخ',
+                                    font: { family: 'Cairo' }
+                                },
+                                ticks: {
+                                    font: { family: 'Cairo' }
                                 }
                             },
                             y: {
@@ -946,7 +1061,11 @@
                                 position: 'left',
                                 title: {
                                     display: true,
-                                    text: 'النسبة المئوية (%)'
+                                    text: 'النسبة المئوية (%)',
+                                    font: { family: 'Cairo' }
+                                },
+                                ticks: {
+                                    font: { family: 'Cairo' }
                                 }
                             },
                             y1: {
@@ -955,10 +1074,14 @@
                                 position: 'right',
                                 title: {
                                     display: true,
-                                    text: 'المدة (ثانية)'
+                                    text: 'المدة (ثانية)',
+                                    font: { family: 'Cairo' }
                                 },
                                 grid: {
                                     drawOnChartArea: false,
+                                },
+                                ticks: {
+                                    font: { family: 'Cairo' }
                                 }
                             }
                         }
@@ -966,6 +1089,8 @@
                 });
             }
         }
+        
+        console.log('All charts created successfully');
     }
 
     function refreshPage() {

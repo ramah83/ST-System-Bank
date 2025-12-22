@@ -5,7 +5,7 @@ from django.contrib import admin
 from django_celery_beat.models import PeriodicTask, IntervalSchedule, CrontabSchedule
 
 
-# Unregister default admin
+
 try:
     admin.site.unregister(PeriodicTask)
     admin.site.unregister(IntervalSchedule)

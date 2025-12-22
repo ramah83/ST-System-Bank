@@ -142,12 +142,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Cache configuration for better performance
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 300,  # 5 minutes
+        'TIMEOUT': 300,  
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
             'CULL_FREQUENCY': 3,

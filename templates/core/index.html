@@ -38,7 +38,6 @@
                         
                         
                         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {# إخفاء أزرار الإيداع والسحب للأدمن #}
                             {% if not user.is_staff and not user.is_superuser %}
                             <a href="{% url 'transactions:deposit_money' %}" class="btn-primary text-center py-4 px-6 rounded-xl font-medium transition-all duration-300">
                                 إيداع أموال
