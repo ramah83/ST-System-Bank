@@ -76,15 +76,6 @@
 
 <div align="center">
 
-### Main Dashboard
-![Dashboard](https://via.placeholder.com/800x400/2D3748/FFFFFF?text=Banking+Dashboard)
-
-### Admin Interface
-![Admin Panel](https://via.placeholder.com/800x400/1A202C/FFFFFF?text=Admin+Panel)
-
-### Transaction Management
-![Transactions](https://via.placeholder.com/800x400/2B6CB0/FFFFFF?text=Transaction+Management)
-
 </div>
 
 ---
